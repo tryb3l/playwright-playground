@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "baseUrl": ".",
+    "paths": {
+      "@pages/*": ["e2e/pages/*"],
+      "@components/*": ["e2e/components/*"],
+      "@utils/*": ["e2e/lib/utils/*"],
+      "@fixtures/*": ["e2e/lib/fixtures/*"]
+    },
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true
+    // ... other options ...
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
