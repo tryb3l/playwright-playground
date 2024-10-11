@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "lint": "eslint . --ext .ts,.js",
+    "format": "prettier --write ."
+  },
   "keywords": [],
   "author": "bogdan.trybel@gmail.com",
   "license": "ISC",
