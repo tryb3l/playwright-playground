@@ -1,5 +1,3 @@
-// playwright-playground/e2e/pages/form-layouts.page.ts
-
 import { Page } from '@playwright/test';
 import { HelperBase } from '@utils/helper-base';
 import { InlineFormComponent } from '@components/forms/inline-form.component';
