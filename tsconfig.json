@@ -5,7 +5,7 @@
     "baseUrl": ".",
     "paths": {
       "@pages/*": ["e2e/pages/*"],
-      "@components/*": ["e2e/components/*"],
+      "@components/*": ["e2e/lib/components/*"],
       "@utils/*": ["e2e/lib/utils/*"],
       "@fixtures/*": ["e2e/lib/fixtures/*"]
     },
