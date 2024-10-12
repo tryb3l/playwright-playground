@@ -48,6 +48,4 @@ export default defineConfig<PlaywrightTestConfig>({
     port: 4200,
     reuseExistingServer: !process.env.CI,
   },
-  globalSetup: require.resolve('./global-setup'),
-  globalTeardown: require.resolve('./global-teardown'),
 });
