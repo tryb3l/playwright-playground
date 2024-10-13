@@ -22,7 +22,7 @@ export abstract class FormComponent extends BaseComponent {
   }
 
   async clickButton(buttonName: string) {
-    await super.clickButton(buttonName, this.formLocator);
+    await super.clickButtonByRoleName(buttonName, this.formLocator);
   }
 
   async checkCheckboxByLabel(label: string) {
