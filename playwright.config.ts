@@ -44,7 +44,7 @@ export default defineConfig<PlaywrightTestConfig>({
     },
   ],
   webServer: {
-    command: 'make run-app',
+    command: 'cd app && node --run start',
     port: 4200,
     reuseExistingServer: !process.env.CI,
   },
