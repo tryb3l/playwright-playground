@@ -13,7 +13,12 @@ export abstract class BaseComponent {
     await context.getByLabel(label).fill(value);
   }
 
-  async fillInputByRole(role: 'textbox', name: string, value: string, locator?: Locator) {
+  async fillInputByRole(
+    role: 'textbox',
+    name: string,
+    value: string,
+    locator?: Locator
+  ) {
     const context = locator || this.page;
     await context.getByRole(role, { name }).fill(value);
   }
@@ -27,9 +32,14 @@ export abstract class BaseComponent {
     await context.getByPlaceholder(placeholder).fill(value);
   }
 
-  async clickButton(buttonName: string, locator?: Locator) {
+  async clickButtonByRoleName(buttonName: string, locator?: Locator) {
     const context = locator || this.page;
     await context.getByRole('button', { name: buttonName }).click();
+  }
+
+  async clickByText(text: string, locator?: Locator) {
+    const context = locator || this.page;
+    await context.click(`text=${text}`);
   }
 
   async checkCheckboxByLabel(label: string, locator?: Locator) {
