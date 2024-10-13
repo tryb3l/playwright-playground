@@ -1,15 +1,15 @@
 {
   "name": "playwright-playground",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "lint": "eslint . --ext .ts,.js",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test:e2e": "npx playwright test",
+    "test:e2e:debug": "npx playwright test --debug"
   },
-  "keywords": [],
-  "author": "bogdan.trybel@gmail.com",
-  "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.48.0",
     "@types/node": "^22.7.5",
