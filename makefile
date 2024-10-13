@@ -1,7 +1,7 @@
 run-app:
     @echo "Running the app"
-    @./commands.sh start_app
+    @cd app && npm run start
 
 stop-app:
     @echo "Stopping the app"
-    @./commands.sh stop_app
+    @cd app && npm run stop
