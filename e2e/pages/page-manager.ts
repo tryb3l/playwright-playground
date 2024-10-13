@@ -1,29 +1,21 @@
 import { Page } from '@playwright/test';
-import { NavigationPage } from '@pages/navigation.page';
-import { FormLayoutsPage } from '@pages/form-layouts.page';
-import { DatePickerPage } from '@pages/date-picker.page';
+import { NavigationComponent } from '@components/navbar/navigation.component';
 
 class PageManager {
-  private readonly navigationPage: NavigationPage;
-  private readonly formLayoutsPage: FormLayoutsPage;
-  private readonly datePickerPage: DatePickerPage;
+  private readonly page: Page;
+  private readonly navigation: NavigationComponent;
 
   constructor(page: Page) {
-    this.navigationPage = new NavigationPage(page);
-    this.formLayoutsPage = new FormLayoutsPage(page);
-    this.datePickerPage = new DatePickerPage(page);
+    this.page = page;
+    this.navigation = new NavigationComponent(page);
   }
 
-  navigateTo() {
-    return this.navigationPage;
+  getNavigation() {
+    return this.navigation;
   }
 
-  onFormLayoutsPage() {
-    return this.formLayoutsPage;
-  }
-
-  onDatePickerPage() {
-    return this.datePickerPage;
+  getPage<T>(pageClass: new (page: Page) => T): T {
+    return new pageClass(this.page);
   }
 }
 
