@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { FormComponent } from '@components/forms/form.component';
+import { FormComponent } from '@components/forms/base/base.form.component';
 
 class GridFormComponent extends FormComponent {
   constructor(page: Page) {
