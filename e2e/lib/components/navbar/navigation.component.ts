@@ -1,29 +1,36 @@
+import { Page } from '@playwright/test';
 import { BaseComponent } from '@components/base.component';
+import { StartPage } from '@fixtures/base-fixtures';
 
 class NavigationComponent extends BaseComponent {
-  private readonly menuActions: { [section: string]: () => Promise<void> } = {
-    'IoT Dashboard': async () => {
+  constructor(page: Page) {
+    super(page);
+  }
+
+  private readonly menuActions: { [key in StartPage]: () => Promise<void> } = {
+    [StartPage.IoTDashboard]: async () => {
       await this.page.goto('/');
     },
-    'Form Layouts': async () => {
+    [StartPage.FormLayouts]: async () => {
       await this.expandMenu('Forms');
       await this.clickByText('Form Layouts');
     },
-    'Date Picker': async () => {
+    [StartPage.DatePicker]: async () => {
       await this.expandMenu('Forms');
       await this.clickByText('Datepicker');
     },
-    'Smart Table': async () => {
+    [StartPage.Toastr]: async () => {
+      await this.expandMenu('Modal & Overlays');
+      await this.clickByText('Toastr');
+    },
+    [StartPage.SmartTable]: async () => {
       await this.expandMenu('Tables & Data');
       await this.clickByText('Smart Table');
     },
-    Toastr: async () => {
-      await this.expandMenu('Modals & Alerts');
-      await this.clickByText('Toastr');
-    },
+    //TODO add more pages
   };
 
-  async navigateToSection(section: string) {
+  async navigateToSection(section: StartPage) {
     const action = this.menuActions[section];
     if (action) {
       await action();
@@ -36,7 +43,9 @@ class NavigationComponent extends BaseComponent {
     const menuItem = this.page.getByTitle(menuItemName);
     const expanded = await menuItem.getAttribute('aria-expanded');
 
-    expanded === 'false' ? await menuItem.click() : null;
+    if (expanded === 'false') {
+      await menuItem.click();
+    }
   }
 }
 
