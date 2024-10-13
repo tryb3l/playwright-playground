@@ -11,6 +11,5 @@ test.describe('Form Layouts', () => {
       'jane.doe@example.com',
       true
     );
-
   });
 });
