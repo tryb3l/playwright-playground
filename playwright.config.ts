@@ -44,7 +44,7 @@ export default defineConfig<PlaywrightTestConfig>({
     },
   ],
   webServer: {
-    command: 'cd app/pw-practice-app && node --run start',
+    command: 'cd app && node --run start',
     port: 4200,
     reuseExistingServer: !process.env.CI,
   },
