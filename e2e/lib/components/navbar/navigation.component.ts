@@ -7,19 +7,19 @@ class NavigationComponent extends BaseComponent {
     },
     'Form Layouts': async () => {
       await this.expandMenu('Forms');
-      await this.page.click('text=Form Layouts');
+      await this.clickByText('Form Layouts');
     },
     'Date Picker': async () => {
       await this.expandMenu('Forms');
-      await this.page.click('text=Datepicker');
+      await this.clickByText('Datepicker');
     },
     'Smart Table': async () => {
       await this.expandMenu('Tables & Data');
-      await this.page.click('text=Smart Table');
+      await this.clickByText('Smart Table');
     },
-    'Toastr': async () => {
+    Toastr: async () => {
       await this.expandMenu('Modals & Alerts');
-      await this.page.click('text=Toastr');
+      await this.clickByText('Toastr');
     },
   };
 
