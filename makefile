@@ -17,6 +17,6 @@ install-all:
 	@make install-playwright
 	@make build-app
 
-run-app:
-	@echo "Running the app"
-	@cd app && npm run start
+run-tests:
+	@echo "Running the tests"
+	@npm test:e2e
