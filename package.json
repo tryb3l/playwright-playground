@@ -11,8 +11,8 @@
     "test:e2e:debug": "npx playwright test --debug"
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.1",
-    "@types/node": "^22.7.9",
+    "@playwright/test": "^1.48.2",
+    "@types/node": "^22.8.0",
     "eslint": "^9.13.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^9.1.0",
