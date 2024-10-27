@@ -9,18 +9,33 @@ export type TestOptions = {
   formLayoutsPage: FormLayoutsPage;
 };
 
-export const test = base.extend<TestOptions & { trackConsoleErrors: boolean }>({
+export const test = base.extend<
+  TestOptions & { trackConsoleErrors: boolean; ignoreConsoleErrors: string[] }
+>({
   trackConsoleErrors: [true, { option: true }],
-  page: async ({ page, trackConsoleErrors }, use, testInfo) => {
+  ignoreConsoleErrors: [[], { option: true }],
+  page: async (
+    { page, trackConsoleErrors, ignoreConsoleErrors },
+    use,
+    testInfo
+  ) => {
     const errors: string[] = [];
 
     if (trackConsoleErrors) {
       const listener = (msg: ConsoleMessage) => {
         if (msg.type() === 'error') {
-          errors.push(msg.text());
+          const text = msg.text();
+          const shouldIgnore = ignoreConsoleErrors.some((ignoredMessage) =>
+            text.includes(ignoredMessage)
+          );
+          if (!shouldIgnore) {
+            errors.push(text);
+          }
         }
       };
+
       page.on('console', listener);
+
       await use(page);
 
       page.off('console', listener);
