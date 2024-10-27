@@ -19,7 +19,7 @@ export default defineConfig<PlaywrightTestConfig>({
   workers: process.env.CI ? 1 : undefined,
   reporter: [['html', { outputFolder: 'playwright-report' }]],
   use: {
-    baseURL: process.env.URL || 'http://localhost:4200',
+    baseURL: 'http://localhost:4200',
     trace: 'on-first-retry',
     actionTimeout: 20000,
     navigationTimeout: 30000,
