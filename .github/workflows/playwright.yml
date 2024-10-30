@@ -28,13 +28,6 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Start Web Server
-        run: node --run start &
-        working-directory: ./app
-
-      - name: Wait for Web Server
-        run: npx wait-on http://localhost:4200
-
       - name: Run Playwright Tests
         run: node --run test:e2e
 
