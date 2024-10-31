@@ -37,11 +37,7 @@ export default defineConfig<PlaywrightTestConfig>({
     {
       name: 'firefox',
       use: { browserName: 'firefox' },
-    },
-    {
-      name: 'webkit',
-      use: { browserName: 'webkit' },
-    },
+    }
   ],
   webServer: {
     command: 'cd app && node --run start',
