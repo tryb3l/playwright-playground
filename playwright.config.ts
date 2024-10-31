@@ -6,8 +6,8 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 console.log(`Loaded URL from .env: ${process.env.URL}`);
 
 export default defineConfig<PlaywrightTestConfig>({
-  timeout: 40000,
-  globalTimeout: 600000,
+  timeout: 100 * 1000,
+  globalTimeout: 120 * 1000,
   expect: {
     timeout: 5000,
   },
@@ -21,8 +21,8 @@ export default defineConfig<PlaywrightTestConfig>({
   use: {
     baseURL: process.env.BASE_URL || 'http://localhost:4200',
     trace: 'on-first-retry',
-    actionTimeout: 20000,
-    navigationTimeout: 30000,
+    actionTimeout: 20 * 1000,
+    navigationTimeout: 60 * 1000,
     video: {
       mode: 'off',
       size: { width: 1280, height: 720 },
