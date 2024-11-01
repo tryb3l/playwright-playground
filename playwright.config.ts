@@ -1,7 +1,11 @@
 import { defineConfig, PlaywrightTestConfig } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
-import { createBaseConfig, createProjects, createWebServerConfig } from '@utils/config-helpers';
+import {
+  createBaseConfig,
+  createProjects,
+  createWebServerConfig,
+} from '@utils/config-helpers';
 
 const envFile = process.env.ENV_FILE || '.env';
 dotenv.config({ path: path.resolve(__dirname, envFile) });
