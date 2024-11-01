@@ -1,6 +1,6 @@
-import { devices } from '@playwright/test';
+import { devices, PlaywrightTestConfig } from '@playwright/test';
 
-const createBaseConfig = (isCI: boolean) => ({
+const createBaseConfig = (isCI: boolean): Partial<PlaywrightTestConfig> => ({
   timeout: 100 * 1000,
   globalTimeout: 120 * 1000,
   expect: {
