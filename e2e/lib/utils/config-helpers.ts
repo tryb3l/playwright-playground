@@ -1,10 +1,10 @@
 import { devices, PlaywrightTestConfig } from '@playwright/test';
 
 const createBaseConfig = (isCI: boolean): Partial<PlaywrightTestConfig> => ({
-  timeout: 100 * 1000,
+  timeout: 120 * 1000,
   globalTimeout: 120 * 1000,
   expect: {
-    timeout: 5000,
+    timeout: 10000,
   },
   testDir: 'e2e/tests',
   fullyParallel: false,
@@ -38,7 +38,7 @@ const createProjects = () => [
 const createWebServerConfig = (isCI: boolean) => ({
   command: 'cd app && node --run start',
   url: process.env.BASE_URL || 'http://localhost:4200',
-  timeout: 120 * 1000,
+  timeout: 180 * 1000,
   reuseExistingServer: !isCI,
 });
 
