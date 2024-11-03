@@ -1,8 +1,6 @@
 import { Page } from '@playwright/test';
 import { InlineFormComponent } from '@components/forms/inline-form.component';
 import { GridFormComponent } from '@components/forms/grid-form.component';
-import { ActionLogger } from '@utils/action.logger.decorator';
-import { ErrorHandler } from '@utils/error-handler.decorator';
 
 class FormLayoutsPage {
   constructor(
@@ -11,7 +9,6 @@ class FormLayoutsPage {
     private gridForm: GridFormComponent = new GridFormComponent(page)
   ) {}
 
-  @ActionLogger('Submit Inline Form', 'info')
   async submitInlineFormWithOptions(
     name: string,
     email: string,
@@ -25,7 +22,6 @@ class FormLayoutsPage {
     await this.inlineForm.submit();
   }
 
-  @ActionLogger('Submit Grid Form', 'info')
   async submitGridFormWithCredentials(
     email: string,
     password: string,
