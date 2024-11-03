@@ -1,18 +1,17 @@
 import { Page } from '@playwright/test';
-import { HelperBase } from '@utils/helper-base';
 import { InlineFormComponent } from '@components/forms/inline-form.component';
 import { GridFormComponent } from '@components/forms/grid-form.component';
+import { ActionLogger } from '@utils/action.logger.decorator';
+import { ErrorHandler } from '@utils/error-handler.decorator';
 
-class FormLayoutsPage extends HelperBase {
-  private inlineForm: InlineFormComponent;
-  private gridForm: GridFormComponent;
+class FormLayoutsPage {
+  constructor(
+    page: Page,
+    private inlineForm: InlineFormComponent = new InlineFormComponent(page),
+    private gridForm: GridFormComponent = new GridFormComponent(page)
+  ) {}
 
-  constructor(page: Page) {
-    super(page);
-    this.inlineForm = new InlineFormComponent(page);
-    this.gridForm = new GridFormComponent(page);
-  }
-
+  @ActionLogger('Submit Inline Form', 'info')
   async submitInlineFormWithOptions(
     name: string,
     email: string,
@@ -26,6 +25,7 @@ class FormLayoutsPage extends HelperBase {
     await this.inlineForm.submit();
   }
 
+  @ActionLogger('Submit Grid Form', 'info')
   async submitGridFormWithCredentials(
     email: string,
     password: string,
