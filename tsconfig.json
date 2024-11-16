@@ -7,7 +7,8 @@
       "@pages/*": ["e2e/pages/*"],
       "@components/*": ["e2e/lib/components/*"],
       "@utils/*": ["e2e/lib/utils/*"],
-      "@fixtures/*": ["e2e/lib/fixtures/*"]
+      "@fixtures/*": ["e2e/lib/fixtures/*"],
+      "@factories/*": ["e2e/lib/factories/*"]
     },
     "outDir": "dist",
     "strict": true,
