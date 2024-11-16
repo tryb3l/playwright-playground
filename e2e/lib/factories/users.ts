@@ -59,11 +59,11 @@ export class Users {
 
   async deleteUser(email: string): Promise<void> {
     this.logger.info(`Deleting user: ${email}`);
-    // Implement user deletion logic if necessary
+    //TODO: Implement user deletion logic if necessary
   }
 
   async getAccessToken(email: string, password: string): Promise<string> {
-    // Implement API call to get the access token
+    //TODO Implement API call to get the access token
     return 'mockedAccessToken';
   }
 }
