@@ -1,5 +1,6 @@
 import { Page } from '@playwright/test';
 import { NavigationComponent } from '@components/navbar/navigation.component';
+import { StartPage } from '@fixtures/start-page.enum';
 
 class PageManager {
   private readonly page: Page;
@@ -14,8 +15,17 @@ class PageManager {
     return this.navigation;
   }
 
-  getPage<T>(pageClass: new (page: Page) => T): T {
-    return new pageClass(this.page);
+  getPage<T extends object>(PageClass: new (page: Page) => T): T {
+    return new PageClass(this.page);
+  }
+
+  public getPageInstance(): Page {
+    return this.page;
+  }
+
+  async navigateTo(startPage: StartPage) {
+    await this.page.goto('/');
+    await this.getNavigation().navigateToSection(startPage);
   }
 }
 
