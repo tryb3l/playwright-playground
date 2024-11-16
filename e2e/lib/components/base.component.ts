@@ -1,10 +1,13 @@
 import { Locator, Page } from '@playwright/test';
+import { Logger } from '@utils/logger';
 
 export abstract class BaseComponent {
   protected page: Page;
+  protected logger: Logger;
 
-  constructor(page: Page) {
+  constructor(page: Page, componentName?: string) {
     this.page = page;
+    this.logger = new Logger(componentName || this.constructor.name);
   }
 
   // Common methods for all components
