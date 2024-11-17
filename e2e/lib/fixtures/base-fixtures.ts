@@ -1,10 +1,5 @@
 import { promises as fs } from 'fs';
-import {
-  test as base,
-  TestInfo,
-  BrowserContext,
-  Page,
-} from '@playwright/test';
+import { test as base, TestInfo, BrowserContext, Page } from '@playwright/test';
 import { PageManager } from '@pages/page-manager';
 import { ConsoleErrorsTracker } from '@utils/console-errors-tracker';
 import { Users } from '@factories/users';
@@ -16,48 +11,59 @@ export const test = base.extend<{
     email: string;
     password: string;
   };
-  authContext: BrowserContext;
+  authContext: BrowserContext | undefined;
   consoleErrorsTracker: ConsoleErrorsTracker;
 }>({
+  // Define the custom option with default value
+  authenticated: [false, { option: true }],
+
   // Fixture for the authenticated browser context
   authContext: [
-    async ({ browser }, use) => {
-      const storageStatePath = 'playwright/.auth/user.json';
+    async ({ browser, authenticated }, use) => {
+      if (authenticated) {
+        const storageStatePath = 'playwright/.auth/user.json';
+        let context: BrowserContext;
 
-      let context: BrowserContext;
+        if (process.env.REUSE_AUTH && (await fileExists(storageStatePath))) {
+          // Reuse existing authentication state
+          context = await browser.newContext({
+            storageState: storageStatePath,
+          });
+        } else {
+          // Create a new user and authenticate
+          context = await browser.newContext();
+          const users = new Users();
+          const { email, password } = await users.getUserCredentials();
 
-      if (process.env.REUSE_AUTH && (await fileExists(storageStatePath))) {
-        // Reuse existing authentication state
-        context = await browser.newContext({ storageState: storageStatePath });
+          // Perform authentication steps
+          const page = await context.newPage();
+          const auth = new Authentication(page);
+          await auth.loginUser(email, password);
+          await page.close();
+
+          // Save storage state
+          await context.storageState({ path: storageStatePath });
+        }
+
+        await use(context);
+        await context.close();
       } else {
-        // Create a new user and authenticate
-        context = await browser.newContext();
-        const users = new Users();
-
-        // Generate user credentials
-        const { email, password } = await users.getUserCredentials();
-
-        // Perform authentication steps
-        const page = await context.newPage();
-        const auth = new Authentication(page);
-        await auth.loginUser(email, password);
-        await page.close();
-
-        // Save storage state
-        await context.storageState({ path: storageStatePath });
+        // For unauthenticated tests, do not create authContext
+        await use(undefined);
       }
-
-      await use(context);
-
-      // Cleanup
-      await context.close();
     },
-    { scope: 'worker' },
+    { scope: 'test' },
   ],
 
   // Fixture for the Page object
-  page: async ({ authContext }, use) => {
-    const page = await authContext.newPage();
+  page: async ({ authContext, browser }, use) => {
+    let page;
+    if (authContext) {
+      page = await authContext.newPage();
+    } else {
+      const context = await browser.newContext();
+      page = await context.newPage();
+    }
     await use(page);
     await page.close();
   },
@@ -103,7 +109,9 @@ export const test = base.extend<{
         });
         // Optionally, fail the test if console errors are detected
         testInfo.status = 'failed';
-        testInfo.error = new Error(`Console errors detected:\n${errors.join('\n')}`);
+        testInfo.error = new Error(
+          `Console errors detected:\n${errors.join('\n')}`
+        );
       }
     },
     { auto: true },
