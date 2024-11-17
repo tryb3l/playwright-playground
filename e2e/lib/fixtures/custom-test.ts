@@ -1,14 +1,10 @@
-import { test as base } from '@playwright/test';
+import { test as base, expect } from '@fixtures/base-fixtures';
 import { PageManager } from '@pages/page-manager';
-import {
-  StartPage,
-  startPageClassMap,
-  StartPageKeys,
-} from '@fixtures/page-mapping';
+import { startPageClassMap, StartPageKeys } from '@fixtures/page-mapping';
 import { ConsoleErrorsTracker } from '@utils/console-errors-tracker';
 
 type PageObjectOf<T extends StartPageKeys> = InstanceType<
-  typeof startPageClassMap[T]
+  (typeof startPageClassMap)[T]
 >;
 
 interface CustomFixtures<T extends StartPageKeys> {
