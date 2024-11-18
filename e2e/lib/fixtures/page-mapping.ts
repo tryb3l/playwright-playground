@@ -9,5 +9,5 @@ export const startPageClassMap = {
 };
 
 export type StartPageClassMap = typeof startPageClassMap;
-
+export type StartPageKeys = keyof StartPageClassMap;
 export { StartPage };
