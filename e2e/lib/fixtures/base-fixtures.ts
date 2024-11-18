@@ -16,6 +16,7 @@ export const test = base.extend<{
 }>({
   // Define the custom option with default value
   authenticated: [false, { option: true }],
+  ignoreConsoleErrors: [[], { option: true }],
 
   // Fixture for the authenticated browser context
   authContext: [
