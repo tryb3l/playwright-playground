@@ -17,6 +17,6 @@
     "emitDecoratorMetadata": true
     // ... other options ...
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "e2e/lib/utils/global.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
