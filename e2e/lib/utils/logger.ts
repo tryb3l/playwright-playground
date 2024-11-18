@@ -11,7 +11,7 @@ export class Logger {
         target: 'pino-pretty',
         options: {
           colorize: true,
-          translateTime: 'SYS:standard',
+          translateTime: 'yyyy-mm-dd HH:MM:ss',
           ignore: 'pid,hostname',
         },
       },
