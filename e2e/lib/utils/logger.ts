@@ -11,26 +11,26 @@ export class Logger {
         target: 'pino-pretty',
         options: {
           colorize: true,
-          translateTime: true,
+          translateTime: 'SYS:standard',
           ignore: 'pid,hostname',
         },
       },
     });
   }
 
-  info(message: string, ...args: any[]) {
-    this.logger.info(message);
+  info(message: string, metadata?: Record<string, any>) {
+    this.logger.info(metadata, message);
   }
 
-  warn(message: string, ...args: any[]) {
-    this.logger.info(message, ...args);
+  warn(message: string, metadata?: Record<string, any>) {
+    this.logger.warn(metadata, message);
   }
 
-  error(message: string, ...args: any[]) {
-    this.logger.error(message, ...args);
+  error(message: string, metadata?: Record<string, any>) {
+    this.logger.error(metadata, message);
   }
 
-  debug(message: string, ...args: any[]) {
-    this.logger.debug(message, ...args);
+  debug(message: string, metadata?: Record<string, any>) {
+    this.logger.debug(metadata, message);
   }
 }
