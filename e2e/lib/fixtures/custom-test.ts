@@ -11,6 +11,7 @@ interface CustomFixtures<T extends StartPageKeys> {
   pageManager: PageManager;
   pageObject: PageObjectOf<T>;
   consoleErrorsTracker: ConsoleErrorsTracker;
+  ignoreConsoleErrors: [[], { option: true }];
 }
 
 function createTestForStartPage<T extends StartPageKeys>(startPage: T) {
