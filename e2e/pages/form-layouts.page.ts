@@ -5,13 +5,17 @@ import { Logger } from '@utils/logger';
 
 class FormLayoutsPage {
   private logger: Logger;
+  private inlineForm: InlineFormComponent;
+  private gridForm: GridFormComponent;
 
   constructor(
     page: Page,
-    private inlineForm: InlineFormComponent = new InlineFormComponent(page),
-    private gridForm: GridFormComponent = new GridFormComponent(page)
+    inlineForm?: InlineFormComponent,
+    gridForm?: GridFormComponent
   ) {
     this.logger = new Logger('FormLayoutsPage');
+    this.inlineForm = inlineForm || new InlineFormComponent(page);
+    this.gridForm = gridForm || new GridFormComponent(page);
   }
 
   async submitInlineFormWithOptions(
@@ -19,7 +23,11 @@ class FormLayoutsPage {
     email: string,
     rememberMe: boolean
   ) {
-    this.logger.info(`Submitting inline form`, { name, email, rememberMe });
+    this.logger.info('Submitting inline form with options', {
+      name,
+      email,
+      rememberMe,
+    });
     await this.inlineForm.fillName(name);
     await this.inlineForm.fillEmail(email);
     if (rememberMe) {
@@ -33,7 +41,11 @@ class FormLayoutsPage {
     password: string,
     optionText: string
   ) {
-    this.logger.info(`Submitting inline form`, { name, email, rememberMe });
+    this.logger.info('Submitting grid form with credentials', {
+      email,
+      password,
+      optionText,
+    });
     await this.gridForm.fillEmail(email);
     await this.gridForm.fillPassword(password);
     await this.gridForm.selectOption(optionText);
