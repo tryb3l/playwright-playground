@@ -11,7 +11,6 @@ interface CustomFixtures<T extends StartPageKeys> {
   pageManager: PageManager;
   pageObject: PageObjectOf<T>;
   consoleErrorsTracker: ConsoleErrorsTracker;
-  ignoreConsoleErrors: [[], { option: true }];
 }
 
 function createTestForStartPage<T extends StartPageKeys>(startPage: T) {
@@ -32,4 +31,4 @@ function createTestForStartPage<T extends StartPageKeys>(startPage: T) {
 }
 
 export { createTestForStartPage };
-export { expect } from '@playwright/test';
+export { expect };
