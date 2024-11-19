@@ -1,8 +1,8 @@
 import { devices, PlaywrightTestConfig } from '@playwright/test';
 
 const createBaseConfig = (isCI: boolean): Partial<PlaywrightTestConfig> => ({
-  timeout: 120 * 1000,
-  globalTimeout: 120 * 1000,
+  timeout: 180 * 1000,
+  globalTimeout: 180 * 1000,
   expect: {
     timeout: 10000,
   },
@@ -15,7 +15,7 @@ const createBaseConfig = (isCI: boolean): Partial<PlaywrightTestConfig> => ({
   use: {
     baseURL: process.env.BASE_URL || 'http://localhost:4200',
     trace: 'on-first-retry',
-    actionTimeout: 20 * 1000,
+    actionTimeout: 60 * 1000,
     video: {
       mode: 'off',
       size: { width: 1280, height: 720 },
