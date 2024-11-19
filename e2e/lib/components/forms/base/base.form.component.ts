@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test';
 import { BaseComponent } from '@components/base.component';
+import { LogExecution } from '@utils/decorators';
 
 export abstract class FormComponent extends BaseComponent {
   protected formLocator: Locator;
@@ -7,40 +8,36 @@ export abstract class FormComponent extends BaseComponent {
   constructor(page: Page, formSelector: string) {
     super(page);
     this.formLocator = page.locator(formSelector);
+    this.context = this.formLocator;
   }
 
+  @LogExecution
   async fillInputByRole(role: 'textbox', name: string, value: string) {
-    this.logger.info(`Filling input by role`, { role, name, value });
-    await super.fillInputByRole(role, name, value, this.formLocator);
+    await this.context.getByRole(role, { name }).fill(value);
   }
 
+  @LogExecution
   async fillInputByLabel(label: string, value: string) {
-    this.logger.info(`Filling input by label`, { label, value });
-    await super.fillInputByLabel(label, value, this.formLocator);
+    await this.context.getByLabel(label).fill(value);
   }
 
+  @LogExecution
   async fillInputByPlaceholder(placeholder: string, value: string) {
-    this.logger.info(`Filling input by placeholder`, { placeholder, value });
-    await super.fillInputByPlaceholder(placeholder, value, this.formLocator);
+    await this.context.getByPlaceholder(placeholder).fill(value);
   }
 
+  @LogExecution
   async clickButton(buttonName: string) {
-    this.logger.info(`Clicking button by role name`, { buttonName });
-    await super.clickButtonByRoleName(buttonName, this.formLocator);
+    await this.context.getByRole('button', { name: buttonName }).click();
   }
 
+  @LogExecution
   async checkCheckboxByLabel(label: string) {
-    this.logger.info(`Checking checkbox by label`, { label });
-    await super.checkCheckboxByLabel(label, this.formLocator);
+    await this.context.getByLabel(label).check({ force: true });
   }
 
+  @LogExecution
   async checkCheckboxByRole(role: 'checkbox', name: string) {
-    this.logger.info(`Checking checkbox by role`, { role, name });
-    await super.checkCheckboxByRole(role, name, this.formLocator);
-  }
-
-  async getText(selector: string): Promise<string> {
-    this.logger.info(`Getting text from element`, { selector });
-    return await super.getText(selector, this.formLocator);
+    await this.context.getByRole(role, { name }).check({ force: true });
   }
 }
