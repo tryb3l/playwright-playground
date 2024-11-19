@@ -1,7 +1,6 @@
 import { Page } from '@playwright/test';
 import { BaseComponent } from '@components/base.component';
 
-
 class NavigationComponent extends BaseComponent {
   constructor(page: Page) {
     super(page);
