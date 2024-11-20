@@ -4,6 +4,7 @@ import { PageManager } from '@pages/page-manager';
 import { ConsoleErrorsTracker } from '@utils/console-errors-tracker';
 import { Users } from '@factories/users';
 import { Authentication } from '@utils/auth';
+import { AssertionsFactory } from '@utils/assertions/assertion-factory'
 
 export const test = base.extend<{
   pageManager: PageManager;
@@ -13,6 +14,7 @@ export const test = base.extend<{
   };
   authContext: BrowserContext | undefined;
   consoleErrorsTracker: ConsoleErrorsTracker;
+  assertions: AssertionsFactory;
 }>({
   // Define the custom option with default value
   authenticated: [false, { option: true }],
@@ -73,6 +75,11 @@ export const test = base.extend<{
   pageManager: async ({ page }, use) => {
     const pageManager = new PageManager(page);
     await use(pageManager);
+  },
+
+  assertions: async ({ page }, use) => {
+    const assertions = new AssertionsFactory(page);
+    await use(assertions);
   },
 
   // Fixture for the user credentials
