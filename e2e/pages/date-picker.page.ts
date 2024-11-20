@@ -1,7 +1,6 @@
-import { expect, Page } from "playwright/test";
-import { HelperBase } from "@utils/helper-base";
+import { expect, Page } from 'playwright/test';
 
-class DatePickerPage extends HelperBase {
+class DatePickerPage {
   constructor(page: Page) {
     super(page);
   }
@@ -10,15 +9,15 @@ class DatePickerPage extends HelperBase {
     let date = new Date();
     date.setDate(date.getDate() + daysFromToday);
     const expectedDay = date.getDate().toString();
-    const expectedMonthShort = date.toLocaleString("default", {
-      month: "short",
+    const expectedMonthShort = date.toLocaleString('default', {
+      month: 'short',
     });
-    const expectedMonthLong = date.toLocaleString("default", { month: "long" });
+    const expectedMonthLong = date.toLocaleString('default', { month: 'long' });
     const expectedYear = date.getFullYear().toString();
     const dateToAssert = `${expectedMonthShort} ${expectedDay}, ${expectedYear}`;
 
     let calendarMonthYear = await this.page
-      .locator("nb-calendar-view-mode")
+      .locator('nb-calendar-view-mode')
       .textContent();
     const expectedMonthAndYear = `${expectedMonthLong} ${expectedYear}`;
     while (
@@ -29,11 +28,11 @@ class DatePickerPage extends HelperBase {
         .locator('nb-calendar-pageable-navigation [data-name="chevron-right"]')
         .click();
       calendarMonthYear = await this.page
-        .locator("nb-calendar-view-mode")
+        .locator('nb-calendar-view-mode')
         .textContent();
     }
     await this.page
-      .locator(".day-cell.ng-star-inserted")
+      .locator('.day-cell.ng-star-inserted')
       .getByText(expectedDay, { exact: true })
       .click();
 
@@ -42,7 +41,7 @@ class DatePickerPage extends HelperBase {
 
   async selectCommonDatepickerDateFromToday(daysFromToday: number) {
     const calendarInputField = await this.page.locator(
-      'input[placeholder="Form Picker"]',
+      'input[placeholder="Form Picker"]'
     );
     await calendarInputField.click();
     const dateToAssert = await this.selectDateInCalendar(daysFromToday);
@@ -52,9 +51,9 @@ class DatePickerPage extends HelperBase {
 
   async selectDatePickerRangeFromToday(
     daysFromToday: number,
-    daysAfter: number,
+    daysAfter: number
   ) {
-    const calendarInputField = await this.page.getByPlaceholder("Range Picker");
+    const calendarInputField = await this.page.getByPlaceholder('Range Picker');
     await calendarInputField.click();
     const dateFrom = await this.selectDateInCalendar(daysFromToday);
     const dateTo = await this.selectDateInCalendar(daysAfter);
