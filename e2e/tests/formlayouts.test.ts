@@ -13,16 +13,25 @@ test.use({
 });
 
 test.describe('Form Layouts Tests', () => {
-  test('Submit Inline Form', async ({ pageObject, consoleErrorsTracker }) => {
+  test('Submit Inline Form', async ({
+    pageObject,
+    consoleErrorsTracker,
+    assertions,
+  }) => {
+
+    // Arrange
+    const formAssertions = assertions.createFormAssertions();
+
+    // Act
     await pageObject.submitInlineFormWithOptions(
       'Jane Doe',
       'jane.doe@example.com',
       true
     );
 
-    //Assertions
-    //const successMessage = await pageObject.getSuccessMessage();
-    //expect(successMessage).toContain('Form submitted successfully');
+    //Assert
+    await formAssertions.assertFormSubmitted('form.form-inline');
+
     // Check for console errors
     const consoleErrors = consoleErrorsTracker.getErrors();
     expect(consoleErrors.length).toBe(0);
