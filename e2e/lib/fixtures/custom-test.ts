@@ -2,6 +2,7 @@ import { test as base, expect } from '@fixtures/base-fixtures';
 import { PageManager } from '@pages/page-manager';
 import { startPageClassMap, StartPageKeys } from '@fixtures/page-mapping';
 import { ConsoleErrorsTracker } from '@utils/console-errors-tracker';
+import { AssertionsFactory } from '@utils/assertions/assertion-factory';
 
 type PageObjectOf<T extends StartPageKeys> = InstanceType<
   (typeof startPageClassMap)[T]
@@ -11,6 +12,7 @@ interface CustomFixtures<T extends StartPageKeys> {
   pageManager: PageManager;
   pageObject: PageObjectOf<T>;
   consoleErrorsTracker: ConsoleErrorsTracker;
+  assertions: AssertionsFactory;
 }
 
 function createTestForStartPage<T extends StartPageKeys>(startPage: T) {
@@ -24,6 +26,10 @@ function createTestForStartPage<T extends StartPageKeys>(startPage: T) {
       const PageClass = startPageClassMap[startPage];
       const pageObject = new PageClass(pageManager.getPageInstance());
       await use(pageObject as PageObjectOf<T>);
+    },
+    assertions: async ({ page }, use) => {
+      const assertions = new AssertionsFactory(page);
+      await use(assertions);
     },
   });
 
