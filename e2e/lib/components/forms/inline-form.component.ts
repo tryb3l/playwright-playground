@@ -11,7 +11,9 @@ class InlineFormComponent extends FormComponent {
   }
 
   async fillEmail(email: string) {
-    await this.fillInputByPlaceholder('Email', email);
+    await this.fillInputByPlaceholder('Email', email, {
+      byPlaceholder: 'Email',
+    });
   }
 
   async checkRememberMe() {
