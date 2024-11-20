@@ -2,7 +2,7 @@ import { expect, Page } from 'playwright/test';
 
 class DatePickerPage {
   constructor(page: Page) {
-    super(page);
+    this.page;
   }
 
   private async selectDateInCalendar(daysFromToday: number) {
