@@ -14,3 +14,22 @@ declare module '@playwright/test' {
     ignoreConsoleErrors?: string[];
   }
 }
+declare module '@components/*' {
+  const content: any;
+  export = content;
+}
+
+declare module '@utils/*' {
+  const content: any;
+  export = content;
+}
+
+declare module '@fixtures/*' {
+  const content: any;
+  export = content;
+}
+
+declare module '@factories/*' {
+  const content: any;
+  export = content;
+}
