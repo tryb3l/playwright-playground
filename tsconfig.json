@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ESNext",
+    "module": "NodeNext",
     "moduleResolution": "nodenext",
     "baseUrl": ".",
     "paths": {
@@ -16,7 +16,8 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "types": ["node", "@playwright/test"]
     //TODO consider extension of the tsconfig opts
   },
   "include": ["**/*.ts", "e2e/lib/utils/global.d.ts"],
