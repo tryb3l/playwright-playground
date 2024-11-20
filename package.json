@@ -4,6 +4,12 @@
   "engines": {
     "node": ">=22"
   },
+  "exports": {
+    "./components/*": "./e2e/lib/components/*",
+    "./utils/*": "./e2e/lib/utils/*",
+    "./fixtures/*": "./e2e/lib/fixtures/*",
+    "./factories/*": "./e2e/lib/factories/*"
+  },
   "scripts": {
     "lint": "eslint . --ext .ts,.js",
     "format": "prettier --write .",
