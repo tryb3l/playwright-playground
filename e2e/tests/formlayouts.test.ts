@@ -3,7 +3,6 @@ import { StartPage } from '@fixtures/start-page.enum';
 
 const test = createTestForStartPage(StartPage.FormLayouts);
 
-// Example of how to use ignoreConsoleErrors to ignore specific console errors
 test.use({
   ignoreConsoleErrors: [
     'Specific error message to ignore',
@@ -18,7 +17,6 @@ test.describe('Form Layouts Tests', () => {
     consoleErrorsTracker,
     assertions,
   }) => {
-
     // Arrange
     const formAssertions = assertions.createFormAssertions();
 
@@ -29,7 +27,7 @@ test.describe('Form Layouts Tests', () => {
       true
     );
 
-    //Assert
+    // Assert
     await formAssertions.assertFormSubmitted('form.form-inline');
 
     // Check for console errors
