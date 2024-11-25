@@ -26,8 +26,8 @@ export class Logger {
     this.logger.warn(metadata, message);
   }
 
-  error(message: string, metadata?: Record<string, any>) {
-    this.logger.error(metadata, message);
+  error(message: string, error?: Error) {
+    this.logger.error(error, message);
   }
 
   debug(message: string, metadata?: Record<string, any>) {
