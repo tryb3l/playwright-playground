@@ -1,4 +1,4 @@
-import { type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
 import { FormAssertions } from './form-assertions';
 import { DatePickerAssertions } from './datepicker-assertions';
 import { TableAssertions } from './table-assertions';
