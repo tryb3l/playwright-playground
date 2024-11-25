@@ -1,102 +1,108 @@
 import { Locator, Page } from '@playwright/test';
 import { Logger } from '@utils/logger';
-import { LogExecution } from '@utils/decorators';
 
 export abstract class BaseComponent {
   protected page: Page;
   protected logger: Logger;
   protected context: Page | Locator;
+
   constructor(page: Page, componentName?: string) {
     this.page = page;
     this.context = page;
     this.logger = new Logger(componentName || this.constructor.name);
   }
 
-  // Base locator methods
-  @LogExecution
-  protected getByRole(role: string, options?: { name?: string }) {
+  protected getByRole(
+    role: Parameters<Page['getByRole']>[0],
+    options?: Parameters<Page['getByRole']>[1]
+  ): Locator {
+    this.logger.info('getByRole', { role, options });
     return this.context.getByRole(role, options);
   }
 
-  @LogExecution
-  protected getByLabel(label: string): Locator {
-    return this.context.getByLabel(label);
+  protected getByLabel(
+    label: Parameters<Page['getByLabel']>[0],
+    options?: Parameters<Page['getByLabel']>[1]
+  ): Locator {
+    this.logger.info('getByLabel', { label, options });
+    return this.context.getByLabel(label, options);
   }
 
-  @LogExecution
-  protected getByPlaceholder(placeholder: string): Locator {
-    return this.context.getByPlaceholder(placeholder);
+  protected getByPlaceholder(
+    placeholder: Parameters<Page['getByPlaceholder']>[0],
+    options?: Parameters<Page['getByPlaceholder']>[1]
+  ): Locator {
+    this.logger.info('getByPlaceholder', { placeholder, options });
+    return this.context.getByPlaceholder(placeholder, options);
   }
 
-  @LogExecution
-  protected getByTestId(testId: string): Locator {
+  protected getByTestId(testId: Parameters<Page['getByTestId']>[0]): Locator {
+    this.logger.info('getByTestId', { testId });
     return this.context.getByTestId(testId);
   }
 
-  // Generic methods applicable to all components
+  private getElement(
+    selector: string | Locator,
+    options?: {
+      byRole?: Parameters<Page['getByRole']>[0];
+      byLabel?: Parameters<Page['getByLabel']>[0];
+      byPlaceholder?: Parameters<Page['getByPlaceholder']>[0];
+      byTestId?: Parameters<Page['getByTestId']>[0];
+    }
+  ): Locator {
+    if (options?.byRole) {
+      return this.context.getByRole(options.byRole);
+    } else if (options?.byLabel) {
+      return this.context.getByLabel(options.byLabel);
+    } else if (options?.byPlaceholder) {
+      return this.context.getByPlaceholder(options.byPlaceholder);
+    } else if (options?.byTestId) {
+      return this.context.getByTestId(options.byTestId);
+    } else if (typeof selector === 'string') {
+      return this.context.locator(selector);
+    } else {
+      return selector;
+    }
+  }
 
-  @LogExecution
   async click(
     selector: string | Locator,
     options?: {
-      byRole?: string;
-      byLabel?: string;
-      byTestId?: string;
+      byRole?: Parameters<Page['getByRole']>[0];
+      byLabel?: Parameters<Page['getByLabel']>[0];
+      byTestId?: Parameters<Page['getByTestId']>[0];
+      name?: string;
     }
   ): Promise<void> {
-    let locator: Locator;
-
-    if (options?.byRole) {
-      locator = this.getByRole(options.byRole, { name: selector as string });
-    } else if (options?.byLabel) {
-      locator = this.getByLabel(selector as string);
-    } else if (selector instanceof Locator) {
-      locator = selector;
-    } else {
-      locator = this.context.locator(selector as string);
-    }
-    await locator.click();
+    const element = this.getElement(selector, options);
+    await element.click();
   }
 
-  @LogExecution
   async fill(
     selector: string | Locator,
     value: string,
-    options?: { byRole?: string; byLabel?: string; byPlaceholder?: string }
-  ): Promise<void> {
-    let locator: Locator;
-
-    if (options?.byRole) {
-      locator = this.getByRole(options.byRole, { name: selector as string });
-    } else if (options?.byLabel) {
-      locator = this.getByLabel(selector as string);
-    } else if (options?.byPlaceholder) {
-      locator = this.getByPlaceholder(selector as string);
-    } else if (selector instanceof Locator) {
-      locator = selector;
-    } else {
-      locator = this.context.locator(selector as string);
+    options?: {
+      byRole?: Parameters<Page['getByRole']>[0];
+      byLabel?: Parameters<Page['getByLabel']>[0];
+      byPlaceholder?: Parameters<Page['getByPlaceholder']>[0];
+      name?: string;
     }
-
-    await locator.fill(value);
+  ): Promise<void> {
+    const element = this.getElement(selector, options);
+    await element.fill(value);
   }
 
-  @LogExecution
-  async getText(selector: string): Promise<string> {
-    const text = await this.context.textContent(selector);
+  async getText(selector: string | Locator): Promise<string> {
+    const element = this.getElement(selector);
+    const text = await element.textContent();
     if (text === null) {
       throw new Error(`No text content found for selector: ${selector}`);
     }
     return text;
   }
 
-  @LogExecution
-  async isVisible(selector: string): Promise<boolean> {
-    return await this.context.isVisible(selector);
-  }
-
-  @LogExecution
-  async waitForSelector(selector: string, options?: { timeout?: number }) {
-    await this.context.waitForSelector(selector, options);
+  async isVisible(selector: string | Locator): Promise<boolean> {
+    const element = this.getElement(selector);
+    return await element.isVisible();
   }
 }
