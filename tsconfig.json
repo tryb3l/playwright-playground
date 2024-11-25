@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "esnext",
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "baseUrl": ".",
@@ -13,13 +13,11 @@
     },
     "outDir": "dist",
     "strict": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": false,
-    "emitDecoratorMetadata": false,
     "useDefineForClassFields": false,
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
     "types": ["node", "@playwright/test"],
     "declaration": true
-    //TODO consider extension of the tsconfig opts
   },
   "include": ["**/*.ts", "e2e/lib/utils/global.d.ts"],
   "exclude": ["node_modules", "dist"]
