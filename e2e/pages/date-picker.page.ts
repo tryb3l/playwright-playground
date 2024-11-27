@@ -1,4 +1,4 @@
-import { expect, Page } from 'playwright/test';
+import { Page } from '@playwright/test';
 import { DatePickerComponent } from '@components/date-picker/date-picker.component';
 
 class DatePickerPage {
