@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7aaaf7fd-8876-49a1-a244-d6a9abfefceb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e2e/lib/components/base.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/e2e/lib/components/base.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e2e/lib/components/button/button.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/e2e/lib/components/button/button.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e2e/lib/components/date-picker/date-picker.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/e2e/lib/components/date-picker/date-picker.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/e2e/lib/utils/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/e2e/lib/utils/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e2e/pages/date-picker.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/e2e/pages/date-picker.page.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +54,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/bohdan/Documents/projects/playwright-playground/playwright-playground/node_modules/prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;/Users/bohdan/Documents/projects/playwright-playground/playwright-playground/node_modules/typescript/lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -68,6 +74,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Form Layouts Tests.Submit Inline Form" type="JavaScriptTestRunnerPlaywright" temporary="true" nameIsGenerated="true">
+      <config value="$PROJECT_DIR$/playwright.config.ts" />
       <node-interpreter value="project" />
       <playwright-package value="$PROJECT_DIR$/node_modules/@playwright/test" />
       <working-dir value="$PROJECT_DIR$" />
@@ -80,6 +87,10 @@
       </test-names>
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Playwright.BaseComponent.should execute myTestMethod with decorator" />
+      <item itemvalue="Playwright.Form Layouts Tests.Submit Inline Form" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Playwright.Form Layouts Tests.Submit Inline Form" />
@@ -106,6 +117,8 @@
       <workItem from="1732320866526" duration="1899000" />
       <workItem from="1732363114693" duration="6831000" />
       <workItem from="1732465540145" duration="4586000" />
+      <workItem from="1732541793320" duration="2395000" />
+      <workItem from="1732706484261" duration="1211000" />
     </task>
     <servers />
   </component>
