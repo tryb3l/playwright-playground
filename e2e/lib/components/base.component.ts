@@ -41,6 +41,14 @@ export abstract class BaseComponent {
     return this.context.getByTestId(testId);
   }
 
+  protected getByText(
+    text: Parameters<Page['getByText']>[0],
+    options?: Parameters<Page['getByText']>[1]
+  ): Locator {
+    this.logger.info('getByText', { text, options });
+    return this.context.getByText(text, options);
+  }
+
   private getElement(
     selector: string | Locator,
     options?: {
@@ -48,6 +56,7 @@ export abstract class BaseComponent {
       byLabel?: Parameters<Page['getByLabel']>[0];
       byPlaceholder?: Parameters<Page['getByPlaceholder']>[0];
       byTestId?: Parameters<Page['getByTestId']>[0];
+      byText?: Parameters<Page['getByText']>[0];
     }
   ): Locator {
     if (options?.byRole) {
@@ -58,6 +67,8 @@ export abstract class BaseComponent {
       return this.context.getByPlaceholder(options.byPlaceholder);
     } else if (options?.byTestId) {
       return this.context.getByTestId(options.byTestId);
+    } else if (options?.byText) {
+      return this.context.getByText(options.byText);
     } else if (typeof selector === 'string') {
       return this.context.locator(selector);
     } else {
@@ -71,10 +82,19 @@ export abstract class BaseComponent {
       byRole?: Parameters<Page['getByRole']>[0];
       byLabel?: Parameters<Page['getByLabel']>[0];
       byTestId?: Parameters<Page['getByTestId']>[0];
+      text?: Parameters<Page['getByText']>[0];
       name?: string;
+      exact?: boolean;
     }
   ): Promise<void> {
-    const element = this.getElement(selector, options);
+    let element = this.getElement(selector, options);
+
+    if (options?.text) {
+      element = element.filter({
+        hasText: options.exact ? options.text : new RegExp(options.text),
+      });
+    }
+
     await element.click();
   }
 
@@ -85,6 +105,8 @@ export abstract class BaseComponent {
       byRole?: Parameters<Page['getByRole']>[0];
       byLabel?: Parameters<Page['getByLabel']>[0];
       byPlaceholder?: Parameters<Page['getByPlaceholder']>[0];
+      byTestId?: Parameters<Page['getByTestId']>[0];
+      byText?: Parameters<Page['getByText']>[0];
       name?: string;
     }
   ): Promise<void> {
