@@ -23,6 +23,6 @@ export class ButtonComponent extends BaseComponent {
   }
 
   async clickButton(buttonName: string) {
-    await this.context.click(buttonName);
+    await this.click(buttonName);
   }
 }
