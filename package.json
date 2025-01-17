@@ -2,7 +2,7 @@
   "name": "playwright-playground",
   "version": "1.0.0",
   "engines": {
-    "node": ">=22"
+    "node": ">=23"
   },
   "scripts": {
     "lint": "eslint . --ext .ts,.js",
