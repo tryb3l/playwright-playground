@@ -17,7 +17,7 @@ export const test = base.extend<{
   assertions: AssertionsFactory;
 }>({
   // Define the custom option with default value
-  //authenticated: [false, { option: true }],
+  authenticated: [false, { scope: 'test' }],
   ignoreConsoleErrors: [],
 
   // Fixture for the authenticated browser context
@@ -57,7 +57,6 @@ export const test = base.extend<{
     },
     { scope: 'test' },
   ],
-
   // Fixture for the Page object
   page: async ({ authContext, browser }, use) => {
     let page;
@@ -83,7 +82,7 @@ export const test = base.extend<{
   },
 
   // Fixture for the user credentials
-  user: async ({}, use) => {
+  user: async ({ }, use) => {
     const users = new Users();
     const { email, password } = await users.getUserCredentials();
     await use({ email, password });
