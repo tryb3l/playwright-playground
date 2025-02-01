@@ -17,8 +17,8 @@ export const test = base.extend<{
   assertions: AssertionsFactory;
 }>({
   // Define the custom option with default value
-  authenticated: [false, { option: true }],
-  ignoreConsoleErrors: [[], { option: true }],
+  //authenticated: [false, { option: true }],
+  ignoreConsoleErrors: [],
 
   // Fixture for the authenticated browser context
   authContext: [
@@ -117,9 +117,7 @@ export const test = base.extend<{
         });
         // Optionally, fail the test if console errors are detected
         testInfo.status = 'failed';
-        testInfo.error = new Error(
-          `Console errors detected:\n${errors.join('\n')}`
-        );
+        testInfo.fail(true);
       }
     },
     { auto: true },
