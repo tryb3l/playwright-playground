@@ -34,4 +34,23 @@ test.describe('Form Layouts Tests', () => {
     const consoleErrors = consoleErrorsTracker.getErrors();
     expect(consoleErrors.length).toBe(0);
   });
+
+  test('Submit grid form', async ({
+    pageObject,
+    consoleErrorsTracker,
+    assertions
+  }) => {
+    // Arrange
+    const formAssertions = assertions.createFormAssertions();
+
+    // Act
+    await pageObject.submitGridFormWithCredentials('jane.doe@me.com', 'st0ngp@$$w0rD', 'Option 2');
+
+    // Assert
+    await formAssertions.assertFormSubmitted('form.form-grid');
+
+    // Check for console errors
+    const consoleErrors = consoleErrorsTracker.getErrors();
+    expect(consoleErrors.length).toBe(0);
+  });
 });
