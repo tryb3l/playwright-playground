@@ -23,6 +23,10 @@ class DatePickerPage {
       daysAfter
     );
   }
+
+  async getDateToAssert(daysFromToday: number): Promise<string> {
+    return await this.datePickerComponent.getDateToAssert(daysFromToday);
+  }
 }
 
 export { DatePickerPage };
