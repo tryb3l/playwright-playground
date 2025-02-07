@@ -1,7 +1,7 @@
 enum StartPage {
   IoTDashboard = 'IoT Dashboard',
   FormLayouts = 'Forms > Form Layouts',
-  DatePicker = 'Forms > Date Picker',
+  DatePicker = 'Forms > Datepicker',
   Dialog = 'Modal & Overlays > Dialog',
   Window = 'Modal & Overlays > Window',
   Popover = 'Modal & Overlays > Popover',
