@@ -34,10 +34,7 @@ class DatePickerComponent extends BaseComponent {
   async selectCommonDatepickerDateFromToday(daysFromToday: number) {
     const calendarInputField = this.getByPlaceholder('Form Picker');
     await calendarInputField.click();
-    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-    const dateToAssert = await this.selectDateInCalendar(daysFromToday);
-
-    // await expect(calendarInputField).toHaveValue(dateToAssert);
+    await this.selectDateInCalendar(daysFromToday);
   }
 
   async selectDatePickerRangeFromToday(
@@ -46,13 +43,19 @@ class DatePickerComponent extends BaseComponent {
   ) {
     const calendarInputField = this.getByPlaceholder('Range Picker');
     await calendarInputField.click();
-    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
     const dateFrom = await this.selectDateInCalendar(daysFromToday);
-    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
     const dateTo = await this.selectDateInCalendar(daysAfter);
+  }
 
-    // await expect(calendarInputField).toHaveValue(`${dateFrom} - ${dateTo}`);
+  async getDateToAssert(daysFromToday: number): Promise<string> {
+    const date = new Date();
+    date.setDate(date.getDate() + daysFromToday);
+    const expectedDay = date.getDate().toString();
+    const expectedMonthShort = date.toLocaleString('default', {
+      month: 'short',
+    });
+    const expectedYear = date.getFullYear().toString();
+    return `${expectedMonthShort} ${expectedDay}, ${expectedYear}`;
   }
 }
-
 export { DatePickerComponent };
