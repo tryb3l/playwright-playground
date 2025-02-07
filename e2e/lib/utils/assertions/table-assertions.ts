@@ -1,3 +1,4 @@
+import { expect } from "@playwright/test";
 import { BaseAssertions } from './base-assertions';
 
 export class TableAssertions extends BaseAssertions {
