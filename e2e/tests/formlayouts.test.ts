@@ -17,6 +17,7 @@ test.describe('Form Layouts Tests', () => {
     consoleErrorsTracker,
     assertions,
   }) => {
+
     // Arrange
     const formAssertions = assertions.createFormAssertions();
 
@@ -40,6 +41,7 @@ test.describe('Form Layouts Tests', () => {
     consoleErrorsTracker,
     assertions
   }) => {
+
     // Arrange
     const formAssertions = assertions.createFormAssertions();
 
