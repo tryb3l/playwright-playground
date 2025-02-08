@@ -17,15 +17,15 @@ class DatePickerPage {
   async selectDateRangeFromToday(
     daysFromToday: number,
     daysAfter: number
-  ): Promise<void> {
-    await this.datePickerComponent.selectDatePickerRangeFromToday(
+  ): Promise<{ dateFrom: string; dateTo: string }> {
+    return await this.datePickerComponent.selectDatePickerRangeFromToday(
       daysFromToday,
       daysAfter
     );
   }
 
-  async getDateToAssert(daysFromToday: number): Promise<string> {
-    return await this.datePickerComponent.getDateToAssert(daysFromToday);
+  async getDateToAssert(daysFromToday: number, daysAfter?: number): Promise<string | { startDate: string, endDate: string }> {
+    return await this.datePickerComponent.getDateToAssert(daysFromToday, daysAfter);
   }
 }
 
