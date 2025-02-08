@@ -1,5 +1,6 @@
 import { createTestForStartPage, expect } from '@fixtures/custom-test';
 import { StartPage } from '@fixtures/start-page.enum';
+import { ConsoleErrorsTracker } from "../lib/utils/console-errors-tracker";
 
 const test = createTestForStartPage(StartPage.DatePicker);
 
@@ -23,10 +24,35 @@ test.describe('Datepicker Tests', () => {
 
         // Act
         await pageObject.selectCommonDateFromToday(daysFromToday);
-        const dateToAssert = await pageObject.getDateToAssert(daysFromToday);
+        const dateToAssert = await pageObject.getDateToAssert(daysFromToday) as string;
 
         // Assert
         await datePickerAssertions.assertSelectedDate('input[placeholder="Form Picker"]', dateToAssert);
+
+        // Check for console errors
+        const consoleErrors = consoleErrorsTracker.getErrors();
+        expect(consoleErrors.length).toBe(0);
+    });
+
+    test('Select date from date range picker', async ({
+        pageObject,
+        consoleErrorsTracker,
+        assertions,
+    }) => {
+        // Arrange
+        const datePickerAssertions = assertions.createDatePickerAssertions();
+        const daysFromToday = 2;
+        const daysAfter = 5;
+
+        // Act
+        await pageObject.selectDateRangeFromToday(daysFromToday, daysAfter);
+        const dateRange = await pageObject.getDateToAssert(daysFromToday, daysAfter) as { startDate: string; endDate: string };
+
+        // Assert
+        await datePickerAssertions.assertDateRange('input[placeholder="Range Picker"]',
+            dateRange.startDate,
+            dateRange.endDate
+        );
 
         // Check for console errors
         const consoleErrors = consoleErrorsTracker.getErrors();
