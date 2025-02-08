@@ -45,9 +45,10 @@ class DatePickerComponent extends BaseComponent {
     await calendarInputField.click();
     const dateFrom = await this.selectDateInCalendar(daysFromToday);
     const dateTo = await this.selectDateInCalendar(daysAfter);
+    return {dateFrom, dateTo}
   }
 
-  async getDateToAssert(daysFromToday: number): Promise<string> {
+  async getDateToAssert(daysFromToday: number, daysAfter?: number): Promise<string | { startDate: string, endDate: string }> {
     const date = new Date();
     date.setDate(date.getDate() + daysFromToday);
     const expectedDay = date.getDate().toString();
@@ -55,7 +56,21 @@ class DatePickerComponent extends BaseComponent {
       month: 'short',
     });
     const expectedYear = date.getFullYear().toString();
-    return `${expectedMonthShort} ${expectedDay}, ${expectedYear}`;
+    const startDate = `${expectedMonthShort} ${expectedDay}, ${expectedYear}`;
+
+    if (daysAfter !== undefined) {
+      const endDateObj = new Date();
+      endDateObj.setDate(endDateObj.getDate() + daysAfter);
+      const endDay = endDateObj.getDate().toString();
+      const endMonthShort = endDateObj.toLocaleString('default', {
+        month: 'short',
+      });
+      const endYear = endDateObj.getFullYear().toString();
+      const endDate = `${endMonthShort} ${endDay}, ${endYear}`;
+      return { startDate, endDate };
+    }
+
+    return startDate;
   }
 }
 export { DatePickerComponent };
