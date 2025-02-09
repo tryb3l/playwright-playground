@@ -30,8 +30,7 @@ export class CheckboxComponent extends BaseComponent {
     await checkbox.uncheck({ force: true });
   }
 
-  async isChecked(selector: string): Promise<boolean> {
-    const checkbox = this.context.locator(selector);
-    return await checkbox.isChecked();
+  async isChecked(): Promise<boolean> {
+    return await this.checkboxLocator.isChecked();
   }
 }
