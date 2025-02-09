@@ -1,6 +1,6 @@
 import { createTestForStartPage, expect } from '@fixtures/custom-test';
 import { StartPage } from '@fixtures/start-page.enum';
-import { ConsoleErrorsTracker } from "../lib/utils/console-errors-tracker";
+import { ConsoleErrorsTracker } from "@utils/console-errors-tracker";
 
 const test = createTestForStartPage(StartPage.DatePicker);
 
