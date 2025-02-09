@@ -19,7 +19,7 @@ export class ButtonComponent extends BaseComponent {
   }
 
   async clickButtonByText(text: string) {
-    await this.click(text);
+    await this.click(text, { byText: text });
   }
 
   async clickButton(buttonName: string) {
