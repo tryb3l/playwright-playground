@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { FormComponent } from '@components/forms/base/base.form.component';
 
 class GridFormComponent extends FormComponent {
@@ -15,9 +15,7 @@ class GridFormComponent extends FormComponent {
   }
 
   async selectOption(optionText: string) {
-    await this.formLocator
-      .getByRole('radio', { name: optionText })
-      .check({ force: true });
+    await this.selectRadioButton(optionText);
   }
 
   async submit() {
