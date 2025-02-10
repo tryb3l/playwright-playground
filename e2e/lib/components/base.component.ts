@@ -82,16 +82,16 @@ export abstract class BaseComponent {
       byRole?: Parameters<Page['getByRole']>[0];
       byLabel?: Parameters<Page['getByLabel']>[0];
       byTestId?: Parameters<Page['getByTestId']>[0];
-      byText?: Parameters<Page['getByText']>[0];
+      text?: Parameters<Page['getByText']>[0];
       name?: string;
       exact?: boolean;
     }
   ): Promise<void> {
     let element = this.getElement(selector, options);
 
-    if (options?.byText) {
+    if (options?.text) {
       element = element.filter({
-        hasText: options.exact ? options.byText : new RegExp(options.byText),
+        hasText: options.exact ? options.text : new RegExp(options.text),
       });
     }
 
