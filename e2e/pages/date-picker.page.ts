@@ -2,10 +2,17 @@ import { Page } from '@playwright/test';
 import { DatePickerComponent } from '@components/date-picker/date-picker.component';
 
 class DatePickerPage {
-  private datePickerComponent: DatePickerComponent;
+  private _datePickerComponent: DatePickerComponent | undefined;
+  private page: Page;
 
   constructor(page: Page) {
-    this.datePickerComponent = new DatePickerComponent(page);
+    this.page = page;
+  }
+  private get datePickerComponent(): DatePickerComponent {
+    if (!this._datePickerComponent) {
+      this._datePickerComponent = new DatePickerComponent(this.page);
+    }
+    return this._datePickerComponent
   }
 
   async selectCommonDateFromToday(daysFromToday: number): Promise<void> {
