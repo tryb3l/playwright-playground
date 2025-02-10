@@ -3,16 +3,24 @@ import { InlineFormComponent } from '@components/forms/inline-form.component';
 import { GridFormComponent } from '@components/forms/grid-form.component';
 
 class FormLayoutsPage {
-  private inlineForm: InlineFormComponent;
-  private gridForm: GridFormComponent;
+  private _inlineForm: InlineFormComponent | undefined;
+  private _gridForm: GridFormComponent | undefined;
+  private page: Page
 
-  constructor(
-    page: Page,
-    inlineForm?: InlineFormComponent,
-    gridForm?: GridFormComponent
-  ) {
-    this.inlineForm = inlineForm || new InlineFormComponent(page);
-    this.gridForm = gridForm || new GridFormComponent(page);
+  constructor(page: Page) {
+    this.page = page
+  }
+  private get inlineForm(): InlineFormComponent {
+    if (!this._inlineForm) {
+      this._inlineForm = new InlineFormComponent(this.page);
+    }
+    return this._inlineForm
+  }
+  private get gridForm(): GridFormComponent {
+    if (!this._gridForm) {
+      this._gridForm = new GridFormComponent(this.page)
+    }
+    return this._gridForm
   }
 
   async submitInlineFormWithOptions(
