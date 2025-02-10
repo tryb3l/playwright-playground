@@ -5,23 +5,64 @@ import { ButtonComponent } from '@components/button/button.component';
 import { BaseComponent } from '@components/base.component';
 
 export class ToastrPage extends BaseComponent {
-    private readonly positionSelect: OptionListComponent;
-    private readonly statusSelect: OptionListComponent;
-    private readonly destroyByClickCheckbox: CheckboxComponent;
-    private readonly preventDuplicatesCheckbox: CheckboxComponent;
-    private readonly hasIconCheckbox: CheckboxComponent;
-    private readonly showToastButton: ButtonComponent;
-    private readonly randomToastButton: ButtonComponent;
+    private _positionSelect: OptionListComponent | undefined;
+    private _statusSelect: OptionListComponent | undefined;
+    private _destroyByClickCheckbox: CheckboxComponent | undefined;
+    private _preventDuplicatesCheckbox: CheckboxComponent | undefined;
+    private _hasIconCheckbox: CheckboxComponent | undefined;
+    private _showToastButton: ButtonComponent | undefined;
+    private _randomToastButton: ButtonComponent | undefined;
 
     constructor(page: Page) {
         super(page, 'ToastrPage');
-        this.positionSelect = new OptionListComponent(page, 'nb-select[[(selected)]="position"]');
-        this.statusSelect = new OptionListComponent(page, 'nb-select[[(selected)]="status"]');
-        this.destroyByClickCheckbox = new CheckboxComponent(page, 'nb-checkbox[[(ngModel)]="destroyByClick"]');
-        this.preventDuplicatesCheckbox = new CheckboxComponent(page, 'nb-checkbox[[(ngModel)]="preventDuplicates"]');
-        this.hasIconCheckbox = new CheckboxComponent(page, 'nb-checkbox[[(ngModel)]="hasIcon"]');
-        this.showToastButton = new ButtonComponent(page, 'button:has-text("Show toast")');
-        this.randomToastButton = new ButtonComponent(page, 'button:has-text("Random toast")');
+    }
+
+    private get positionSelect(): OptionListComponent {
+        if (!this._positionSelect) {
+            this._positionSelect = new OptionListComponent(this.page, 'nb-select[[(selected)]="position"]');
+        }
+        return this._positionSelect;
+    }
+
+    private get statusSelect(): OptionListComponent {
+        if (!this._statusSelect) {
+            this._statusSelect = new OptionListComponent(this.page, 'nb-select[[(selected)]="status"]');
+        }
+        return this._statusSelect;
+    }
+
+    private get destroyByClickCheckbox(): CheckboxComponent {
+        if (!this._destroyByClickCheckbox) {
+            this._destroyByClickCheckbox = new CheckboxComponent(this.page, 'nb-checkbox[[(ngModel)]="destroyByClick"]');
+        }
+        return this._destroyByClickCheckbox;
+    }
+
+    private get preventDuplicatesCheckbox(): CheckboxComponent {
+        if (!this._preventDuplicatesCheckbox) {
+            this._preventDuplicatesCheckbox = new CheckboxComponent(this.page, 'nb-checkbox[[(ngModel)]="preventDuplicates"]');
+        }
+        return this._preventDuplicatesCheckbox;
+    }
+
+    private get hasIconCheckbox(): CheckboxComponent {
+        if (!this._hasIconCheckbox) {
+            this._hasIconCheckbox = new CheckboxComponent(this.page, 'nb-checkbox[[(ngModel)]="hasIcon"]');
+        }
+        return this._hasIconCheckbox;
+    }
+    private get showToastButton(): ButtonComponent {
+        if (!this._showToastButton) {
+            this._showToastButton = new ButtonComponent(this.page, 'button:has-text("Show toast")');
+        }
+        return this._showToastButton;
+    }
+
+    private get randomToastButton(): ButtonComponent {
+        if (!this._randomToastButton) {
+            this._randomToastButton = new ButtonComponent(this.page, 'button:has-text("Random toast")');
+        }
+        return this._randomToastButton;
     }
 
     async selectPosition(position: string) {
@@ -37,7 +78,7 @@ export class ToastrPage extends BaseComponent {
     }
 
     async uncheckDestroyByClick() {
-        await this.destroyByClickCheckbox.uncheckByLabel('Hide on click');
+        await this.destroyByClickCheckbox.uncheckByLabel('Hide on click')
     }
 
     async checkPreventDuplicates() {
@@ -57,11 +98,11 @@ export class ToastrPage extends BaseComponent {
     }
 
     async clickShowToastButton() {
-        await this.showToastButton.clickButtonByText('Show toast');
+        await this.showToastButton.clickButtonByText('Show toast'); // Use component
     }
 
     async clickRandomToastButton() {
-        await this.randomToastButton.clickButton('Random toast');
+        await this.randomToastButton.clickButtonByText('Random toast'); //Use component
     }
 
     async setTitle(title: string) {
