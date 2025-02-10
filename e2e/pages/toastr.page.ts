@@ -98,11 +98,11 @@ export class ToastrPage extends BaseComponent {
     }
 
     async clickShowToastButton() {
-        await this.showToastButton.clickButtonByText('Show toast'); // Use component
+        await this.showToastButton.clickButtonByText('Show toast');
     }
 
     async clickRandomToastButton() {
-        await this.randomToastButton.clickButtonByText('Random toast'); //Use component
+        await this.randomToastButton.clickButtonByText('Random toast');
     }
 
     async setTitle(title: string) {
