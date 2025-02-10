@@ -1,9 +1,8 @@
-// forms/base/base.form.component.ts
 import type { Page, Locator } from '@playwright/test';
 import { BaseComponent } from '@components/base.component';
 import { ButtonComponent } from '@components/button/button.component';
 import { CheckboxComponent } from '@components/checkbox/checkbox.component';
-import { RadioButtonComponent } from "@components/radio-button/radio-button.component"; // Import
+import { RadioButtonComponent } from "@components/radio-button/radio-button.component";
 
 export abstract class FormComponent extends BaseComponent {
   protected formLocator: Locator;
@@ -14,19 +13,19 @@ export abstract class FormComponent extends BaseComponent {
   constructor(page: Page, formSelector: string) {
     super(page);
     this.formLocator = page.locator(formSelector);
-    this.context = this.formLocator; // Set form as context
+    this.context = this.formLocator;
   }
 
   protected get buttonComponent(): ButtonComponent {
     if (!this._buttonComponent) {
-      this._buttonComponent = new ButtonComponent(this.context as Page, 'button'); // Use context and type assertion
+      this._buttonComponent = new ButtonComponent(this.context as Page, 'button');
     }
     return this._buttonComponent;
   }
 
   protected get checkboxComponent(): CheckboxComponent {
     if (!this._checkboxComponent) {
-      this._checkboxComponent = new CheckboxComponent(this.context as Page, 'nb-checkbox')// Use context and type assertion
+      this._checkboxComponent = new CheckboxComponent(this.context as Page, 'nb-checkbox')
     }
     return this._checkboxComponent
   }
