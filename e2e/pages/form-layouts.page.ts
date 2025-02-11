@@ -10,12 +10,14 @@ class FormLayoutsPage {
   constructor(page: Page) {
     this.page = page
   }
+
   private get inlineForm(): InlineFormComponent {
     if (!this._inlineForm) {
       this._inlineForm = new InlineFormComponent(this.page);
     }
     return this._inlineForm
   }
+
   private get gridForm(): GridFormComponent {
     if (!this._gridForm) {
       this._gridForm = new GridFormComponent(this.page)

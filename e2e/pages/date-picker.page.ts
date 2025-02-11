@@ -8,6 +8,7 @@ class DatePickerPage {
   constructor(page: Page) {
     this.page = page;
   }
+  
   private get datePickerComponent(): DatePickerComponent {
     if (!this._datePickerComponent) {
       this._datePickerComponent = new DatePickerComponent(this.page);
