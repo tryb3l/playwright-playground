@@ -2,58 +2,57 @@
 
 [![Playwright Tests](https://github.com/tryb3l/playwright-playground/actions/workflows/playwright.yml/badge.svg)](https://github.com/tryb3l/playwright-playground/actions/workflows/playwright.yml)
 
-An end-to-end testing project using [Playwright](https://playwright.dev/) with an Angular application. This project demonstrates modern testing techniques, including the **Page Object Model (POM)**, **component-based architecture**, **Dependency Injection (DI)**, and **Functional Programming**. The application under test is a modified and lightweight version of the [Ngx-Admin](https://github.com/akveo/ngx-admin) Angular 14 application from [Akveo](https://akveo.com/).
+An end-to-end testing project using [Playwright](https://playwright.dev/) with an Angular application. This project demonstrates modern testing techniques—combining the Page Object Model (POM), component-based architecture, Dependency Injection (DI), Functional Programming, and lazy initialization of page objects. The application under test is a modified and lightweight version of the [Ngx-Admin](https://github.com/akveo/ngx-admin) Angular 14 application from [Akveo](https://akveo.com/).
+
+---
 
 ## Table of Contents
 
-- Project Structure
-- Concepts and Design Decisions
-  - Best Practices
-  - Page Object Model (POM)
-  - Component-Based Architecture
-  - Dependency Injection (DI)
-  - Functional Programming
-  - Utilities and Helpers
-  - Logging and Error Handling
-  - Configuration Management
-  - Code Quality
-- Requirements
-- Installation
-  - Prerequisites
-  - Installing Dependencies
-- Running the Application
-- Running Tests
-  - Execute Tests
-  - Debug Tests
-- Continuous Integration
-- License
-- Contact
+- [Project Structure](#1-project-structure)
+- [Concepts and Design Decisions](#2-concepts-and-design-decisions)
+  - [Best Practices](#21-best-practices)
+  - [Page Object Model (POM)](#22-page-object-model-pom)
+  - [Component-Based Architecture](#23-component-based-architecture)
+  - [Dependency Injection (DI)](#24-dependency-injection-di)
+  - [Functional Programming (FP)](#25-functional-programming-fp)
+  - [Lazy Initialization of Page Objects](#26-lazy-initialization-of-page-objects)
+  - [Utilities and Helpers](#27-utilities-and-helpers)
+  - [Logging and Error Handling](#28-logging-and-error-handling)
+  - [Configuration Management](#29-configuration-management)
+  - [Code Quality](#210-code-quality)
+- [Requirements](#3-requirements)
+- [Installation](#4-installation)
+  - [Prerequisites](#41-prerequisites)
+  - [Installing Dependencies](#42-installing-dependencies)
+- [Running the Application](#5-running-the-application)
+- [Running Tests](#6-running-tests)
+  - [Execute Tests](#61-execute-tests)
+  - [Debug Tests](#62-debug-tests)
+- [Continuous Integration](#7-continuous-integration)
+- [License](#8-license)
+- [Contact](#9-contact)
 
-## Project Structure
+---
 
-The repository is organized as follows:
+## 1. Project Structure
 
-```
+```bash
 playwright-playground/
 ├── .github/
 │   └── workflows/
 │       └── playwright.yml
+├── .vscode/
+│   └── settings.json
 ├── app/
+│   ├── src/
 │   ├── angular.json
 │   ├── package.json
-│   ├── src/
-│   │   ├── app/
-│   │   ├── assets/
-│   │   ├── environments/
-│   │   └── ...
 │   ├── LICENSE
 │   └── README.md
 ├── docs/
 │   └── e2e/
 │       └── REQUIREMENTS.md
 ├── e2e/
-│   ├── global-setup.ts
-│   ├── global-teardown.ts
 │   ├── lib/
 │   │   ├── components/
 │   │   │   ├── base/
@@ -83,19 +82,19 @@ playwright-playground/
 │   │   │   └── ...
 │   │   └── ...
 │   ├── pages/
-│   │   ├── page-manager.ts
 │   │   ├── form-layouts.page.ts
+│   │   ├── toastr.page.ts
 │   │   └── ...
 │   ├── tests/
 │   │   ├── base/
 │   │   ├── forms/
+│   │   ├── toastr.test.ts
 │   │   └── ...
+│   ├── global-setup.ts
+│   ├── global-teardown.ts
 │   ├── playwright.config.ts
 │   ├── LICENSE
 │   └── README.md
-├── docs/
-│   └── e2e/
-│       └── REQUIREMENTS.md
 ├── .env.dev
 ├── .env.staging
 ├── package.json
@@ -103,63 +102,38 @@ playwright-playground/
 └── README.md
 ```
 
-- **`app/`**: Contains the Angular application under test.
-  - **`src/`**: Source code of the Angular application.
-  - **`package.json`**: Dependencies and scripts for the Angular application.
-- **`e2e/`**: Contains end-to-end tests written using Playwright.
-  - **`lib/`**: Base components, fixtures, utilities, and factories for tests.
-    - **`components/`**: Reusable UI components for testing.
-    - **`fixtures/`**: Custom test fixtures and enums.
-    - **`utils/`**: Utility functions and helpers.
-    - **`factories/`**: Data factories for generating test data.
-  - **`pages/`**: Page Object Models (POMs) representing application pages.
-  - **`tests/`**: Test suites and test cases.
-  - **`global-setup.ts`** and **`global-teardown.ts`**: Scripts to run before and after the test suite.
-  - **`playwright.config.ts`**: Configuration file for Playwright.
-- **`docs/`**: Documentation and requirements.
-  - **`REQUIREMENTS.md`**: Detailed project requirements and expectations.
-- **`.github/workflows/`**: GitHub Actions workflow files.
-  - **`playwright.yml`**: Workflow to run Playwright tests on pushes and pull requests.
-- **`package.json`**: Dependencies and scripts for Playwright tests.
-- **`tsconfig.json`**: TypeScript configuration.
-- **`.env.*`**: Environment configuration files.
-- **`README.md`**: Project documentation.
+---
 
-## Concepts and Design Decisions
+## 2. Concepts and Design Decisions
 
-### Best Practices
+### 2.1 Best Practices
 
 This project adheres to industry-standard best practices to ensure high code quality, maintainability, and scalability:
 
-- **DRY (Don't Repeat Yourself)**: Eliminates code duplication by abstracting reusable components and functions.
-- **SOLID Principles**:
-  - **Single Responsibility Principle**: Each class or module has a single, well-defined responsibility.
-  - **Open/Closed Principle**: Modules are open for extension but closed for modification.
-  - **Liskov Substitution Principle**: Subtypes must be substitutable for their base types.
-  - **Interface Segregation Principle**: Clients should not be forced to depend on interfaces they do not use.
-  - **Dependency Inversion Principle**: Depend on abstractions, not concretions.
-- **Object-Oriented Programming (OOP)**: Utilizes classes and objects to model real-world entities, promoting encapsulation and inheritance.
-- **Functional Programming (FP)**: Incorporates functional programming concepts for cleaner and more efficient code.
-- **Modular Design**: Breaks down the application into smaller, manageable modules.
-- **Separation of Concerns**: Separates different aspects of the application logic, such as data handling, UI interaction, and test execution.
-- **Clean Code Practices**: Emphasizes readability and simplicity, making the codebase easy to understand and maintain.
-- **TypeScript for Static Typing**: Enhances code reliability through static type checking, reducing runtime errors.
+- **DRY (Don’t Repeat Yourself)**
+  Eliminates code duplication by abstracting reusable components and functions.
+- **SOLID Principles**
+  - Single Responsibility Principle
+  - Open/Closed Principle
+  - Liskov Substitution Principle
+  - Interface Segregation Principle
+  - Dependency Inversion Principle
+- **Object-Oriented Programming (OOP)**
+  Promotes encapsulation and inheritance.
+- **Functional Programming (FP)**
+  Encourages pure functions and higher-order functions where appropriate.
+- **Modular Design & Separation of Concerns**
+  Breaks down large functionalities into more manageable, testable units.
+- **Clean Code Practices & Static Typing**
+  Readable code with enforced style rules (ESLint, Prettier) and TypeScript for safety.
 
-### Page Object Model (POM)
+### 2.2 Page Object Model (POM)
 
-The project utilizes the **Page Object Model** pattern to enhance test maintenance and scalability. Each page or component of the application is represented by a class containing elements and methods that interact with the UI.
+Each page or major feature is encapsulated in a dedicated class, centralizing all selectors and interactions. This also reduces duplication across tests.
 
-**Benefits**:
-
-- **Maintainability**: Changes to the UI require updates only in the page object classes.
-- **Reusability**: Common actions can be reused across multiple tests.
-- **Readability**: Tests are more readable and resemble user interactions.
-
-**Example**:
+Example: form-layouts.page.ts
 
 ```typescript
-// e2e/pages/form-layouts.page.ts
-
 import { Page } from '@playwright/test';
 import { InlineFormComponent } from '@components/forms/inline-form.component';
 import { GridFormComponent } from '@components/forms/grid-form.component';
@@ -168,14 +142,9 @@ class FormLayoutsPage {
   private inlineForm: InlineFormComponent;
   private gridForm: GridFormComponent;
 
-  constructor(
-    private page: Page,
-    inlineForm?: InlineFormComponent,
-    gridForm?: GridFormComponent
-  ) {
-    // Use provided instances or create new ones
-    this.inlineForm = inlineForm || new InlineFormComponent(page);
-    this.gridForm = gridForm || new GridFormComponent(page);
+  constructor(private page: Page) {
+    this.inlineForm = new InlineFormComponent(page);
+    this.gridForm = new GridFormComponent(page);
   }
 
   async submitInlineFormWithOptions(
@@ -185,36 +154,31 @@ class FormLayoutsPage {
   ) {
     await this.inlineForm.fillName(name);
     await this.inlineForm.fillEmail(email);
+
     if (rememberMe) {
       await this.inlineForm.checkRememberMe();
     }
     await this.inlineForm.submit();
   }
 
-  // ...
+  async submitGridFormDetails(/*...*/) {
+    // Implementation using GridFormComponent
+  }
 }
 
 export { FormLayoutsPage };
 ```
 
-### Component-Based Architecture
+### 2.3 Component-Based Architecture
 
-Components represent reusable parts of the UI, mirroring frontend frameworks like Angular. This approach promotes reusability and modularity.
+Inspired by frontend frameworks like Angular, the test code is oriented around reusable components. Each component class interacts with specific UI sections that can appear on multiple pages.
 
-**Benefits**:
-
-- **Isolation**: Components can be developed and tested independently.
-- **Reusability**: Shared components reduce duplication.
-- **Abstraction**: Encapsulates complex interactions within components.
-
-**Example**:
+**Example: inline-form.component.ts**
 
 ```typescript
-// e2e/lib/components/forms/inline-form.component.ts
-
 import { Page } from '@playwright/test';
 
-class InlineFormComponent {
+export class InlineFormComponent {
   constructor(private page: Page) {}
 
   async fillName(name: string) {
@@ -232,143 +196,50 @@ class InlineFormComponent {
   async submit() {
     await this.page.click('button[type="submit"]');
   }
-
-  // ...
 }
-
-export { InlineFormComponent };
 ```
 
-### Dependency Injection (DI)
+### 2.4 Dependency Injection (DI)
 
-The project leverages **Dependency Injection (DI)** to promote loose coupling and enhance modularity and testability.
+Dependencies are provided through constructors or optional injection, making components modular and easily testable. This approach also aligns with Angular’s DI model.
 
-**Benefits**:
-
-- **Modularity**: Components and classes are decoupled, making it easier to modify or replace them without affecting other parts of the system.
-- **Testability**: Dependencies can be easily mocked or stubbed during testing, allowing for isolated unit tests.
-- **Maintainability**: Reduces interdependencies between components, simplifying maintenance and updates.
-
-**Implementation**:
-
-- **Constructor Injection**: Classes receive their dependencies through their constructors, promoting explicit dependency management.
-
-**Example**:
+**Example: toastr.page.ts**
 
 ```typescript
-// e2e/pages/form-layouts.page.ts
-
 import { Page } from '@playwright/test';
-import { InlineFormComponent } from '@components/forms/inline-form.component';
-import { GridFormComponent } from '@components/forms/grid-form.component';
+import { BaseComponent } from '@components/base.component';
+import { OptionListComponent } from '@components/list/option-list.component';
 
-class FormLayoutsPage {
-  private inlineForm: InlineFormComponent;
-  private gridForm: GridFormComponent;
+export class ToastrPage extends BaseComponent {
+  private _positionSelect?: OptionListComponent;
 
-  constructor(
-    private page: Page,
-    inlineForm?: InlineFormComponent,
-    gridForm?: GridFormComponent
-  ) {
-    this.inlineForm = inlineForm || new InlineFormComponent(page);
-    this.gridForm = gridForm || new GridFormComponent(page);
+  constructor(page: Page) {
+    super(page, 'ToastrPage');
   }
 
-  // ...
-}
+  private get positionSelect(): OptionListComponent {
+    if (!this._positionSelect) {
+      // Lazy instantiation
+      this._positionSelect = new OptionListComponent(
+        this.page,
+        'nb-select[[(selected)]="position"]'
+      );
+    }
+    return this._positionSelect;
+  }
 
-export { FormLayoutsPage };
+  async selectPosition(position: string) {
+    await this.positionSelect.selectOption(position);
+  }
+}
 ```
 
-In this example:
+### 2.5 Functional Programming (FP)
 
-- The `FormLayoutsPage` depends on `InlineFormComponent` and `GridFormComponent`.
-- Dependencies are injected via the constructor, allowing for flexibility and easier testing.
-- During testing, mock components can be provided to the `FormLayoutsPage` for isolated testing.
-
-### Functional Programming
-
-The project embraces **Functional Programming (FP)** principles to enhance code modularity, readability, and maintainability.
-
-**Key Concepts Used**:
-
-- **Higher-Order Functions**: Functions that take other functions as arguments or return them.
-- **Pure Functions**: Functions without side effects that return the same output given the same input.
-- **Immutability**: Data is not modified after it's created, promoting predictability.
-- **Function Composition**: Building complex functionality by combining simpler functions.
-
-**Implementation Examples**:
-
-1. **Higher-Order Functions in Utilities**
-
-   The `waitForCondition` function in `wait-util.ts` is a prime example.
-
-   ```typescript
-   // e2e/lib/utils/wait-util.ts
-
-   export async function waitForCondition(
-     conditionFn: () => Promise<boolean>,
-     timeout = 5000,
-     interval = 100
-   ): Promise<void> {
-     const startTime = Date.now();
-     while (Date.now() - startTime < timeout) {
-       if (await conditionFn()) {
-         return;
-       }
-       await new Promise((resolve) => setTimeout(resolve, interval));
-     }
-     throw new Error('Condition not met within timeout');
-   }
-   ```
-
-   - **Higher-Order Function**: Accepts `conditionFn` as a parameter.
-   - **Asynchronous Control Flow**: Uses promises and async/await.
-   - **Immutability**: Variables like `startTime` are not modified after initialization.
-
-2. **Array Operations with Functional Methods**
-
-   ```typescript
-   const activeUsers = users
-     .filter((user) => user.isActive)
-     .map((user) => ({ id: user.id, name: user.name }));
-   ```
-
-   - **Pure Functions**: `filter` and `map` callbacks have no side effects.
-   - **Immutability**: Original array is not mutated.
-
-3. **Avoiding Side Effects**
-
-   ```typescript
-   function calculateTotal(items: number[]): number {
-     return items.reduce((sum, item) => sum + item, 0);
-   }
-   ```
-
-   - Depends solely on input parameters.
-   - No external state is modified.
-
-**Benefits**:
-
-- **Modularity**: Functions are self-contained and reusable.
-- **Predictability**: Pure functions make code behavior predictable.
-- **Testability**: Easier to test functions in isolation.
-- **Concurrency**: Immutability reduces issues with shared state.
-
-### Utilities and Helpers
-
-The project includes utility functions and helpers to handle common tasks, enhancing code reuse and maintainability.
-
-- **Custom Test Fixtures**: Extended Playwright test fixtures with additional options and custom initialization.
-- **Utility Functions**: Reusable functions like `waitForCondition` for polling conditions.
-- **Configuration Helpers**: Functions to create and manage Playwright configurations dynamically.
-
-**Example**:
+Where beneficial, the project uses FP concepts such as higher-order functions and pure utility methods. For example, wait-util.ts uses a higher-order function signature for condition checking, and array operations often rely on immutable transformations like `map`, `filter`, and `reduce`.
 
 ```typescript
 // e2e/lib/utils/wait-util.ts
-
 export async function waitForCondition(
   conditionFn: () => Promise<boolean>,
   timeout = 5000,
@@ -376,181 +247,138 @@ export async function waitForCondition(
 ): Promise<void> {
   const startTime = Date.now();
   while (Date.now() - startTime < timeout) {
-    if (await conditionFn()) {
-      return;
-    }
+    if (await conditionFn()) return;
     await new Promise((resolve) => setTimeout(resolve, interval));
   }
   throw new Error('Condition not met within timeout');
 }
 ```
 
-### Logging and Error Handling
+### 2.6 Lazy Initialization of Page Objects
 
-Implemented comprehensive logging and error handling to facilitate debugging and improve test reliability.
+Instead of creating all sub-components in the constructor, the project employs lazy initialization. This defers the creation of each component until it’s first needed, leading to cleaner code and better performance if certain components aren’t used.
 
-- **Structured Logging with Pino**: Uses `pino` and `pino-pretty` for structured and human-readable logs.
-- **Custom Decorators**: Utilizes decorators like `ActionLogger` and `ErrorHandler` to wrap methods with logging and error handling logic.
-- **Console Error Tracking**: Tracks and reports console errors during tests to catch client-side issues.
-
-**Example**:
+**Example** (continued from above toastr.page.ts):
 
 ```typescript
-// e2e/lib/utils/logger.ts
-
-import pino from 'pino';
-
-export const logger = pino({
-  level: 'info',
-  transport: {
-    target: 'pino-pretty',
-    options: {
-      colorize: true,
-      ignore: 'pid,hostname',
-      translateTime: true,
-    },
-  },
-});
-```
-
-### Configuration Management
-
-Centralized configuration ensures consistency across environments and simplifies management.
-
-- **Centralized Configurations**: All configurations are managed in `playwright.config.ts` and helper functions.
-- **Environment Variables**: Uses `.env` files and the `dotenv` package to manage environment-specific settings.
-- **Config Helpers**: Functions to generate configurations dynamically based on the environment.
-
-**Example**:
-
-```typescript
-// e2e/lib/utils/config-helpers.ts
-
-import { devices, PlaywrightTestConfig } from '@playwright/test';
-
-const createBaseConfig = (isCI: boolean): Partial<PlaywrightTestConfig> => ({
-  timeout: 120_000,
-  retries: isCI ? 2 : 0,
-  use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:4200',
-    // ...
-  },
-});
-
-export { createBaseConfig };
-```
-
-### Code Quality
-
-Maintains high code quality through consistent coding styles and automated linting and formatting tools.
-
-- **TypeScript Strict Mode**: Enables strict mode for better type checking.
-- **ESLint with Prettier**: Enforces code style and formatting rules.
-- **Path Aliases**: Simplifies imports and enhances readability.
-
-**Configuration**:
-
-```jsonc
-// tsconfig.json
-
-{
-  "compilerOptions": {
-    "strict": true,
-    "baseUrl": ".",
-    "paths": {
-      "@pages/*": ["e2e/pages/*"],
-      "@components/*": ["e2e/lib/components/*"],
-      "@utils/*": ["e2e/lib/utils/*"],
-      "@fixtures/*": ["e2e/lib/fixtures/*"],
-    },
-    // ...
-  },
-  // ...
+private get positionSelect(): OptionListComponent {
+  if (!this._positionSelect) {
+	this._positionSelect = new OptionListComponent(this.page, 'nb-select[[(selected)]="position"]');
+  }
+  return this._positionSelect;
 }
 ```
 
-## Requirements
+### 2.7 Utilities and Helpers
 
-For detailed project requirements and expectations, refer to the `REQUIREMENTS.md` file located in the `docs/e2e/` directory. This document outlines the best practices, general requirements, specific requirements, and optional enhancements considered during the development of this project.
+Shared functionality resides in reusable utility modules under utils. Examples include:
 
-**Highlights**:
+- **wait-util.ts**: Polls a condition function until it becomes `true` or times out.
+- **config-helpers.ts**: Dynamically manages Playwright configurations.
+- **console-errors-tracker.ts**: Captures and logs browser console errors to help identify front-end issues.
 
-- **Readability and Maintainability**: Emphasis on clean code, consistent naming conventions, and comprehensive documentation.
-- **Project Structure Clarity**: Logical organization and modular design for ease of navigation and scalability.
-- **Scalability**: Design choices that support extensibility and adaptability to new requirements.
-- **Automated Testing**: Integration with continuous integration pipelines for automated test execution.
+### 2.8 Logging and Error Handling
 
-## Installation
+- Uses logger.ts for structured logging, typically via `pino`.
+- Tracks console errors with console-errors-tracker.ts.
+- Employs decorators (e.g., `ActionLogger`, `ErrorHandler`) around certain critical methods to capture crucial debugging information if something fails.
 
-### Prerequisites
+### 2.9 Configuration Management
 
-- **Node.js**: Ensure you have Node.js version **22** or higher installed.
-- **npm**: Node.js package manager.
+- **playwright.config.ts** centralizes all test-related configurations.
+- **`.env.*`** files store environment-specific variables.
+- The project supports multiple environments (e.g., dev, staging), facilitating integration testing and deployment pipelines.
 
-### Installing Dependencies
+### 2.10 Code Quality
 
-Clone the repository and install the dependencies:
+- **TypeScript Strict Mode**: Enhanced type checking to catch errors early.
+- **Linting & Formatting**: ESLint and Prettier ensure consistent style.
+- **Path Aliases**: Simplify imports (e.g., `@components/...`, `@pages/...`) for readability.
+
+---
+
+## 3. Requirements
+
+Refer to REQUIREMENTS.md for details on project goals, acceptance criteria, and overall expectations.
+
+Key Requirements:
+
+- Clear architectural design to accommodate new features.
+- Demonstrations of advanced testing patterns (lazy initialization, DI, FP).
+- Extensive test coverage on critical functionalities (e.g., form submissions, date pickers, toasts).
+
+---
+
+## 4. Installation
+
+### 4.1 Prerequisites
+
+- Node.js v22 or higher
+- npm
+
+### 4.2 Installing Dependencies
+
+Clone the repository and install dependencies for both the root and Angular app:
 
 ```bash
 git clone https://github.com/tryb3l/playwright-playground.git
 cd playwright-playground
 npm install
-```
 
-Install dependencies for the Angular application:
-
-```bash
 cd app
 npm install
 ```
 
-## Running the Application
+---
 
-Start the Angular application:
+## 5. Running the Application
+
+From the app folder:
 
 ```bash
-cd app
 npm start
 ```
 
-The application should now be running at `http://localhost:4200`.
+The app listens on [http://localhost:4200](http://localhost:4200).
 
-## Running Tests
+---
 
-### Execute Tests
+## 6. Running Tests
 
-Run the Playwright end-to-end tests:
+### 6.1 Execute Tests
 
 ```bash
 npm run test:e2e
 ```
 
-This command will execute all tests in the `e2e/tests` directory.
+This runs all Playwright tests found in tests.
 
-### Debug Tests
-
-Run tests in debug mode:
+### 6.2 Debug Tests
 
 ```bash
 npm run test:e2e:debug
 ```
 
-This will open the Playwright Inspector, allowing you to step through tests interactively.
+Launches the Playwright Inspector, allowing interactive debugging (step-by-step execution and DOM inspection).
 
-## Continuous Integration
+---
 
-The project is configured to run tests automatically using GitHub Actions. The workflow is defined in `.github/workflows/playwright.yml`.
+## 7. Continuous Integration
 
-**Features**:
+GitHub Actions automatically triggers Playwright tests on each push and pull request. Refer to playwright.yml for details:
 
-- **Automated Testing**: Tests run on every push and pull request.
-- **CI Environments**: Supports different environments specified in `.env` files.
-- **Reporting**: Generates test reports accessible via GitHub Actions.
+- **Branch-specific builds** (e.g., dev, main)
+- **Environment-based test suites**
+- **Failure alerts** via GitHub
 
-## License
+---
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+## 8. License
 
-## Contact
+This project is licensed under the MIT License. Refer to the LICENSE file for details.
 
-For questions or collaboration, please contact [tryb3l](https://github.com/tryb3l).
+---
+
+## 9. Contact
+
+This test automation project is maintained by [tryb3l](https://github.com/tryb3l). For any inquiries, suggestions, or potential collaboration, feel free to reach out via GitHub issues.
