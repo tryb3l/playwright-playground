@@ -1,17 +1,25 @@
-import { Page } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 import { BaseComponent } from '@components/base.component';
 
 class DatePickerComponent extends BaseComponent {
   private readonly calendarSelector = 'nb-calendar';
   private readonly calendarViewModeSelector = 'nb-calendar-view-mode';
   private readonly navChevronSelector = 'nb-calendar-pageable-navigation [data-name="chevron-right"]';
-  private readonly dayCellSelector = '.day-cell.ng-star-inserted';
+
+  private readonly commonDayCellSelector = 'nb-calendar-day-cell.day-cell.ng-star-inserted:not(.bounding-month)';
+
+  private readonly rangeDayCellSelector = 'nb-calendar-range-day-cell.day-cell.ng-star-inserted';
 
   constructor(page: Page) {
     super(page, 'DatePickerComponent');
   }
 
-  private async selectDateInCalendar(daysFromToday: number): Promise<string> {
+  //TODO: Rethink the implementation
+
+  private async selectDateInCalendar(
+    daysFromToday: number,
+    isRangePicker: boolean = false
+  ): Promise<string> {
     const date = new Date();
     date.setDate(date.getDate() + daysFromToday);
 
@@ -28,14 +36,15 @@ class DatePickerComponent extends BaseComponent {
       calendarMonthYear = await this.getText(this.calendarViewModeSelector);
     }
 
-    await this.click(this.dayCellSelector, { text: expectedDay, exact: true });
+    const dayCellSelector = isRangePicker ? this.rangeDayCellSelector : this.commonDayCellSelector;
+    await this.click(dayCellSelector, { text: expectedDay, exact: true });
     return dateToAssert;
   }
 
   async selectCommonDatepickerDateFromToday(daysFromToday: number): Promise<void> {
     const calendarInputField = this.getByPlaceholder('Form Picker');
     await calendarInputField.click();
-    await this.selectDateInCalendar(daysFromToday);
+    await this.selectDateInCalendar(daysFromToday, false);
   }
 
   async selectDatePickerRangeFromToday(
@@ -45,8 +54,8 @@ class DatePickerComponent extends BaseComponent {
     const calendarInputField = this.getByPlaceholder('Range Picker');
     await calendarInputField.click();
 
-    const dateFrom = await this.selectDateInCalendar(daysFromToday);
-    const dateTo = await this.selectDateInCalendar(daysAfter);
+    const dateFrom = await this.selectDateInCalendar(daysFromToday, true);
+    const dateTo = await this.selectDateInCalendar(daysAfter, true);
     return { dateFrom, dateTo };
   }
 

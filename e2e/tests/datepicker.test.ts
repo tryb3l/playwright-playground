@@ -41,8 +41,8 @@ test.describe('Datepicker Tests', () => {
     }) => {
         // Arrange
         const datePickerAssertions = assertions.createDatePickerAssertions();
-        const daysFromToday = 2;
-        const daysAfter = 5;
+        const daysFromToday = 14;
+        const daysAfter = 15;
 
         // Act
         await pageObject.selectDateRangeFromToday(daysFromToday, daysAfter);
