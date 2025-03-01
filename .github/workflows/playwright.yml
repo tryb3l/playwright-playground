@@ -28,7 +28,7 @@ jobs:
         run: npm ci
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install --force --with-deps
 
       - name: Run Playwright Tests
         run: node --run test:e2e
