@@ -36,7 +36,9 @@ export abstract class BaseComponent {
     return this.context.getByPlaceholder(placeholder, options);
   }
 
-  protected getByTestId(testId: Parameters<Page['getByTestId']>[0]): Locator {
+  protected getByTestId(
+    testId: Parameters<Page['getByTestId']>[0]
+  ): Locator {
     this.logger.info('getByTestId', { testId });
     return this.context.getByTestId(testId);
   }
@@ -82,9 +84,10 @@ export abstract class BaseComponent {
       byRole?: Parameters<Page['getByRole']>[0];
       byLabel?: Parameters<Page['getByLabel']>[0];
       byTestId?: Parameters<Page['getByTestId']>[0];
-      text?: Parameters<Page['getByText']>[0];
+      text?: string;
       name?: string;
       exact?: boolean;
+      useFirst?: boolean;
     }
   ): Promise<void> {
     let element = this.getElement(selector, options);
@@ -95,7 +98,11 @@ export abstract class BaseComponent {
       });
     }
 
-    await element.click();
+    if (options?.useFirst === true) {
+      await element.first().click();
+    } else {
+      await element.click();
+    }
   }
 
   async fill(
