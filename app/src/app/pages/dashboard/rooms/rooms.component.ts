@@ -21,7 +21,7 @@ import { map } from 'rxjs/operators';
 export class RoomsComponent implements OnDestroy {
 
   @HostBinding('class.expanded')
-  private expanded: boolean;
+  expanded: boolean;
   private selected: number;
 
   isDarkTheme: boolean;
