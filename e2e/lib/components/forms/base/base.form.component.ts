@@ -2,7 +2,7 @@ import type { Page, Locator } from '@playwright/test';
 import { BaseComponent } from '@components/base.component';
 import { ButtonComponent } from '@components/button/button.component';
 import { CheckboxComponent } from '@components/checkbox/checkbox.component';
-import { RadioButtonComponent } from "@components/radio-button/radio-button.component";
+import { RadioButtonComponent } from '@components/radio-button/radio-button.component';
 
 export abstract class FormComponent extends BaseComponent {
   protected formLocator: Locator;
@@ -18,21 +18,27 @@ export abstract class FormComponent extends BaseComponent {
 
   protected get buttonComponent(): ButtonComponent {
     if (!this._buttonComponent) {
-      this._buttonComponent = new ButtonComponent(this.context as Page, 'button');
+      this._buttonComponent = new ButtonComponent(this.formLocator, 'button');
     }
     return this._buttonComponent;
   }
 
   protected get checkboxComponent(): CheckboxComponent {
     if (!this._checkboxComponent) {
-      this._checkboxComponent = new CheckboxComponent(this.context as Page, 'nb-checkbox')
+      this._checkboxComponent = new CheckboxComponent(
+        this.formLocator,
+        'nb-checkbox'
+      );
     }
-    return this._checkboxComponent
+    return this._checkboxComponent;
   }
 
   protected get radioButtonComponent(): RadioButtonComponent {
     if (!this._radioButtonComponent) {
-      this._radioButtonComponent = new RadioButtonComponent(this.context as Page, 'input[type="radio"]');
+      this._radioButtonComponent = new RadioButtonComponent(
+        this.context,
+        'input[type="radio"]'
+      );
     }
     return this._radioButtonComponent;
   }
@@ -58,10 +64,10 @@ export abstract class FormComponent extends BaseComponent {
   }
 
   async checkCheckboxByRole(role: 'checkbox', name: string) {
-    await this.checkboxComponent.checkByRole(role, name)
+    await this.checkboxComponent.checkByRole(role, name);
   }
 
   async selectRadioButton(name: string) {
-    await this.radioButtonComponent.selectByRole('radio', name)
+    await this.radioButtonComponent.selectByRole('radio', name);
   }
 }

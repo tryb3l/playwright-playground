@@ -17,7 +17,6 @@ test.describe('Form Layouts Tests', () => {
     consoleErrorsTracker,
     assertions,
   }) => {
-
     // Arrange
     const formAssertions = assertions.createFormAssertions();
 
@@ -39,14 +38,17 @@ test.describe('Form Layouts Tests', () => {
   test('Submit grid form', async ({
     pageObject,
     consoleErrorsTracker,
-    assertions
+    assertions,
   }) => {
-
     // Arrange
     const formAssertions = assertions.createFormAssertions();
 
     // Act
-    await pageObject.submitGridFormWithCredentials('jane.doe@me.com', 'st0ngp@$$w0rD', 'Option 2');
+    await pageObject.submitGridFormWithCredentials(
+      'jane.doe@me.com',
+      'st0ngp@$$w0rD',
+      'Option 2'
+    );
 
     // Assert
     await formAssertions.assertFormSubmitted('form.form-grid');

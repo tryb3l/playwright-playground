@@ -1,15 +1,12 @@
 import type { Page } from '@playwright/test';
 import { FormComponent } from '@components/forms/base/base.form.component';
-import { ButtonComponent } from '../components/button/button.component';
 import { Logger } from '@utils/logger';
 
 export class Authentication extends FormComponent {
   protected logger: Logger;
-  protected buttonComponent: ButtonComponent;
 
   constructor(page: Page) {
     super(page, 'form.ng-pristine.ng-invalid');
-    this.buttonComponent = new ButtonComponent(page, 'button');
     this.logger = new Logger('Authentication');
   }
 

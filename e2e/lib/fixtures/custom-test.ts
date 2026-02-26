@@ -1,7 +1,8 @@
-import { test as base, expect } from '@fixtures/base-fixtures';
+import { expect, test as base } from '@fixtures/base-fixtures';
 import { PageManager } from '@pages/page-manager';
 import { startPageClassMap, StartPageKeys } from '@fixtures/page-mapping';
 import { ConsoleErrorsTracker } from '@utils/console-errors-tracker';
+import { NetworkErrorsTracker } from '@utils/network-errors-tracker';
 import { AssertionsFactory } from '@utils/assertions/assertion-factory';
 
 type PageObjectOf<T extends StartPageKeys> = InstanceType<
@@ -12,11 +13,12 @@ interface CustomFixtures<T extends StartPageKeys> {
   pageManager: PageManager;
   pageObject: PageObjectOf<T>;
   consoleErrorsTracker: ConsoleErrorsTracker;
+  networkErrorsTracker: NetworkErrorsTracker;
   assertions: AssertionsFactory;
 }
 
 function createTestForStartPage<T extends StartPageKeys>(startPage: T) {
-  const test = base.extend<CustomFixtures<T>>({
+  return base.extend<CustomFixtures<T>>({
     pageManager: async ({ page }, use) => {
       const pageManager = new PageManager(page);
       await use(pageManager);
@@ -32,8 +34,6 @@ function createTestForStartPage<T extends StartPageKeys>(startPage: T) {
       await use(assertions);
     },
   });
-
-  return test;
 }
 
 export { createTestForStartPage };

@@ -36,8 +36,8 @@ const createProjects = () => [
 ];
 
 const createWebServerConfig = (isCI: boolean) => ({
-  command: 'cd app && node --run start',
-  url: process.env.BASE_URL || 'http://localhost:4200',
+  command: 'cd app && npm run start',
+  wait: { stdout: /Compiled successfully/i },
   timeout: 180 * 1000,
   reuseExistingServer: !isCI,
 });
