@@ -4,9 +4,10 @@ import { BaseComponent } from '@components/base.component';
 export class CheckboxComponent extends BaseComponent {
   protected checkboxLocator: Locator;
 
-  constructor(page: Page, checkboxSelector: string) {
-    super(page);
-    this.checkboxLocator = page.locator(checkboxSelector);
+  constructor(root: Page| Locator, selector: string)
+  {
+    super(root, selector);
+    this.checkboxLocator = root.locator(selector);
   }
 
   private getCheckbox(

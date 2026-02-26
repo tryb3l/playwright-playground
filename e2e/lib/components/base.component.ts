@@ -6,10 +6,22 @@ export abstract class BaseComponent {
   protected logger: Logger;
   protected context: Page | Locator;
 
-  constructor(page: Page, componentName?: string) {
-    this.page = page;
-    this.context = page;
+  constructor(target: Page | Locator, componentName?: string) {
+    if (BaseComponent.isLocator(target)) {
+      this.page = target.page();
+      this.context = target;
+    } else {
+      this.page = target;
+      this.context = target;
+    }
     this.logger = new Logger(componentName || this.constructor.name);
+  }
+
+  private static isLocator(target: Page | Locator): target is Locator {
+    return (
+      typeof target !== 'undefined' &&
+      typeof (target as Locator).page === 'function'
+    );
   }
 
   protected getByRole(
@@ -36,9 +48,7 @@ export abstract class BaseComponent {
     return this.context.getByPlaceholder(placeholder, options);
   }
 
-  protected getByTestId(
-    testId: Parameters<Page['getByTestId']>[0]
-  ): Locator {
+  protected getByTestId(testId: Parameters<Page['getByTestId']>[0]): Locator {
     this.logger.info('getByTestId', { testId });
     return this.context.getByTestId(testId);
   }

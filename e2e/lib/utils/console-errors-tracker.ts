@@ -1,37 +1,108 @@
-import { Page } from '@playwright/test';
+import { Page, ConsoleMessage } from '@playwright/test';
+
+type ConsoleErrorEntry = {
+  type: 'console' | 'pageerror';
+  text: string;
+  url?: string;
+  stack?: string;
+  timestamp: number;
+};
 
 class ConsoleErrorsTracker {
-  private errors: string[] = [];
-  private ignorePatterns: string[];
+  private errors: ConsoleErrorEntry[] = [];
+  private readonly ignorePatterns: readonly string[];
+  private readonly maxErrors: number;
 
-  constructor(private page: Page, ignorePatterns: string[] = []) {
+  private consoleHandler: ((message: ConsoleMessage) => void) | null = null;
+  private pageErrorHandler: ((error: Error) => void) | null = null;
+  private started = false;
+
+  constructor(
+    private readonly page: Page,
+    ignorePatterns: string[] = [],
+    options?: { maxErrors?: number }
+  ) {
     this.ignorePatterns = ignorePatterns;
+    this.maxErrors = options?.maxErrors ?? 50;
   }
 
   startTracking() {
-    this.page.on('console', (message) => {
-      if (message.type() === 'error') {
-        const text = message.text();
+    if (this.started) return;
+    this.started = true;
 
-        // Check if the error should be ignored
-        const shouldIgnore = this.ignorePatterns.some((pattern) =>
-          text.includes(pattern)
-        );
+    this.consoleHandler = (message: ConsoleMessage) => {
+      if (message.type() !== 'error') return;
 
-        if (!shouldIgnore) {
-          this.errors.push(text);
-        }
-      }
-    });
-  }
+      const text = message.text();
+      if (this.shouldIgnore(text)) return;
 
-  getErrors() {
-    return this.errors;
+      this.push({
+        type: 'console',
+        text,
+        url: message.location().url || undefined,
+        timestamp: Date.now(),
+      });
+    };
+
+    this.pageErrorHandler = (error: Error) => {
+      const text = error.message || String(error);
+      if (this.shouldIgnore(text)) return;
+
+      this.push({
+        type: 'pageerror',
+        text,
+        stack: error.stack,
+        timestamp: Date.now(),
+      });
+    };
+
+    this.page.on('console', this.consoleHandler);
+    this.page.on('pageerror', this.pageErrorHandler);
   }
 
   stopTracking() {
-    this.page.off('console', () => {});
+    if (!this.started) return;
+    this.started = false;
+
+    if (this.consoleHandler) {
+      this.page.off('console', this.consoleHandler);
+      this.consoleHandler = null;
+    }
+    if (this.pageErrorHandler) {
+      this.page.off('pageerror', this.pageErrorHandler);
+      this.pageErrorHandler = null;
+    }
+  }
+
+  getErrors(): readonly ConsoleErrorEntry[] {
+    return this.errors;
+  }
+
+  getErrorsAsText(): string {
+    return this.errors
+      .map((e) => {
+        const where = e.url ? ` (${e.url})` : '';
+        const stack = e.stack ? `\n${e.stack}` : '';
+        return `[${new Date(e.timestamp).toISOString()}] ${e.type}: ${e.text}${where}${stack}`;
+      })
+      .join('\n\n');
+  }
+
+  clearErrors() {
+    this.errors = [];
+  }
+
+  private shouldIgnore(text: string): boolean {
+    return this.ignorePatterns.some((pattern) => text.includes(pattern));
+  }
+
+  private push(entry: ConsoleErrorEntry) {
+    this.errors.push(entry);
+    if (this.errors.length > this.maxErrors) {
+      this.errors.shift();
+    }
   }
 }
 
 export { ConsoleErrorsTracker };
+export type { ConsoleErrorEntry };

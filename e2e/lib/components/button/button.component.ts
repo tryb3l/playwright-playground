@@ -4,9 +4,10 @@ import { BaseComponent } from '@components/base.component';
 export class ButtonComponent extends BaseComponent {
   protected buttonLocator: Locator;
 
-  constructor(page: Page, selector: string) {
-    super(page);
-    this.buttonLocator = page.locator(selector);
+  constructor(root: Page| Locator, selector: string)
+  {
+    super(root, selector);
+    this.buttonLocator = root.locator(selector);
   }
 
   async clickButtonByRole(role: 'button', name: string) {
