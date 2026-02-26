@@ -5,25 +5,26 @@ import { takeWhile } from 'rxjs/operators';
 import { TrafficChartData } from '../../../@core/data/traffic-chart';
 
 @Component({
-    selector: 'ngx-traffic',
-    styleUrls: ['./traffic.component.scss'],
-    template: `
+  selector: 'ngx-traffic',
+  styleUrls: ['./traffic.component.scss'],
+  template: `
     <nb-card size="tiny">
       <nb-card-header>
         <span>Traffic Consumption</span>
 
         <nb-select [(selected)]="type">
-          <nb-option *ngFor="let t of types" [value]="t">{{ t }}</nb-option>
+          @for (t of types; track t) {
+            <nb-option [value]="t">{{ t }}</nb-option>
+          }
         </nb-select>
       </nb-card-header>
 
       <ngx-traffic-chart [points]="trafficChartPoints"></ngx-traffic-chart>
     </nb-card>
   `,
-    standalone: false
+  standalone: false,
 })
 export class TrafficComponent implements OnDestroy {
-
   private alive = true;
 
   trafficChartPoints: number[];
@@ -31,15 +32,19 @@ export class TrafficComponent implements OnDestroy {
   types = ['week', 'month', 'year'];
   currentTheme: string;
 
-  constructor(private themeService: NbThemeService,
-              private trafficChartService: TrafficChartData) {
-    this.themeService.getJsTheme()
+  constructor(
+    private themeService: NbThemeService,
+    private trafficChartService: TrafficChartData
+  ) {
+    this.themeService
+      .getJsTheme()
       .pipe(takeWhile(() => this.alive))
-      .subscribe(theme => {
-      this.currentTheme = theme.name;
-    });
+      .subscribe((theme) => {
+        this.currentTheme = theme.name;
+      });
 
-    this.trafficChartService.getTrafficChartData()
+    this.trafficChartService
+      .getTrafficChartData()
       .pipe(takeWhile(() => this.alive))
       .subscribe((data) => {
         this.trafficChartPoints = data;

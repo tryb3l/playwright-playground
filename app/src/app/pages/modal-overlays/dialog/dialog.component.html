@@ -5,7 +5,9 @@
       <nb-card-body>
         <button nbButton (click)="open()">Open Dialog with component</button>
 
-        <button nbButton (click)="open2(dialog)">Open Dialog with template</button>
+        <button nbButton (click)="open2(dialog)">
+          Open Dialog with template
+        </button>
       </nb-card-body>
     </nb-card>
   </div>
@@ -16,7 +18,9 @@
       <nb-card-body>
         <button nbButton (click)="open()">Open Dialog with backdrop</button>
 
-        <button nbButton (click)="openWithoutBackdrop(dialog)">Open Dialog without backdrop</button>
+        <button nbButton (click)="openWithoutBackdrop(dialog)">
+          Open Dialog without backdrop
+        </button>
       </nb-card-body>
     </nb-card>
   </div>
@@ -27,7 +31,9 @@
       <nb-card-body>
         <button nbButton (click)="open()">Open Dialog with esc close</button>
 
-        <button nbButton (click)="openWithoutEscClose(dialog)">Open Dialog without esc close</button>
+        <button nbButton (click)="openWithoutEscClose(dialog)">
+          Open Dialog without esc close
+        </button>
       </nb-card-body>
     </nb-card>
   </div>
@@ -36,9 +42,13 @@
     <nb-card>
       <nb-card-header>Open Without Backdrop Click</nb-card-header>
       <nb-card-body>
-        <button nbButton (click)="open()">Open Dialog with backdrop click</button>
+        <button nbButton (click)="open()">
+          Open Dialog with backdrop click
+        </button>
 
-        <button nbButton (click)="openWithoutBackdropClick(dialog)">Open without backdrop click</button>
+        <button nbButton (click)="openWithoutBackdropClick(dialog)">
+          Open without backdrop click
+        </button>
       </nb-card-body>
     </nb-card>
   </div>
@@ -48,10 +58,12 @@
       <nb-card-header>Return Result From Dialog</nb-card-header>
       <nb-card-body class="result-from-dialog">
         <button nbButton (click)="open3()">Enter Name</button>
-        <br>
+        <br />
         <h3 class="title">Names:</h3>
         <ul>
-          <li *ngFor="let name of names">{{ name }}</li>
+          @for (name of names; track name) {
+            <li>{{ name }}</li>
+          }
         </ul>
       </nb-card-body>
     </nb-card>
@@ -67,4 +79,3 @@
     </nb-card-footer>
   </nb-card>
 </ng-template>
-

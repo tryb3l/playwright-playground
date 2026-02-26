@@ -1,33 +1,34 @@
 <nb-card>
-  <nb-card-header>
-    Toaster configuration
-  </nb-card-header>
+  <nb-card-header> Toaster configuration </nb-card-header>
   <nb-card-body>
-
     <div class="row">
       <div class="col-md-6 col-sm-12">
         <div class="form-group">
           <label class="label">Position:</label>
           <nb-select [(selected)]="position" class="position-select">
-            <nb-option *ngFor="let p of positions" [value]="p">{{ p }}</nb-option>
+            @for (p of positions; track p) {
+              <nb-option [value]="p">{{ p }}</nb-option>
+            }
           </nb-select>
         </div>
 
         <div class="form-group">
           <label class="label">Title:</label>
-          <input nbInput [(ngModel)]="title" name="title">
+          <input nbInput [(ngModel)]="title" name="title" />
         </div>
 
         <form>
           <div class="form-group">
             <label class="label">Content:</label>
-            <input nbInput [(ngModel)]="content" name="content">
+            <input nbInput [(ngModel)]="content" name="content" />
           </div>
         </form>
 
         <div class="form-group">
-          <label class="label">Time to hide toast, ms. 0 to persistent toast:</label>
-          <input nbInput type="number" [(ngModel)]="duration" name="timeout">
+          <label class="label"
+            >Time to hide toast, ms. 0 to persistent toast:</label
+          >
+          <input nbInput type="number" [(ngModel)]="duration" name="timeout" />
         </div>
       </div>
 
@@ -35,7 +36,9 @@
         <div class="form-group">
           <label class="label">Toast type:</label>
           <nb-select [(selected)]="status">
-            <nb-option *ngFor="let t of types" [value]="t">{{ t }}</nb-option>
+            @for (t of types; track t) {
+              <nb-option [value]="t">{{ t }}</nb-option>
+            }
           </nb-select>
         </div>
 
@@ -43,7 +46,9 @@
           <nb-checkbox [(ngModel)]="destroyByClick">Hide on click</nb-checkbox>
         </div>
         <div>
-          <nb-checkbox [(ngModel)]="preventDuplicates">Prevent arising of duplicate toast</nb-checkbox>
+          <nb-checkbox [(ngModel)]="preventDuplicates"
+            >Prevent arising of duplicate toast</nb-checkbox
+          >
         </div>
         <div>
           <nb-checkbox [(ngModel)]="hasIcon">Show toast with icon</nb-checkbox>
@@ -54,6 +59,8 @@
 
   <nb-card-footer>
     <button nbButton (click)="makeToast()">Show toast</button>
-    <button nbButton status="success" (click)="openRandomToast()">Random toast</button>
+    <button nbButton status="success" (click)="openRandomToast()">
+      Random toast
+    </button>
   </nb-card-footer>
 </nb-card>

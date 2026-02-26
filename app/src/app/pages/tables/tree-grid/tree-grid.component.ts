@@ -1,5 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { NbSortDirection, NbSortRequest, NbTreeGridDataSource, NbTreeGridDataSourceBuilder } from '@nebular/theme';
+import {
+  NbSortDirection,
+  NbSortRequest,
+  NbTreeGridDataSource,
+  NbTreeGridDataSourceBuilder,
+} from '@nebular/theme';
 
 interface TreeNode<T> {
   data: T;
@@ -15,15 +20,15 @@ interface FSEntry {
 }
 
 @Component({
-    selector: 'ngx-tree-grid',
-    templateUrl: './tree-grid.component.html',
-    styleUrls: ['./tree-grid.component.scss'],
-    standalone: false
+  selector: 'ngx-tree-grid',
+  templateUrl: './tree-grid.component.html',
+  styleUrls: ['./tree-grid.component.scss'],
+  standalone: false,
 })
 export class TreeGridComponent {
   customColumn = 'name';
-  defaultColumns = [ 'size', 'kind', 'items' ];
-  allColumns = [ this.customColumn, ...this.defaultColumns ];
+  defaultColumns = ['size', 'kind', 'items'];
+  allColumns = [this.customColumn, ...this.defaultColumns];
 
   dataSource: NbTreeGridDataSource<FSEntry>;
 
@@ -75,20 +80,20 @@ export class TreeGridComponent {
   getShowOn(index: number) {
     const minWithForMultipleColumns = 400;
     const nextColumnStep = 100;
-    return minWithForMultipleColumns + (nextColumnStep * index);
+    return minWithForMultipleColumns + nextColumnStep * index;
   }
 }
 
 @Component({
-    selector: 'ngx-fs-icon',
-    template: `
-    <nb-tree-grid-row-toggle [expanded]="expanded" *ngIf="isDir(); else fileIcon">
-    </nb-tree-grid-row-toggle>
-    <ng-template #fileIcon>
+  selector: 'ngx-fs-icon',
+  template: `
+    @if (isDir()) {
+      <nb-tree-grid-row-toggle [expanded]="expanded"> </nb-tree-grid-row-toggle>
+    } @else {
       <nb-icon icon="file-text-outline"></nb-icon>
-    </ng-template>
+    }
   `,
-    standalone: false
+  standalone: false,
 })
 export class FsIconComponent {
   @Input() kind: string;
