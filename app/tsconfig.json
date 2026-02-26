@@ -2,20 +2,24 @@
   "compileOnSave": false,
   "compilerOptions": {
     "importHelpers": true,
-    "esModuleInterop": true,
-    "module": "es2020",
+    "module": "es2022",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "bundler",
     "experimentalDecorators": true,
-    "target": "ES2022",
-    "typeRoots": ["node_modules/@types"],
-    "plugins": [
-      {
-        "name": "tslint-language-service"
-      }
+    "target": "es2022",
+    "typeRoots": [
+      "node_modules/@types"
     ],
-    "useDefineForClassFields": false
+    "lib": [
+      "es2022",
+      "dom"
+    ],
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true
   }
 }
