@@ -7,14 +7,16 @@
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test:e2e": "npx playwright test",
-    "test:e2e:debug": "npx playwright test --debug",
-    "test:e2e:parallel": "npx playwright test --workers 4"
+    "typecheck": "npx -p @typescript/native-preview tsc --noEmit",
+    "test:e2e": "npm run typecheck && npx playwright test",
+    "test:e2e:debug": "npm run typecheck && npx playwright test --debug",
+    "test:e2e:parallel": "npm run typecheck && npx playwright test --workers 4"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.3.0",
+    "@typescript/native-preview": "^7.0.0-dev.20260226.1",
     "eslint": "^10.0.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
