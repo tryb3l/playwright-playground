@@ -5,9 +5,9 @@ import { takeWhile } from 'rxjs/operators';
 import { TrafficChartData } from '../../../@core/data/traffic-chart';
 
 @Component({
-  selector: 'ngx-traffic',
-  styleUrls: ['./traffic.component.scss'],
-  template: `
+    selector: 'ngx-traffic',
+    styleUrls: ['./traffic.component.scss'],
+    template: `
     <nb-card size="tiny">
       <nb-card-header>
         <span>Traffic Consumption</span>
@@ -20,6 +20,7 @@ import { TrafficChartData } from '../../../@core/data/traffic-chart';
       <ngx-traffic-chart [points]="trafficChartPoints"></ngx-traffic-chart>
     </nb-card>
   `,
+    standalone: false
 })
 export class TrafficComponent implements OnDestroy {
 

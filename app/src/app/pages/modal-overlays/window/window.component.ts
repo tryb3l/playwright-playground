@@ -3,9 +3,10 @@ import { NbWindowService } from '@nebular/theme';
 import { WindowFormComponent } from './window-form/window-form.component';
 
 @Component({
-  selector: 'ngx-window',
-  templateUrl: 'window.component.html',
-  styleUrls: ['window.component.scss'],
+    selector: 'ngx-window',
+    templateUrl: 'window.component.html',
+    styleUrls: ['window.component.scss'],
+    standalone: false
 })
 export class WindowComponent {
 

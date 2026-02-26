@@ -5,9 +5,10 @@ import { takeWhile } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
 @Component({
-  selector: 'ngx-temperature',
-  styleUrls: ['./temperature.component.scss'],
-  templateUrl: './temperature.component.html',
+    selector: 'ngx-temperature',
+    styleUrls: ['./temperature.component.scss'],
+    templateUrl: './temperature.component.html',
+    standalone: false
 })
 export class TemperatureComponent implements OnDestroy {
 

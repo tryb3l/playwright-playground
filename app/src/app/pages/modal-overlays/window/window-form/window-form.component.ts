@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NbWindowRef } from '@nebular/theme';
 
 @Component({
-  template: `
+    template: `
     <form class="form">
       <label for="subject">Subject:</label>
       <input nbInput id="subject" type="text">
@@ -11,7 +11,8 @@ import { NbWindowRef } from '@nebular/theme';
       <textarea nbInput id="text"></textarea>
     </form>
   `,
-  styleUrls: ['window-form.component.scss'],
+    styleUrls: ['window-form.component.scss'],
+    standalone: false
 })
 export class WindowFormComponent {
   constructor(public windowRef: NbWindowRef) {}

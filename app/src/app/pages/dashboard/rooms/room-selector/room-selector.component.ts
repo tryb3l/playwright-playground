@@ -5,9 +5,10 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'ngx-room-selector',
-  templateUrl: './room-selector.component.html',
-  styleUrls: ['./room-selector.component.scss'],
+    selector: 'ngx-room-selector',
+    templateUrl: './room-selector.component.html',
+    styleUrls: ['./room-selector.component.scss'],
+    standalone: false
 })
 export class RoomSelectorComponent implements OnInit, OnDestroy {
 

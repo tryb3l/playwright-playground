@@ -6,6 +6,7 @@ import { DayCellComponent } from './day-cell/day-cell.component';
     selector: 'ngx-calendar',
     templateUrl: 'calendar.component.html',
     styleUrls: ['calendar.component.scss'],
+    standalone: false
 })
 export class CalendarComponent {
 

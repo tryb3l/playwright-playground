@@ -7,9 +7,10 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'ngx-header',
-  styleUrls: ['./header.component.scss'],
-  templateUrl: './header.component.html',
+    selector: 'ngx-header',
+    styleUrls: ['./header.component.scss'],
+    templateUrl: './header.component.html',
+    standalone: false
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 

@@ -3,9 +3,9 @@ import { NbThemeService, NbMediaBreakpoint, NbMediaBreakpointsService } from '@n
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'ngx-rooms',
-  styleUrls: ['./rooms.component.scss'],
-  template: `
+    selector: 'ngx-rooms',
+    styleUrls: ['./rooms.component.scss'],
+    template: `
     <nb-card [size]="breakpoint.width >= breakpoints.sm ? 'giant' : ''">
       <nb-icon icon="arrow-ios-downward" pack="eva"
                (click)="collapse()"
@@ -16,6 +16,7 @@ import { map } from 'rxjs/operators';
       <ngx-player [collapsed]="isCollapsed() && breakpoint.width <= breakpoints.md"></ngx-player>
     </nb-card>
   `,
+    standalone: false
 })
 export class RoomsComponent implements OnDestroy {
 

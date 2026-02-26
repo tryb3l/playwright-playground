@@ -5,9 +5,10 @@ import { forkJoin } from 'rxjs';
 import { Contacts, RecentUsers, UserData } from '../../../@core/data/users';
 
 @Component({
-  selector: 'ngx-contacts',
-  styleUrls: ['./contacts.component.scss'],
-  templateUrl: './contacts.component.html',
+    selector: 'ngx-contacts',
+    styleUrls: ['./contacts.component.scss'],
+    templateUrl: './contacts.component.html',
+    standalone: false
 })
 export class ContactsComponent implements OnDestroy {
 

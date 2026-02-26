@@ -15,9 +15,10 @@ interface FSEntry {
 }
 
 @Component({
-  selector: 'ngx-tree-grid',
-  templateUrl: './tree-grid.component.html',
-  styleUrls: ['./tree-grid.component.scss'],
+    selector: 'ngx-tree-grid',
+    templateUrl: './tree-grid.component.html',
+    styleUrls: ['./tree-grid.component.scss'],
+    standalone: false
 })
 export class TreeGridComponent {
   customColumn = 'name';
@@ -79,14 +80,15 @@ export class TreeGridComponent {
 }
 
 @Component({
-  selector: 'ngx-fs-icon',
-  template: `
+    selector: 'ngx-fs-icon',
+    template: `
     <nb-tree-grid-row-toggle [expanded]="expanded" *ngIf="isDir(); else fileIcon">
     </nb-tree-grid-row-toggle>
     <ng-template #fileIcon>
       <nb-icon icon="file-text-outline"></nb-icon>
     </ng-template>
   `,
+    standalone: false
 })
 export class FsIconComponent {
   @Input() kind: string;

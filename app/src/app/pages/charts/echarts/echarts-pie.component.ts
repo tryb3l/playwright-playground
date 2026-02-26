@@ -2,10 +2,11 @@ import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
-  selector: 'ngx-echarts-pie',
-  template: `
+    selector: 'ngx-echarts-pie',
+    template: `
     <div echarts [options]="options" class="echart"></div>
   `,
+    standalone: false
 })
 export class EchartsPieComponent implements AfterViewInit, OnDestroy {
   options: any = {};

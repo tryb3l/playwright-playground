@@ -5,9 +5,10 @@ import {
 } from './popover-examples.component';
 
 @Component({
-  selector: 'ngx-popovers',
-  styleUrls: ['./popovers.component.scss'],
-  templateUrl: './popovers.component.html',
+    selector: 'ngx-popovers',
+    styleUrls: ['./popovers.component.scss'],
+    templateUrl: './popovers.component.html',
+    standalone: false
 })
 export class PopoversComponent {
   tabsComponent = NgxPopoverTabsComponent;

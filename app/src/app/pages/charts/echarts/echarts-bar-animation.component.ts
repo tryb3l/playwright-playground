@@ -2,10 +2,11 @@ import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
-  selector: 'ngx-echarts-bar-animation',
-  template: `
+    selector: 'ngx-echarts-bar-animation',
+    template: `
     <div echarts [options]="options" class="echart"></div>
   `,
+    standalone: false
 })
 export class EchartsBarAnimationComponent implements AfterViewInit, OnDestroy {
   options: any = {};
