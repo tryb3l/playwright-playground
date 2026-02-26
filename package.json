@@ -8,9 +8,10 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "npx -p @typescript/native-preview tsc --noEmit",
-    "test:e2e": "npm run typecheck && npx playwright test",
-    "test:e2e:debug": "npm run typecheck && npx playwright test --debug",
-    "test:e2e:parallel": "npm run typecheck && npx playwright test --workers 4"
+    "clean:port": "npx kill-port 4200 || true",
+    "test:e2e": "npm run clean:port && npm run typecheck && npx playwright test",
+    "test:e2e:debug": "npm run clean:port && npm run typecheck && npx playwright test --debug",
+    "test:e2e:parallel": "npm run clean:port && npm run typecheck && npx playwright test --workers 4"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -21,6 +22,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^17.3.0",
+    "kill-port": "^2.0.1",
     "prettier": "^3.8.1",
     "typescript-eslint": "^8.56.0"
   },
