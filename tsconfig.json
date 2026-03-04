@@ -4,43 +4,21 @@
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "paths": {
-      "*": [
-        "./*"
-      ],
-      "@pages/*": [
-        "./e2e/pages/*"
-      ],
-      "@components/*": [
-        "./e2e/lib/components/*"
-      ],
-      "@utils/*": [
-        "./e2e/lib/utils/*"
-      ],
-      "@fixtures/*": [
-        "./e2e/lib/fixtures/*"
-      ],
-      "@factories/*": [
-        "./e2e/lib/factories/*"
-      ]
+      "*": ["./*"],
+      "@pages/*": ["./e2e/pages/*"],
+      "@components/*": ["./e2e/lib/components/*"],
+      "@utils/*": ["./e2e/lib/utils/*"],
+      "@fixtures/*": ["./e2e/lib/fixtures/*"],
+      "@factories/*": ["./e2e/lib/factories/*"]
     },
     "outDir": "dist",
     "strict": true,
     "useDefineForClassFields": false,
     "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true,
-    "types": [
-      "node",
-      "@playwright/test"
-    ],
+    "types": ["node", "@playwright/test"],
     "declaration": true
   },
-  "include": [
-    "e2e/**/*.ts",
-    "*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "app"
-  ]
+  "include": ["e2e/**/*.ts", "*.ts"],
+  "exclude": ["node_modules", "dist", "app"]
 }

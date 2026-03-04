@@ -1,5 +1,5 @@
 import { defineConfig, PlaywrightTestConfig } from '@playwright/test';
-import dotenv from 'dotenv';
+import { loadEnvFile } from 'node:process';
 import path from 'path';
 import {
   createBaseConfig,
@@ -7,9 +7,16 @@ import {
   createWebServerConfig,
 } from '@utils/config-helpers';
 
-const envFile = process.env.ENV_FILE || '.env';
-dotenv.config({ path: path.resolve(__dirname, envFile) });
-console.log(`Loaded BASE_URL from ${envFile}: ${process.env.BASE_URL}`);
+const envFile = process.env.ENV_FILE || '.env.dev';
+
+try {
+  loadEnvFile(path.resolve(process.cwd(), envFile));
+  console.log(`✅ Loaded environment from: ${envFile}`);
+} catch {
+  console.warn(
+    `⚠️  Could not load ${envFile}. Ensure the file exists in the root.`
+  );
+}
 
 const isCI = !!process.env.CI;
 
