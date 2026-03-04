@@ -15,27 +15,22 @@
  */
 
 /***************************************************************************************************
-* BROWSER POLYFILLS
-*/
-
+ * BROWSER POLYFILLS
+ */
 
 import 'zone.js';
-
 
 /** ALL Firefox browsers require the following to support `@angular/animation`. **/
 // import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 
-
 /***************************************************************************************************
  * Zone JS is required by Angular itself.
  */
-import 'zone.js';  // Included with Angular CLI.
-
+import 'zone.js'; // Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
-
 
 if (typeof SVGElement.prototype.contains === 'undefined') {
   SVGElement.prototype.contains = HTMLDivElement.prototype.contains;
