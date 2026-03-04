@@ -4,41 +4,40 @@ import { BaseComponent } from '@components/base.component';
 export class CheckboxComponent extends BaseComponent {
   protected checkboxLocator: Locator;
 
-  constructor(root: Page| Locator, selector: string)
-  {
+  constructor(root: Page | Locator, selector: string) {
     super(root, selector);
     this.checkboxLocator = root.locator(selector);
   }
 
-  private getCheckbox(
-    options?: {
-      byRole?: Parameters<Page['getByRole']>[0];
-      byLabel?: Parameters<Page['getByLabel']>[0];
-      name?: string
-    }
-  ): Locator {
+  private getCheckbox(options?: {
+    byRole?: Parameters<Page['getByRole']>[0];
+    byLabel?: Parameters<Page['getByLabel']>[0];
+    name?: string;
+  }): Locator {
     if (options?.byRole) {
       return this.context.getByRole(options.byRole, { name: options.name });
     } else if (options?.byLabel) {
       return this.context.getByLabel(options.byLabel);
     }
-    return this.checkboxLocator
+    return this.checkboxLocator;
   }
 
   async checkByRole(role: 'checkbox', name: string) {
-    await this.getCheckbox({ byRole: role, name: name }).check({ force: true })
+    await this.getCheckbox({ byRole: role, name: name }).check({ force: true });
   }
 
   async checkByLabel(label: string) {
-    await this.getCheckbox({ byLabel: label }).check({ force: true })
+    await this.getCheckbox({ byLabel: label }).check({ force: true });
   }
 
   async uncheckByRole(role: 'checkbox', name: string) {
-    await this.getCheckbox({ byRole: role, name: name }).uncheck({ force: true })
+    await this.getCheckbox({ byRole: role, name: name }).uncheck({
+      force: true,
+    });
   }
 
   async uncheckByLabel(label: string) {
-    await this.getCheckbox({ byLabel: label }).uncheck({ force: true })
+    await this.getCheckbox({ byLabel: label }).uncheck({ force: true });
   }
 
   async isChecked(): Promise<boolean> {

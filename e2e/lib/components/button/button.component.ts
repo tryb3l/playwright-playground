@@ -4,8 +4,7 @@ import { BaseComponent } from '@components/base.component';
 export class ButtonComponent extends BaseComponent {
   protected buttonLocator: Locator;
 
-  constructor(root: Page| Locator, selector: string)
-  {
+  constructor(root: Page | Locator, selector: string) {
     super(root, selector);
     this.buttonLocator = root.locator(selector);
   }
