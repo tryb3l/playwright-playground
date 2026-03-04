@@ -1,8 +1,8 @@
 <div class="row">
-  @for (statusCard of statusCards; track statusCard) {
+  @for (statusCard of statusCards; track statusCard.title) {
     <div class="col-xxxl-3 col-md-6">
       <ngx-status-card [title]="statusCard.title" [type]="statusCard.type">
-        <i [ngClass]="statusCard.iconClass"></i>
+        <mat-icon>{{ statusCard.iconClass }}</mat-icon>
       </ngx-status-card>
     </div>
   }

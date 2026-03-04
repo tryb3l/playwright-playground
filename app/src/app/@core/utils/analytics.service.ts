@@ -9,17 +9,19 @@ declare const ga: any;
 export class AnalyticsService {
   private enabled: boolean;
 
-  constructor(private location: Location, private router: Router) {
+  constructor(
+    private location: Location,
+    private router: Router
+  ) {
     this.enabled = false;
   }
 
   trackPageViews() {
     if (this.enabled) {
-      this.router.events.pipe(
-        filter((event) => event instanceof NavigationEnd),
-      )
+      this.router.events
+        .pipe(filter((event) => event instanceof NavigationEnd))
         .subscribe(() => {
-          ga('send', {hitType: 'pageview', page: this.location.path()});
+          ga('send', { hitType: 'pageview', page: this.location.path() });
         });
     }
   }

@@ -1,9 +1,8 @@
 @import '../../../@theme/styles/themes';
 @import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+// @import/theme/styles/global/breakpoints';
 
 @include nb-install-component() {
-
   .cards-container {
     display: flex;
     flex-direction: row;
@@ -25,9 +24,11 @@
     flex: 1 0 auto;
   }
 
-  .chart-card nb-card-header {
+  .chart-card mat-card-header {
     display: flex;
     align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
     padding-top: nb-theme(card-header-with-select-padding-top);
     padding-bottom: nb-theme(card-header-with-select-padding-bottom);
 
@@ -35,29 +36,37 @@
     margin-bottom: -1px;
   }
 
-  .type-select {
+  .type-select-field {
     margin-left: auto;
+    min-width: 7rem;
+
+    ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
   }
 
   .stats {
-    margin-right: 1rem;
+    min-width: 5.5rem;
+    display: inline-flex;
+    flex-direction: column;
+    line-height: 1.2;
 
     > .caption {
       display: block;
     }
   }
 
-  nb-tabset {
+  mat-tabset {
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
 
-  nb-tab {
+  mat-tab {
     padding: 0;
   }
 
-  nb-list-item {
+  mat-list-item {
     display: flex;
     align-items: baseline;
 
@@ -70,11 +79,11 @@
     width: 2rem;
   }
 
-  nb-icon.down {
+  mat-icon.down {
     color: nb-theme(color-danger-default);
   }
 
-  nb-icon.up {
+  mat-icon.up {
     color: nb-theme(color-success-default);
   }
 

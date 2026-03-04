@@ -1,10 +1,14 @@
-<nb-card>
-  <nb-card-header>Enter your name</nb-card-header>
-  <nb-card-body>
-    <input #name nbInput placeholder="Name">
-  </nb-card-body>
-  <nb-card-footer>
-    <button class="cancel" nbButton status="danger" (click)="cancel()">Cancel</button>
-    <button nbButton status="success" (click)="submit(name.value)">Submit</button>
-  </nb-card-footer>
-</nb-card>
+<mat-card>
+  <mat-card-header>Enter your name</mat-card-header>
+  <mat-card-content>
+    <input #name matInput placeholder="Name" />
+  </mat-card-content>
+  <mat-card-footer>
+    <button class="cancel" mat-button color="warn" (click)="cancel()">
+      Cancel
+    </button>
+    <button mat-button color="accent" (click)="submit(name.value)">
+      Submit
+    </button>
+  </mat-card-footer>
+</mat-card>

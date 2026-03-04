@@ -1,26 +1,26 @@
-<nb-card>
-  <nb-card-header> Toaster configuration </nb-card-header>
-  <nb-card-body>
+<mat-card>
+  <mat-card-header> Toaster configuration </mat-card-header>
+  <mat-card-content>
     <div class="row">
       <div class="col-md-6 col-sm-12">
         <div class="form-group">
           <label class="label">Position:</label>
-          <nb-select [(selected)]="position" class="position-select">
+          <mat-select [(value)]="position" class="position-select">
             @for (p of positions; track p) {
-              <nb-option [value]="p">{{ p }}</nb-option>
+              <mat-option [value]="p">{{ p }}</mat-option>
             }
-          </nb-select>
+          </mat-select>
         </div>
 
         <div class="form-group">
           <label class="label">Title:</label>
-          <input nbInput [(ngModel)]="title" name="title" />
+          <input matInput [(ngModel)]="title" name="title" />
         </div>
 
         <form>
           <div class="form-group">
             <label class="label">Content:</label>
-            <input nbInput [(ngModel)]="content" name="content" />
+            <input matInput [(ngModel)]="content" name="content" />
           </div>
         </form>
 
@@ -28,39 +28,43 @@
           <label class="label"
             >Time to hide toast, ms. 0 to persistent toast:</label
           >
-          <input nbInput type="number" [(ngModel)]="duration" name="timeout" />
+          <input matInput type="number" [(ngModel)]="duration" name="timeout" />
         </div>
       </div>
 
       <div class="col-md-6 col-sm-12">
         <div class="form-group">
           <label class="label">Toast type:</label>
-          <nb-select [(selected)]="status">
+          <mat-select [(value)]="status">
             @for (t of types; track t) {
-              <nb-option [value]="t">{{ t }}</nb-option>
+              <mat-option [value]="t">{{ t }}</mat-option>
             }
-          </nb-select>
+          </mat-select>
         </div>
 
         <div>
-          <nb-checkbox [(ngModel)]="destroyByClick">Hide on click</nb-checkbox>
-        </div>
-        <div>
-          <nb-checkbox [(ngModel)]="preventDuplicates"
-            >Prevent arising of duplicate toast</nb-checkbox
+          <mat-checkbox [(ngModel)]="destroyByClick"
+            >Hide on click</mat-checkbox
           >
         </div>
         <div>
-          <nb-checkbox [(ngModel)]="hasIcon">Show toast with icon</nb-checkbox>
+          <mat-checkbox [(ngModel)]="preventDuplicates"
+            >Prevent arising of duplicate toast</mat-checkbox
+          >
+        </div>
+        <div>
+          <mat-checkbox [(ngModel)]="hasIcon"
+            >Show toast with icon</mat-checkbox
+          >
         </div>
       </div>
     </div>
-  </nb-card-body>
+  </mat-card-content>
 
-  <nb-card-footer>
-    <button nbButton (click)="makeToast()">Show toast</button>
-    <button nbButton status="success" (click)="openRandomToast()">
+  <mat-card-footer>
+    <button mat-button (click)="makeToast()">Show toast</button>
+    <button mat-button color="accent" (click)="openRandomToast()">
       Random toast
     </button>
-  </nb-card-footer>
-</nb-card>
+  </mat-card-footer>
+</mat-card>

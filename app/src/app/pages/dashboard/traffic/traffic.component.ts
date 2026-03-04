@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import { ThemeService } from '../../../@core/utils';
 import { takeWhile } from 'rxjs/operators';
 
 import { TrafficChartData } from '../../../@core/data/traffic-chart';
@@ -8,19 +8,19 @@ import { TrafficChartData } from '../../../@core/data/traffic-chart';
   selector: 'ngx-traffic',
   styleUrls: ['./traffic.component.scss'],
   template: `
-    <nb-card size="tiny">
-      <nb-card-header>
+    <mat-card size="tiny">
+      <mat-card-header>
         <span>Traffic Consumption</span>
 
-        <nb-select [(selected)]="type">
+        <mat-select [(value)]="type">
           @for (t of types; track t) {
-            <nb-option [value]="t">{{ t }}</nb-option>
+            <mat-option [value]="t">{{ t }}</mat-option>
           }
-        </nb-select>
-      </nb-card-header>
+        </mat-select>
+      </mat-card-header>
 
       <ngx-traffic-chart [points]="trafficChartPoints"></ngx-traffic-chart>
-    </nb-card>
+    </mat-card>
   `,
   standalone: false,
 })
@@ -33,7 +33,7 @@ export class TrafficComponent implements OnDestroy {
   currentTheme: string;
 
   constructor(
-    private themeService: NbThemeService,
+    private themeService: ThemeService,
     private trafficChartService: TrafficChartData
   ) {
     this.themeService

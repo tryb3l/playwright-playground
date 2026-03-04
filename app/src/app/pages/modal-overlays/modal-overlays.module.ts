@@ -1,19 +1,5 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  NbButtonModule,
-  NbCardModule,
-  NbCheckboxModule,
-  NbDialogModule,
-  NbInputModule,
-  NbPopoverModule,
-  NbSelectModule,
-  NbTabsetModule,
-  NbTooltipModule,
-  NbWindowModule,
-} from '@nebular/theme';
-
-// modules
 import { ThemeModule } from '../../@theme/theme.module';
 import { ModalOverlaysRoutingModule } from './modal-overlays-routing.module';
 
@@ -27,11 +13,11 @@ import { WindowFormComponent } from './window/window-form/window-form.component'
 import { ToastrComponent } from './toastr/toastr.component';
 import { PopoversComponent } from './popovers/popovers.component';
 import {
-  NgxPopoverCardComponent, NgxPopoverFormComponent,
+  NgxPopoverCardComponent,
+  NgxPopoverFormComponent,
   NgxPopoverTabsComponent,
 } from './popovers/popover-examples.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
-
 
 const COMPONENTS = [
   ModalOverlaysComponent,
@@ -57,35 +43,13 @@ const ENTRY_COMPONENTS = [
   NgxPopoverTabsComponent,
 ];
 
-const MODULES = [
-  FormsModule,
-  ThemeModule,
-  ModalOverlaysRoutingModule,
-  NbDialogModule.forChild(),
-  NbWindowModule.forChild(),
-  NbCardModule,
-  NbCheckboxModule,
-  NbTabsetModule,
-  NbPopoverModule,
-  NbButtonModule,
-  NbInputModule,
-  NbSelectModule,
-  NbTooltipModule,
-];
+const MODULES = [FormsModule, ThemeModule, ModalOverlaysRoutingModule];
 
-const SERVICES = [
-];
+const SERVICES = [];
 
 @NgModule({
-    imports: [
-        ...MODULES,
-    ],
-    declarations: [
-        ...COMPONENTS,
-    ],
-    providers: [
-        ...SERVICES,
-    ],
+  imports: [...MODULES],
+  declarations: [...COMPONENTS],
+  providers: [...SERVICES],
 })
-export class ModalOverlaysModule {
-}
+export class ModalOverlaysModule {}

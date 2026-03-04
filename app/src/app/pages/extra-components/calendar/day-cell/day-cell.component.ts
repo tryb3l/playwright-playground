@@ -1,11 +1,11 @@
 import { Component, HostBinding, HostListener } from '@angular/core';
-import { NbCalendarDayCellComponent } from '@nebular/theme';
+import { NbCalendarDayCellComponent } from '../../../../@core/utils';
 
 @Component({
-    selector: 'ngx-day-cell',
-    templateUrl: 'day-cell.component.html',
-    styleUrls: ['day-cell.component.scss'],
-    standalone: false
+  selector: 'ngx-day-cell',
+  templateUrl: 'day-cell.component.html',
+  styleUrls: ['day-cell.component.scss'],
+  standalone: false,
 })
 export class DayCellComponent extends NbCalendarDayCellComponent<Date> {
   @HostBinding('class') classes = 'day-cell';

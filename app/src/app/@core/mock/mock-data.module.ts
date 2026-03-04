@@ -46,20 +46,14 @@ const SERVICES = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-  ],
-  providers: [
-    ...SERVICES,
-  ],
+  imports: [CommonModule],
+  providers: [...SERVICES],
 })
 export class MockDataModule {
   static forRoot(): ModuleWithProviders<MockDataModule> {
     return {
       ngModule: MockDataModule,
-      providers: [
-        ...SERVICES,
-      ],
+      providers: [...SERVICES],
     };
   }
 }

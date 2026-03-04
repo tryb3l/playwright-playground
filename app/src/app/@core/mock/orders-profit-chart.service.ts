@@ -1,12 +1,14 @@
-import { of as observableOf,  Observable } from 'rxjs';
+import { of as observableOf, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { OrdersChart, OrdersChartData } from '../data/orders-chart';
-import { OrderProfitChartSummary, OrdersProfitChartData } from '../data/orders-profit-chart';
+import {
+  OrderProfitChartSummary,
+  OrdersProfitChartData,
+} from '../data/orders-profit-chart';
 import { ProfitChart, ProfitChartData } from '../data/profit-chart';
 
 @Injectable()
 export class OrdersProfitChartService extends OrdersProfitChartData {
-
   private summary = [
     {
       title: 'Marketplace',
@@ -26,8 +28,10 @@ export class OrdersProfitChartService extends OrdersProfitChartData {
     },
   ];
 
-  constructor(private ordersChartService: OrdersChartData,
-              private profitChartService: ProfitChartData) {
+  constructor(
+    private ordersChartService: OrdersChartData,
+    private profitChartService: ProfitChartData
+  ) {
     super();
   }
 

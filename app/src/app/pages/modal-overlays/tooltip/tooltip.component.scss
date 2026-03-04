@@ -1,11 +1,35 @@
 @import '../../../@theme/styles/themes';
 
 @include nb-install-component() {
-  nb-card-body {
+  mat-card-content {
     margin: -0.5rem;
   }
 
   button {
     margin: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
   }
+}
+
+:host ::ng-deep .tooltip-primary .mdc-tooltip__surface {
+  background: #3366ff;
+}
+
+:host ::ng-deep .tooltip-success .mdc-tooltip__surface {
+  background: #00d68f;
+}
+
+:host ::ng-deep .tooltip-danger .mdc-tooltip__surface {
+  background: #ff3d71;
+}
+
+:host ::ng-deep .tooltip-info .mdc-tooltip__surface {
+  background: #0095ff;
+}
+
+:host ::ng-deep .tooltip-warning .mdc-tooltip__surface {
+  background: #ffaa00;
+  color: #222b45;
 }

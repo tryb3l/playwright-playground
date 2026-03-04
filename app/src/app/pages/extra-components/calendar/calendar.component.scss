@@ -1,22 +1,28 @@
 @import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+// @import/theme/styles/global/breakpoints';
 @import '../../../@theme/styles/themes';
 
 @include nb-install-component() {
   .calendars {
     display: flex;
     flex-wrap: wrap;
-    margin: -1rem -0.5rem;
+    gap: 1rem;
     justify-content: center;
   }
 
   .calendar-container {
-    margin: 1rem 0.5rem;
+    width: 100%;
+    max-width: 24rem;
   }
 
   .subtitle {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .range-actions {
+    margin-top: 0.75rem;
+    text-align: right;
   }
 
   @include media-breakpoint-up(md) {
@@ -26,17 +32,31 @@
   }
 
   @include media-breakpoint-up(lg) {
-    .calendars {
-      margin: -1.1rem;
-    }
     .calendar-container {
-      margin: 1rem;
+      width: calc(50% - 0.5rem);
     }
   }
 
   @include media-breakpoint-up(xxxl) {
-    .calendars {
-      margin: -1rem;
+    .calendar-container {
+      width: calc(33.333% - 0.75rem);
     }
   }
+}
+
+:host ::ng-deep .weekend-date > .mat-calendar-body-cell-content {
+  border: 1px solid #ffaa00;
+}
+
+:host ::ng-deep .range-start > .mat-calendar-body-cell-content,
+:host ::ng-deep .range-end > .mat-calendar-body-cell-content {
+  background: #3366ff;
+  color: #ffffff;
+  border-radius: 999px;
+}
+
+:host ::ng-deep .range-inner > .mat-calendar-body-cell-content {
+  background: #dbe4ff;
+  color: #222b45;
+  border-radius: 999px;
 }

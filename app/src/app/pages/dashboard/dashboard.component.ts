@@ -1,6 +1,6 @@
-import {Component, OnDestroy} from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
-import { takeWhile } from 'rxjs/operators' ;
+import { Component, OnDestroy } from '@angular/core';
+import { ThemeService } from '../../@core/utils';
+import { takeWhile } from 'rxjs/operators';
 import { SolarData } from '../../@core/data/solar';
 
 interface CardSettings {
@@ -10,38 +10,37 @@ interface CardSettings {
 }
 
 @Component({
-    selector: 'ngx-dashboard',
-    styleUrls: ['./dashboard.component.scss'],
-    templateUrl: './dashboard.component.html',
-    standalone: false
+  selector: 'ngx-dashboard',
+  styleUrls: ['./dashboard.component.scss'],
+  templateUrl: './dashboard.component.html',
+  standalone: false,
 })
 export class DashboardComponent implements OnDestroy {
-
   private alive = true;
 
   solarValue: number;
   lightCard: CardSettings = {
     title: 'Light',
-    iconClass: 'nb-lightbulb',
+    iconClass: 'lightbulb',
     type: 'primary',
   };
   rollerShadesCard: CardSettings = {
     title: 'Roller Shades',
-    iconClass: 'nb-roller-shades',
+    iconClass: 'window',
     type: 'success',
   };
   wirelessAudioCard: CardSettings = {
     title: 'Wireless Audio',
-    iconClass: 'nb-audio',
+    iconClass: 'audiotrack',
     type: 'info',
   };
   coffeeMakerCard: CardSettings = {
     title: 'Coffee Maker',
-    iconClass: 'nb-coffee-maker',
+    iconClass: 'coffee',
     type: 'warning',
   };
 
-  statusCards: string;
+  statusCards: CardSettings[];
 
   commonStatusCardsSet: CardSettings[] = [
     this.lightCard,
@@ -79,15 +78,19 @@ export class DashboardComponent implements OnDestroy {
     dark: this.commonStatusCardsSet,
   };
 
-  constructor(private themeService: NbThemeService,
-              private solarService: SolarData) {
-    this.themeService.getJsTheme()
+  constructor(
+    private themeService: ThemeService,
+    private solarService: SolarData
+  ) {
+    this.themeService
+      .getJsTheme()
       .pipe(takeWhile(() => this.alive))
-      .subscribe(theme => {
+      .subscribe((theme) => {
         this.statusCards = this.statusCardsByThemes[theme.name];
-    });
+      });
 
-    this.solarService.getSolarData()
+    this.solarService
+      .getSolarData()
       .pipe(takeWhile(() => this.alive))
       .subscribe((data) => {
         this.solarValue = data;

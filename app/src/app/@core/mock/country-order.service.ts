@@ -4,7 +4,6 @@ import { CountryOrderData } from '../data/country-order';
 
 @Injectable()
 export class CountryOrderService extends CountryOrderData {
-
   private countriesCategories = [
     'Sofas',
     'Furniture',
@@ -24,6 +23,8 @@ export class CountryOrderService extends CountryOrderData {
   }
 
   getCountriesCategoriesData(country: string): Observable<number[]> {
-    return observableOf(this.generateRandomData(this.countriesCategoriesLength));
+    return observableOf(
+      this.generateRandomData(this.countriesCategoriesLength)
+    );
   }
 }

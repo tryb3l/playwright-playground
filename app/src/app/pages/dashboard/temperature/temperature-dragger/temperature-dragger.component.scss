@@ -32,7 +32,8 @@
     align-items: center;
     justify-content: center;
 
-    border: nb-theme(divider-width) nb-theme(divider-style) nb-theme(divider-color);
+    border: nb-theme(divider-width) nb-theme(divider-style)
+      nb-theme(divider-color);
   }
 
   .power-bg {
@@ -50,7 +51,8 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    border: nb-theme(divider-width) nb-theme(divider-style) nb-theme(divider-color);
+    border: nb-theme(divider-width) nb-theme(divider-style)
+      nb-theme(divider-color);
 
     &.on {
       color: nb-theme(text-hint-color);

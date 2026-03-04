@@ -1,37 +1,101 @@
 <div class="row">
   <div class="col-md-12 col-lg-6 col-xxxl-4">
-    <nb-card>
-      <nb-card-header>Tooltip With Icon</nb-card-header>
-      <nb-card-body>
-        <button nbTooltip="This is a tooltip" nbTooltipIcon="home-outline" nbButton>Show Tooltip</button>
-        <button nbTooltip="" nbTooltipIcon="alert-triangle" nbTooltipStatus="danger" nbButton>Show Tooltip</button>
-      </nb-card-body>
-    </nb-card>
+    <mat-card>
+      <mat-card-header>Tooltip With Icon</mat-card-header>
+      <mat-card-content>
+        <button mat-button matTooltip="This is a tooltip">
+          <mat-icon>home</mat-icon>
+          Show Tooltip
+        </button>
+        <button
+          mat-button
+          matTooltip="This is a warning tooltip"
+          matTooltipClass="tooltip-danger"
+        >
+          <mat-icon>warning</mat-icon>
+          Show Tooltip
+        </button>
+      </mat-card-content>
+    </mat-card>
   </div>
 
   <div class="col-md-12 col-lg-6 col-xxxl-4">
-    <nb-card>
-      <nb-card-header>Tooltip Placements</nb-card-header>
-      <nb-card-body>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbButton>Top</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="right" nbButton>Right</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="bottom" nbButton>Bottom</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="left" nbButton>Left</button>
-      </nb-card-body>
-    </nb-card>
+    <mat-card>
+      <mat-card-header>Tooltip Placements</mat-card-header>
+      <mat-card-content>
+        <button
+          mat-button
+          matTooltip="This is a tooltip"
+          matTooltipPosition="above"
+        >
+          Top
+        </button>
+        <button
+          mat-button
+          matTooltip="This is a tooltip"
+          matTooltipPosition="right"
+        >
+          Right
+        </button>
+        <button
+          mat-button
+          matTooltip="This is a tooltip"
+          matTooltipPosition="below"
+        >
+          Bottom
+        </button>
+        <button
+          mat-button
+          matTooltip="This is a tooltip"
+          matTooltipPosition="left"
+        >
+          Left
+        </button>
+      </mat-card-content>
+    </mat-card>
   </div>
 
   <div class="col-md-12 col-lg-6 col-xxxl-4">
-    <nb-card>
-      <nb-card-header>Colored Tooltips</nb-card-header>
-      <nb-card-body>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbButton>Default</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbTooltipStatus="primary" nbButton>Primary</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbTooltipStatus="success" nbButton>Success</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbTooltipStatus="danger" nbButton>Danger</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbTooltipStatus="info" nbButton>Info</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbTooltipStatus="warning" nbButton>Warning</button>
-      </nb-card-body>
-    </nb-card>
+    <mat-card>
+      <mat-card-header>Colored Tooltips</mat-card-header>
+      <mat-card-content>
+        <button mat-button matTooltip="Default tooltip">Default</button>
+        <button
+          mat-button
+          matTooltip="Primary tooltip"
+          matTooltipClass="tooltip-primary"
+        >
+          Primary
+        </button>
+        <button
+          mat-button
+          matTooltip="Success tooltip"
+          matTooltipClass="tooltip-success"
+        >
+          Success
+        </button>
+        <button
+          mat-button
+          matTooltip="Danger tooltip"
+          matTooltipClass="tooltip-danger"
+        >
+          Danger
+        </button>
+        <button
+          mat-button
+          matTooltip="Info tooltip"
+          matTooltipClass="tooltip-info"
+        >
+          Info
+        </button>
+        <button
+          mat-button
+          matTooltip="Warning tooltip"
+          matTooltipClass="tooltip-warning"
+        >
+          Warning
+        </button>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>

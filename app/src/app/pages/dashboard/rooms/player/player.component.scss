@@ -1,11 +1,11 @@
 @import '../../../../@theme/styles/themes';
 @import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+// @import/theme/styles/global/breakpoints';
 
 @include nb-install-component() {
   height: 100%;
 
-  nb-card {
+  mat-card {
     box-shadow: none;
     border-width: 0;
     margin: 0;
@@ -120,7 +120,7 @@
       color: nb-theme(color-primary-default);
     }
 
-    nb-icon {
+    mat-icon {
       font-size: 1.5em;
     }
   }
@@ -242,7 +242,7 @@
         font-size: 1.3rem;
       }
 
-      @include media-breakpoint-down(is) {
+      @include media-breakpoint-down(xs) {
         .play-button,
         .skip-forward-button {
           padding: 0.5rem;
@@ -261,7 +261,7 @@
     }
 
     .track-info .details {
-      @include media-breakpoint-down(is) {
+      @include media-breakpoint-down(xs) {
         span {
           display: inline-block;
           overflow: hidden;

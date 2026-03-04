@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbMenuModule } from '@nebular/theme';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -10,12 +10,9 @@ import { PagesRoutingModule } from './pages-routing.module';
   imports: [
     PagesRoutingModule,
     ThemeModule,
-    NbMenuModule,
     DashboardModule,
+    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
   ],
-  declarations: [
-    PagesComponent,
-  ],
+  declarations: [PagesComponent],
 })
-export class PagesModule {
-}
+export class PagesModule {}

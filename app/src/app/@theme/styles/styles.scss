@@ -4,8 +4,8 @@
 @import 'themes';
 
 // framework component themes (styles tied to theme variables)
-@import '@nebular/theme/styles/globals';
-@import '@nebular/auth/styles/globals';
+// // @import/theme/styles/globals';
+// // @import/auth/styles/globals';
 
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
@@ -20,6 +20,283 @@
 
 // install the framework and custom global styles
 @include nb-install() {
+  html,
+  body,
+  .cdk-overlay-container {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    --sidebar-width: 256px;
+    --header-padding: 1rem;
+    --divider-width: 1px;
+    --divider-style: solid;
+    --divider-color: #edf1f7;
+    --text-hint-color: #8f9bb3;
+    --text-control-color: #ffffff;
+    --text-basic-color: #222b45;
+    --background-basic-color-1: #ffffff;
+    --background-basic-color-2: #f7f9fc;
+    --background-basic-color-3: #edf1f7;
+    --card-border-radius: 0.5rem;
+    --layout-padding-top: 2.25rem;
+
+    --hero-primary-left: #598bff;
+    --hero-primary-right: #3366ff;
+    --hero-primary-left-hover: #3366ff;
+    --hero-primary-right-hover: #274bdb;
+    --hero-success-left: #2ce69b;
+    --hero-success-right: #00d68f;
+    --hero-success-left-hover: #00d68f;
+    --hero-success-right-hover: #00b887;
+    --hero-info-left: #42aaff;
+    --hero-info-right: #0095ff;
+    --hero-info-left-hover: #0095ff;
+    --hero-info-right-hover: #0078d7;
+    --hero-warning-left: #ffc94d;
+    --hero-warning-right: #ffaa00;
+    --hero-warning-left-hover: #ffaa00;
+    --hero-warning-right-hover: #db8b00;
+    --hero-danger-left: #ff708d;
+    --hero-danger-right: #ff3d71;
+    --hero-danger-left-hover: #ff3d71;
+    --hero-danger-right-hover: #db2c66;
+    --theme-fallback: #c5cee0;
+  }
+
+  body.nb-theme-dark,
+  body.nb-theme-cosmic,
+  .cdk-overlay-container.nb-theme-dark,
+  .cdk-overlay-container.nb-theme-cosmic {
+    --divider-color: #2e3a59;
+    --text-hint-color: #8f9bb3;
+    --text-basic-color: #ffffff;
+    --background-basic-color-1: #222b45;
+    --background-basic-color-2: #1a2138;
+    --background-basic-color-3: #151a30;
+    --theme-fallback: #8f9bb3;
+  }
+
+  body.nb-theme-corporate,
+  .cdk-overlay-container.nb-theme-corporate {
+    --text-basic-color: #1a2138;
+    --background-basic-color-1: #ffffff;
+    --background-basic-color-2: #f2f6ff;
+    --background-basic-color-3: #dbe4ff;
+    --divider-color: #d6deff;
+    --hero-primary-left: #8f9bb3;
+    --hero-primary-right: #598bff;
+    --hero-danger-left: #ff9f9f;
+    --hero-danger-right: #ff708d;
+  }
+
+  .column-layout {
+    height: 100vh;
+    min-height: 100vh;
+    background-color: nb-theme(background-basic-color-2);
+  }
+
+  .menu-sidebar {
+    width: 256px;
+    background-color: nb-theme(background-basic-color-1);
+
+    mat-nav-list {
+      padding: 0;
+    }
+
+    mat-expansion-panel {
+      background: transparent !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+    }
+
+    mat-expansion-panel-header {
+      padding: 0 1.25rem;
+      height: 3rem !important;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.05) !important;
+      }
+    }
+
+    .mat-expansion-panel-body {
+      padding: 0 0 0 1rem !important;
+    }
+
+    a[mat-list-item] {
+      height: 3rem !important;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: nb-theme(text-basic-color);
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.05) !important;
+      }
+
+      mat-icon {
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  ngx-header {
+    display: block;
+    background-color: nb-theme(background-basic-color-1);
+    box-shadow: 0 0.5rem 1rem 0 rgba(44, 51, 73, 0.1);
+    z-index: 10;
+    position: relative;
+  }
+
+  mat-sidenav-content {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-height: 100vh;
+  }
+
+  .content {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 2rem;
+    overflow-y: auto;
+    background-color: nb-theme(background-basic-color-2);
+  }
+
+  ngx-footer {
+    margin-top: auto;
+    flex-shrink: 0;
+  }
+
+  mat-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: nb-theme(card-border-radius);
+    margin-bottom: 1.875rem;
+    box-shadow: none !important;
+    border: 1px solid nb-theme(divider-color);
+    background-color: nb-theme(background-basic-color-1);
+    color: nb-theme(text-basic-color);
+
+    // Fix: Force cards to fill column height
+    height: calc(100% - 1.875rem);
+    padding: 0;
+  }
+
+  mat-card-header {
+    border-bottom: 1px solid nb-theme(divider-color);
+    padding: 1rem 1.25rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    font-family: nb-theme(text-heading-1-font-family);
+    display: flex;
+    align-items: center;
+  }
+
+  mat-card-content {
+    flex: 1 1 auto;
+    padding: 1.25rem;
+    overflow-y: auto;
+  }
+
+  mat-card-footer {
+    border-top: 1px solid nb-theme(divider-color);
+    padding: 1rem 1.25rem;
+  }
+
+  // legacy ngx-admin templates still use bare matInput controls
+  input[matInput],
+  textarea[matInput] {
+    width: 100%;
+    border: 1px solid nb-theme(divider-color);
+    border-radius: 0.375rem;
+    background: nb-theme(background-basic-color-1);
+    color: nb-theme(text-basic-color);
+    padding: 0.55rem 0.75rem;
+    outline: none;
+  }
+
+  textarea[matInput] {
+    min-height: 6rem;
+    resize: vertical;
+  }
+
+  input[matInput]::placeholder,
+  textarea[matInput]::placeholder {
+    color: nb-theme(text-hint-color);
+  }
+
+  input[matInput]:focus,
+  textarea[matInput]:focus {
+    border-color: var(--hero-primary-right);
+    box-shadow: 0 0 0 1px var(--hero-primary-right);
+  }
+
+  .mat-mdc-form-field {
+    width: 100%;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    background-color: nb-theme(background-basic-color-1) !important;
+    border-radius: 0.375rem !important;
+  }
+
+  .mat-mdc-input-element,
+  .mat-mdc-select-value-text,
+  .mat-mdc-select-arrow,
+  .mat-datepicker-toggle-default-icon {
+    color: nb-theme(text-basic-color) !important;
+    fill: nb-theme(text-basic-color) !important;
+  }
+
+  .mat-mdc-input-element::placeholder {
+    color: nb-theme(text-hint-color) !important;
+  }
+
+  .mat-mdc-form-field .mdc-notched-outline__leading,
+  .mat-mdc-form-field .mdc-notched-outline__notch,
+  .mat-mdc-form-field .mdc-notched-outline__trailing {
+    border-color: nb-theme(divider-color) !important;
+  }
+
+  .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+  .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+  .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+    border-color: var(--hero-primary-right) !important;
+  }
+
+  .mat-mdc-tab-header {
+    border-bottom: 1px solid nb-theme(divider-color);
+  }
+
+  .mat-mdc-tab .mdc-tab__text-label {
+    color: nb-theme(text-basic-color);
+  }
+
+  .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+    color: var(--hero-primary-right) !important;
+  }
+
+  .mat-mdc-checkbox,
+  .mat-mdc-radio-button {
+    color: nb-theme(text-basic-color);
+  }
+
+  .mat-mdc-checkbox .mdc-checkbox__background {
+    border-color: nb-theme(divider-color) !important;
+  }
+
+  .mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background,
+  .mat-mdc-checkbox.mat-mdc-checkbox-indeterminate .mdc-checkbox__background {
+    border-color: var(--hero-primary-right) !important;
+    background-color: var(--hero-primary-right) !important;
+  }
+
+  .mat-mdc-radio-button.mat-mdc-radio-checked .mdc-radio__outer-circle,
+  .mat-mdc-radio-button.mat-mdc-radio-checked .mdc-radio__inner-circle {
+    border-color: var(--hero-primary-right) !important;
+  }
 
   // framework global styles
   @include nb-theme-global();
@@ -30,4 +307,61 @@
   @include ngx-pace-theme();
 
   @include nb-overrides();
-};
+}
+
+.mat-mdc-snack-bar-container.ngx-toastr .mdc-snackbar__surface {
+  color: #ffffff;
+}
+
+.mat-mdc-snack-bar-container.ngx-toastr-primary .mdc-snackbar__surface {
+  background-color: #3366ff;
+}
+
+.mat-mdc-snack-bar-container.ngx-toastr-success .mdc-snackbar__surface {
+  background-color: #00d68f;
+}
+
+.mat-mdc-snack-bar-container.ngx-toastr-info .mdc-snackbar__surface {
+  background-color: #0095ff;
+}
+
+.mat-mdc-snack-bar-container.ngx-toastr-warning .mdc-snackbar__surface {
+  background-color: #ffaa00;
+  color: #222b45;
+}
+
+.mat-mdc-snack-bar-container.ngx-toastr-danger .mdc-snackbar__surface {
+  background-color: #ff3d71;
+}
+
+.cdk-overlay-container .mat-mdc-select-panel {
+  background-color: var(--background-basic-color-1) !important;
+  color: var(--text-basic-color) !important;
+}
+
+.cdk-overlay-container .mat-mdc-option .mdc-list-item__primary-text {
+  color: var(--text-basic-color) !important;
+}
+
+.cdk-overlay-container .mat-mdc-option:hover:not(.mdc-list-item--disabled),
+.cdk-overlay-container
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+  background-color: var(--background-basic-color-3) !important;
+}
+
+.cdk-overlay-container .mat-datepicker-content,
+.cdk-overlay-container .mat-date-range-picker-content {
+  background: var(--background-basic-color-1) !important;
+  color: var(--text-basic-color) !important;
+}
+
+.cdk-overlay-container .mat-calendar-body-cell-content,
+.cdk-overlay-container .mat-calendar-table-header th,
+.cdk-overlay-container .mat-calendar-body-label {
+  color: var(--text-basic-color) !important;
+}
+
+.cdk-overlay-container .mat-calendar-body-selected {
+  background-color: var(--hero-primary-right) !important;
+  color: #ffffff !important;
+}

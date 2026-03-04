@@ -1,11 +1,12 @@
 @import '../../../@theme/styles/themes';
 @import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+// @import/theme/styles/global/breakpoints';
 
 @include nb-install-component() {
   ngx-room-selector {
     width: 70%;
-    border-right: nb-theme(divider-width) nb-theme(divider-style) nb-theme(divider-color);
+    border-right: nb-theme(divider-width) nb-theme(divider-style)
+      nb-theme(divider-color);
     background: url('../../../../assets/images/square_pattern.svg') repeat;
     background-size: 75px;
 
@@ -18,7 +19,7 @@
     width: 30%;
   }
 
-  nb-card {
+  mat-card {
     display: flex;
     flex-direction: row;
   }
@@ -45,12 +46,13 @@
       display: none;
     }
 
-    ngx-room-selector, ngx-player {
+    ngx-room-selector,
+    ngx-player {
       width: 100%;
       border: none;
     }
 
-    nb-card {
+    mat-card {
       flex-direction: column;
       justify-content: space-between;
 

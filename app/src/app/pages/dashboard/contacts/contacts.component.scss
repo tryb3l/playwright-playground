@@ -1,34 +1,64 @@
 @import '../../../@theme/styles/themes';
 
 @include nb-install-component() {
-  nb-card {
+  mat-card {
+    height: 100%;
     overflow: hidden;
   }
 
-  nb-tabset {
+  .contacts-list {
     display: flex;
     flex-direction: column;
-
-    ::ng-deep ul {
-      // make same size as card header
-      padding-bottom: 1px;
-      ::ng-deep .tab-link {
-        padding: 1.25rem 2rem;
-      }
-    }
   }
 
-  nb-tab {
-    padding: 0;
-  }
-
-  .contact {
+  .contact-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid nb-theme(divider-color);
 
-    &:first-child {
-      border-top: none;
+    &:last-child {
+      border-bottom: none;
     }
+  }
+
+  .user-info {
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .meta {
+    min-width: 0;
+  }
+
+  .name {
+    font-weight: 600;
+    color: nb-theme(text-basic-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .type {
+    font-size: 0.75rem;
+    color: nb-theme(text-hint-color);
+    text-transform: capitalize;
+  }
+
+  .caption {
+    color: nb-theme(text-hint-color);
+    font-size: 0.75rem;
+    white-space: nowrap;
   }
 }

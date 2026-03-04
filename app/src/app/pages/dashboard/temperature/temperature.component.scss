@@ -1,10 +1,9 @@
 @import '../../../@theme/styles/themes';
 @import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+// @import/theme/styles/global/breakpoints';
 
 @include nb-install-component() {
-
-  nb-tabset {
+  mat-tabset {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -19,7 +18,7 @@
     }
   }
 
-  nb-tab.content-active {
+  mat-tab.content-active {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -83,12 +82,12 @@
     }
   }
 
-  nb-radio-group {
+  mat-radio-group {
     display: flex;
     justify-content: space-between;
   }
 
-  nb-radio {
+  mat-radio {
     flex: 0 0 auto;
     width: calc(3.5rem + 2px);
     height: calc(3.5rem + 2px);

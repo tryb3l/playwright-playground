@@ -1,19 +1,23 @@
 @import '../../../@theme/styles/themes';
 
 @include nb-install-component() {
-
-  nb-card {
+  mat-card {
     position: relative;
     overflow: hidden;
   }
 
-  nb-card-header {
+  mat-card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-top: nb-theme(card-header-with-select-padding-top);
     padding-bottom: nb-theme(card-header-with-select-padding-bottom);
     margin-bottom: -1px;
+    width: 100%;
+
+    mat-select {
+      max-width: 150px;
+    }
   }
 
   ngx-traffic-chart {

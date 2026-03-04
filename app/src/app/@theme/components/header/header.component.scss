@@ -1,70 +1,85 @@
 @import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+// @import/theme/styles/global/breakpoints';
 @import '../../styles/themes';
 
 @include nb-install-component() {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.25rem;
+    height: 4.75rem;
+    border-bottom: 1px solid nb-theme(divider-color);
+  }
 
   .logo-container {
     display: flex;
     align-items: center;
-    width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});
+    width: auto;
   }
 
-  nb-action {
-    height: auto;
-    display: flex;
-    align-content: center;
+  .spacer {
+    flex: 1 1 auto;
   }
 
-  nb-user {
-    cursor: pointer;
-  }
-
-  ::ng-deep nb-search button {
-    padding: 0!important;
-  }
-
-  .header-container {
+  .controls {
     display: flex;
     align-items: center;
-    width: auto;
+    gap: 0.5rem;
 
-    .sidebar-toggle {
-      @include nb-ltr(padding-right, 1.25rem);
-      @include nb-rtl(padding-left, 1.25rem);
-      text-decoration: none;
-      color: nb-theme(text-hint-color);
-      nb-icon {
-        font-size: 1.75rem;
+    .theme-field {
+      width: 9rem;
+      margin: 0;
+
+      ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+        display: none;
       }
     }
+  }
 
-    .logo {
-      padding: 0 1.25rem;
-      font-size: 1.75rem;
-      @include nb-ltr(border-left, 1px solid nb-theme(divider-color));
-      @include nb-rtl(border-right, 1px solid nb-theme(divider-color));
-      white-space: nowrap;
-      text-decoration: none;
-    }
+  .logo {
+    padding: 0 1.25rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    @include nb-ltr(border-left, 1px solid nb-theme(divider-color));
+    @include nb-rtl(border-right, 1px solid nb-theme(divider-color));
+    color: nb-theme(text-basic-color);
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .user-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .user-avatar-img {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid nb-theme(divider-color);
+  }
+
+  .user-name {
+    max-width: 9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   @include media-breakpoint-down(sm) {
+    .theme-field {
+      display: none;
+    }
+
     .control-item {
       display: none;
     }
+
     .user-action {
       border: none;
       padding: 0;
-    }
-  }
-
-  @include media-breakpoint-down(is) {
-    nb-select {
-      display: none;
     }
   }
 }

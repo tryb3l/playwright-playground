@@ -1,15 +1,40 @@
-nb-checkbox {
-  margin-bottom: 1rem;
-}
+@import '../../../@theme/styles/themes';
 
-.form-inline [fullWidth] {
-  flex: 1;
-}
+@include nb-install-component() {
+  .label {
+    display: inline-block;
+    margin-bottom: 0.35rem;
+    color: nb-theme(text-basic-color);
+    font-weight: 600;
+  }
 
-.form-inline > * {
-  margin: 0 1.5rem 1.5rem 0;
-}
+  .form-group {
+    margin-bottom: 1rem;
+  }
 
-nb-card.inline-form-card nb-card-body {
-  padding-bottom: 0;
+  .form-inline > * {
+    margin: 0 1.5rem 1.5rem 0;
+  }
+
+  .form-inline input[matInput] {
+    width: min(14rem, 100%);
+  }
+
+  .form-inline mat-checkbox {
+    margin-top: 0.35rem;
+  }
+
+  mat-card.inline-form-card mat-card-content {
+    padding-bottom: 0;
+  }
+
+  textarea[matInput] {
+    min-height: 6.5rem;
+  }
+
+  mat-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }

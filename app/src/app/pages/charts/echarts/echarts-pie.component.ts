@@ -1,29 +1,31 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import { ThemeService } from '../../../@core/utils';
 
 @Component({
-    selector: 'ngx-echarts-pie',
-    template: `
-    <div echarts [options]="options" class="echart"></div>
-  `,
-    standalone: false
+  selector: 'ngx-echarts-pie',
+  template: ` <div echarts [options]="options" class="echart"></div> `,
+  standalone: false,
 })
 export class EchartsPieComponent implements AfterViewInit, OnDestroy {
   options: any = {};
   themeSubscription: any;
 
-  constructor(private theme: NbThemeService) {
-  }
+  constructor(private theme: ThemeService) {}
 
   ngAfterViewInit() {
-    this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
-
+    this.themeSubscription = this.theme.getJsTheme().subscribe((config) => {
       const colors = config.variables;
       const echarts: any = config.variables.echarts;
 
       this.options = {
         backgroundColor: echarts.bg,
-        color: [colors.warningLight, colors.infoLight, colors.dangerLight, colors.successLight, colors.primaryLight],
+        color: [
+          colors.warningLight,
+          colors.infoLight,
+          colors.dangerLight,
+          colors.successLight,
+          colors.primaryLight,
+        ],
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)',
@@ -57,17 +59,11 @@ export class EchartsPieComponent implements AfterViewInit, OnDestroy {
               },
             },
             label: {
-              normal: {
-                textStyle: {
-                  color: echarts.textColor,
-                },
-              },
+              color: echarts.textColor,
             },
             labelLine: {
-              normal: {
-                lineStyle: {
-                  color: echarts.axisLineColor,
-                },
+              lineStyle: {
+                color: echarts.axisLineColor,
               },
             },
           },

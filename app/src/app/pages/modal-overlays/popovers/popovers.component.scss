@@ -1,15 +1,23 @@
-@import '@nebular/theme/styles/core/mixins';
+@import '../../../@theme/styles/themes';
 
-nb-card-body {
-  margin: 0 -0.5rem;
+@include nb-install-component() {
+  mat-card-content {
+    margin: 0 -0.5rem;
 
-  button,
-  p {
-    margin: 0.5rem 0.5rem 0;
+    button,
+    p {
+      margin: 0.5rem 0.5rem 0;
+    }
+  }
+
+  .popover-card {
+    margin: 0;
+    max-width: 20rem;
   }
 }
 
-.popover-card {
-  margin: 0;
-  max-width: 20rem;
+:host ::ng-deep .popover-menu .mat-mdc-menu-content {
+  padding: 0;
+  min-width: 22rem;
+  max-width: 26rem;
 }

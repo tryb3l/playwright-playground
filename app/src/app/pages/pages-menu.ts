@@ -1,10 +1,16 @@
-import { NbMenuItem } from '@nebular/theme';
+export interface MenuItem {
+  title: string;
+  icon?: string;
+  link?: string;
+  home?: boolean;
+  group?: boolean;
+  children?: MenuItem[];
+}
 
-export const MENU_ITEMS: NbMenuItem[] = [
-  
+export const MENU_ITEMS: MenuItem[] = [
   {
     title: 'IoT Dashboard',
-    icon: 'home-outline',
+    icon: 'home',
     link: '/pages/iot-dashboard',
   },
   {
@@ -13,7 +19,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Forms',
-    icon: 'edit-2-outline',
+    icon: 'edit',
     children: [
       {
         title: 'Form Layouts',
@@ -27,7 +33,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Modal & Overlays',
-    icon: 'browser-outline',
+    icon: 'web',
     children: [
       {
         title: 'Dialog',
@@ -53,27 +59,27 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Extra Components',
-    icon: 'message-circle-outline',
+    icon: 'message',
     children: [
       {
         title: 'Calendar',
         link: '/pages/extra-components/calendar',
-      }
+      },
     ],
   },
   {
     title: 'Charts',
-    icon: 'pie-chart-outline',
+    icon: 'pie_chart',
     children: [
       {
         title: 'Echarts',
         link: '/pages/charts/echarts',
-      }
+      },
     ],
   },
   {
     title: 'Tables & Data',
-    icon: 'grid-outline',
+    icon: 'grid_on',
     children: [
       {
         title: 'Smart Table',
@@ -87,7 +93,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Auth',
-    icon: 'lock-outline',
+    icon: 'lock',
     children: [
       {
         title: 'Login',

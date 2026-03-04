@@ -1,10 +1,9 @@
 @import '../../../@theme/styles/themes';
-@import '@nebular/theme/styles/global/breakpoints';
+// @import/theme/styles/global/breakpoints';
 @import 'bootstrap/scss/mixins/breakpoints';
 
 @include nb-install-component() {
-
-  nb-card-body {
+  mat-card-content {
     overflow: hidden;
   }
 

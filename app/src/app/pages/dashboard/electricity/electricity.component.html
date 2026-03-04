@@ -1,38 +1,36 @@
-<nb-card class="cards-container">
-  <nb-card size="large" class="table-card">
-    <nb-card-header> Electricity Consumption </nb-card-header>
+<mat-card class="cards-container">
+  <mat-card class="table-card">
+    <mat-card-header> Electricity Consumption </mat-card-header>
 
-    <nb-tabset fullWidth>
+    <mat-tab-group>
       @for (year of listData; track year) {
-        <nb-tab [tabTitle]="year.title" [active]="year.active">
-          <nb-list>
+        <mat-tab [label]="year.title" [active]="year.active">
+          <mat-list>
             @for (month of year.months; track month) {
-              <nb-list-item>
+              <mat-list-item>
                 <span class="month">{{ month.month }}</span>
                 <span>
-                  <nb-icon
-                    [class.down]="month.down"
-                    [class.up]="!month.down"
-                    [icon]="month.down ? 'arrow-down' : 'arrow-up'"
-                    pack="eva"
-                  >
-                  </nb-icon>
+                  <mat-icon [class.down]="month.down" [class.up]="!month.down">
+                    {{
+                      month.down ? 'keyboard_arrow_down' : 'keyboard_arrow_up'
+                    }}
+                  </mat-icon>
                   {{ month.delta }}
                 </span>
                 <span class="results">
                   {{ month.kWatts }} <span class="caption">kWh</span> /
                   {{ month.cost }} <span class="caption">USD</span>
                 </span>
-              </nb-list-item>
+              </mat-list-item>
             }
-          </nb-list>
-        </nb-tab>
+          </mat-list>
+        </mat-tab>
       }
-    </nb-tabset>
-  </nb-card>
+    </mat-tab-group>
+  </mat-card>
 
-  <nb-card size="large" class="chart-card">
-    <nb-card-header>
+  <mat-card class="chart-card">
+    <mat-card-header>
       <span class="stats">
         <span class="caption">Consumed</span>
         <span>816 <span class="caption">kWh</span></span>
@@ -42,13 +40,15 @@
         <span>291 <span class="caption">USD</span></span>
       </span>
 
-      <nb-select [(selected)]="type" class="type-select">
-        @for (t of types; track t) {
-          <nb-option [value]="t">{{ t }}</nb-option>
-        }
-      </nb-select>
-    </nb-card-header>
+      <mat-form-field appearance="outline" class="type-select-field">
+        <mat-select [(value)]="type" class="type-select">
+          @for (t of types; track t) {
+            <mat-option [value]="t">{{ t }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </mat-card-header>
 
     <ngx-electricity-chart [data]="chartData"></ngx-electricity-chart>
-  </nb-card>
-</nb-card>
+  </mat-card>
+</mat-card>

@@ -1,16 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {
-  NbSortDirection,
-  NbSortRequest,
-  NbTreeGridDataSource,
-  NbTreeGridDataSourceBuilder,
-} from '@nebular/theme';
-
-interface TreeNode<T> {
-  data: T;
-  children?: TreeNode<T>[];
-  expanded?: boolean;
-}
+import { MatTableDataSource } from '@angular/material/table';
 
 interface FSEntry {
   name: string;
@@ -30,28 +19,13 @@ export class TreeGridComponent {
   defaultColumns = ['size', 'kind', 'items'];
   allColumns = [this.customColumn, ...this.defaultColumns];
 
-  dataSource: NbTreeGridDataSource<FSEntry>;
+  dataSource: MatTableDataSource<FSEntry>;
 
-  sortColumn: string;
-  sortDirection: NbSortDirection = NbSortDirection.NONE;
-
-  constructor(private dataSourceBuilder: NbTreeGridDataSourceBuilder<FSEntry>) {
-    this.dataSource = this.dataSourceBuilder.create(this.data);
+  constructor() {
+    this.dataSource = new MatTableDataSource(this.flattenData(this.data));
   }
 
-  updateSort(sortRequest: NbSortRequest): void {
-    this.sortColumn = sortRequest.column;
-    this.sortDirection = sortRequest.direction;
-  }
-
-  getSortDirection(column: string): NbSortDirection {
-    if (this.sortColumn === column) {
-      return this.sortDirection;
-    }
-    return NbSortDirection.NONE;
-  }
-
-  private data: TreeNode<FSEntry>[] = [
+  private data = [
     {
       data: { name: 'Projects', size: '1.8 MB', items: 5, kind: 'dir' },
       children: [
@@ -77,6 +51,17 @@ export class TreeGridComponent {
     },
   ];
 
+  private flattenData(data: any[]): FSEntry[] {
+    const flattened: FSEntry[] = [];
+    data.forEach((item) => {
+      flattened.push(item.data);
+      if (item.children) {
+        flattened.push(...item.children.map((c) => c.data));
+      }
+    });
+    return flattened;
+  }
+
   getShowOn(index: number) {
     const minWithForMultipleColumns = 400;
     const nextColumnStep = 100;
@@ -88,9 +73,9 @@ export class TreeGridComponent {
   selector: 'ngx-fs-icon',
   template: `
     @if (isDir()) {
-      <nb-tree-grid-row-toggle [expanded]="expanded"> </nb-tree-grid-row-toggle>
+      <mat-icon>folder</mat-icon>
     } @else {
-      <nb-icon icon="file-text-outline"></nb-icon>
+      <mat-icon>file_present</mat-icon>
     }
   `,
   standalone: false,

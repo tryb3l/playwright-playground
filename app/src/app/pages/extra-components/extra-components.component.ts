@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'ngx-components',
-    template: `
-    <router-outlet></router-outlet>
-  `,
-    standalone: false
+  selector: 'ngx-components',
+  template: ` <router-outlet></router-outlet> `,
+  standalone: false,
 })
-export class ExtraComponentsComponent {
-}
+export class ExtraComponentsComponent {}

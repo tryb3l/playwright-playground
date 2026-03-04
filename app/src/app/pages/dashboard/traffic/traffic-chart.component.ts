@@ -1,21 +1,22 @@
 import { delay, takeWhile } from 'rxjs/operators';
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import * as echarts from 'echarts';
+import { ThemeService } from '../../../@core/utils';
 import { LayoutService } from '../../../@core/utils';
 
 @Component({
-    selector: 'ngx-traffic-chart',
-    template: `
-    <div echarts
-         [options]="option"
-         class="echart"
-         (chartInit)="onChartInit($event)">
-    </div>
+  selector: 'ngx-traffic-chart',
+  template: `
+    <div
+      echarts
+      [options]="option"
+      class="echart"
+      (chartInit)="onChartInit($event)"
+    ></div>
   `,
-    standalone: false
+  standalone: false,
 })
 export class TrafficChartComponent implements AfterViewInit, OnDestroy {
-
   private alive = true;
 
   @Input() points: number[];
@@ -25,138 +26,140 @@ export class TrafficChartComponent implements AfterViewInit, OnDestroy {
   option: any = {};
   echartsIntance: any;
 
-  constructor(private theme: NbThemeService,
-              private layoutService: LayoutService) {
-    this.layoutService.onSafeChangeLayoutSize()
-      .pipe(
-        takeWhile(() => this.alive),
-      )
+  constructor(
+    private theme: ThemeService,
+    private layoutService: LayoutService
+  ) {
+    this.layoutService
+      .onSafeChangeLayoutSize()
+      .pipe(takeWhile(() => this.alive))
       .subscribe(() => this.resizeChart());
   }
 
   ngAfterViewInit() {
-    this.theme.getJsTheme()
+    this.theme
+      .getJsTheme()
       .pipe(
         delay(1),
-        takeWhile(() => this.alive),
+        takeWhile(() => this.alive)
       )
-      .subscribe(config => {
+      .subscribe((config) => {
         const trafficTheme: any = config.variables.traffic;
 
-        this.option = Object.assign({}, {
-          grid: {
-            left: 0,
-            top: 0,
-            right: 0,
-            bottom: 0,
-          },
-          xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: this.points,
-          },
-          yAxis: {
-            boundaryGap: [0, '5%'],
-            axisLine: {
-              show: false,
+        this.option = Object.assign(
+          {},
+          {
+            grid: {
+              left: 0,
+              top: 0,
+              right: 0,
+              bottom: 0,
             },
-            axisLabel: {
-              show: false,
+            xAxis: {
+              type: 'category',
+              boundaryGap: false,
+              data: this.points,
             },
-            axisTick: {
-              show: false,
-            },
-            splitLine: {
-              show: true,
-              lineStyle: {
-                color: trafficTheme.yAxisSplitLine,
-                width: '1',
+            yAxis: {
+              boundaryGap: [0, '5%'],
+              axisLine: {
+                show: false,
+              },
+              axisLabel: {
+                show: false,
+              },
+              axisTick: {
+                show: false,
+              },
+              splitLine: {
+                show: true,
+                lineStyle: {
+                  color: trafficTheme.yAxisSplitLine,
+                  width: '1',
+                },
               },
             },
-          },
-          tooltip: {
-            axisPointer: {
-              type: 'shadow',
+            tooltip: {
+              axisPointer: {
+                type: 'shadow',
+              },
+              textStyle: {
+                color: trafficTheme.tooltipTextColor,
+                fontWeight: trafficTheme.tooltipFontWeight,
+                fontSize: 16,
+              },
+              position: 'top',
+              backgroundColor: trafficTheme.tooltipBg,
+              borderColor: trafficTheme.tooltipBorderColor,
+              borderWidth: 1,
+              formatter: '{c0} MB',
+              extraCssText: trafficTheme.tooltipExtraCss,
             },
-            textStyle: {
-              color: trafficTheme.tooltipTextColor,
-              fontWeight: trafficTheme.tooltipFontWeight,
-              fontSize: 16,
-            },
-            position: 'top',
-            backgroundColor: trafficTheme.tooltipBg,
-            borderColor: trafficTheme.tooltipBorderColor,
-            borderWidth: 1,
-            formatter: '{c0} MB',
-            extraCssText: trafficTheme.tooltipExtraCss,
-          },
-          series: [
-            {
-              type: 'line',
-              symbol: 'circle',
-              symbolSize: 8,
-              sampling: 'average',
-              silent: true,
-              itemStyle: {
-                normal: {
+            series: [
+              {
+                type: 'line',
+                symbol: 'circle',
+                symbolSize: 8,
+                sampling: 'average',
+                silent: true,
+                itemStyle: {
                   color: trafficTheme.shadowLineDarkBg,
                 },
                 emphasis: {
-                  color: 'rgba(0,0,0,0)',
-                  borderColor: 'rgba(0,0,0,0)',
-                  borderWidth: 0,
+                  itemStyle: {
+                    color: 'rgba(0,0,0,0)',
+                    borderColor: 'rgba(0,0,0,0)',
+                    borderWidth: 0,
+                  },
                 },
-              },
-              lineStyle: {
-                normal: {
+                lineStyle: {
                   width: 2,
                   color: trafficTheme.shadowLineDarkBg,
                 },
+                data: this.points.map((p) => p - 15),
               },
-              data: this.points.map(p => p - 15),
-            },
-            {
-              type: 'line',
-              symbol: 'circle',
-              symbolSize: 6,
-              sampling: 'average',
-              itemStyle: {
-                normal: {
+              {
+                type: 'line',
+                symbol: 'circle',
+                symbolSize: 6,
+                sampling: 'average',
+                itemStyle: {
                   color: trafficTheme.itemColor,
                   borderColor: trafficTheme.itemBorderColor,
                   borderWidth: 2,
                 },
                 emphasis: {
-                  color: 'white',
-                  borderColor: trafficTheme.itemEmphasisBorderColor,
-                  borderWidth: 2,
+                  itemStyle: {
+                    color: 'white',
+                    borderColor: trafficTheme.itemEmphasisBorderColor,
+                    borderWidth: 2,
+                  },
                 },
-              },
-              lineStyle: {
-                normal: {
+                lineStyle: {
                   width: 2,
                   color: trafficTheme.lineBg,
                   shadowColor: trafficTheme.lineBg,
                   shadowBlur: trafficTheme.lineShadowBlur,
                 },
-              },
-              areaStyle: {
-                normal: {
-                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                    offset: 0,
-                    color: trafficTheme.gradFrom,
-                  }, {
-                    offset: 1,
-                    color: trafficTheme.gradTo,
-                  }]),
+                areaStyle: {
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    {
+                      offset: 0,
+                      color: trafficTheme.gradFrom,
+                    },
+                    {
+                      offset: 1,
+                      color: trafficTheme.gradTo,
+                    },
+                  ]),
                   opacity: 1,
                 },
+                data: this.points,
               },
-              data: this.points,
-            },
-          ],
-        });
-    });
+            ],
+          }
+        );
+      });
   }
 
   onChartInit(echarts) {

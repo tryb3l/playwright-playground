@@ -1,8 +1,7 @@
 @import '../../../@theme/styles/themes';
 
 @include nb-install-component() {
-
-  nb-card-body {
+  mat-card-content {
     display: flex;
     flex-direction: column;
   }

@@ -1,5 +1,5 @@
 @import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+// @import/theme/styles/global/breakpoints';
 
 @import '../../../@theme/styles/themes';
 
@@ -9,7 +9,7 @@
   }
 
   @include media-breakpoint-down(xxl) {
-    nb-card-body {
+    mat-card-content {
       display: flex;
     }
 
@@ -19,8 +19,8 @@
     }
   }
 
-  @include media-breakpoint-down(is) {
-    nb-card-body {
+  @include media-breakpoint-down(xs) {
+    mat-card-content {
       display: block;
     }
 

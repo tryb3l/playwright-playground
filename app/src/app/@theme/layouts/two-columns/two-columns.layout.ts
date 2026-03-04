@@ -1,31 +1,25 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'ngx-two-columns-layout',
-    styleUrls: ['./two-columns.layout.scss'],
-    template: `
-    <nb-layout windowMode>
-      <nb-layout-header fixed>
+  selector: 'ngx-two-columns-layout',
+  styleUrls: ['./two-columns.layout.scss'],
+  template: `
+    <mat-sidenav-container class="column-layout">
+      <mat-sidenav mode="side" opened class="menu-sidebar">
+        <ng-content select="mat-nav-list"></ng-content>
+      </mat-sidenav>
+      <mat-sidenav-content>
         <ngx-header></ngx-header>
-      </nb-layout-header>
-
-      <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
-        <ng-content select="nb-menu"></ng-content>
-      </nb-sidebar>
-
-      <nb-layout-column class="small">
-      </nb-layout-column>
-
-      <nb-layout-column>
-        <ng-content select="router-outlet"></ng-content>
-      </nb-layout-column>
-
-      <nb-layout-footer fixed>
+        <div class="content column-container">
+          <div class="small-column"></div>
+          <div class="main-column">
+            <ng-content select="router-outlet"></ng-content>
+          </div>
+        </div>
         <ngx-footer></ngx-footer>
-      </nb-layout-footer>
-
-    </nb-layout>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
   `,
-    standalone: false
+  standalone: false,
 })
 export class TwoColumnsLayoutComponent {}

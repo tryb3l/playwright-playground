@@ -4,7 +4,6 @@ import { Camera, SecurityCamerasData } from '../data/security-cameras';
 
 @Injectable()
 export class SecurityCamerasService extends SecurityCamerasData {
-
   private cameras: Camera[] = [
     {
       title: 'Camera #1',

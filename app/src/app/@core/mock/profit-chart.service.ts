@@ -4,18 +4,9 @@ import { ProfitChart, ProfitChartData } from '../data/profit-chart';
 
 @Injectable()
 export class ProfitChartService extends ProfitChartData {
+  private year = ['2012', '2013', '2014', '2015', '2016', '2017', '2018'];
 
-  private year = [
-    '2012',
-    '2013',
-    '2014',
-    '2015',
-    '2016',
-    '2017',
-    '2018',
-  ];
-
-  private data = { };
+  private data = {};
 
   constructor(private period: PeriodsService) {
     super();

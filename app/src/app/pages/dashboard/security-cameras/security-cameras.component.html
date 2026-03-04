@@ -1,29 +1,28 @@
-<nb-card size="giant">
-  <nb-card-header>
-    Security Cameras
-
-    <button
-      class="single-view-button"
-      nbButton
-      size="small"
-      [appearance]="isSingleView ? 'filled' : 'outline'"
-      (click)="isSingleView = true"
-    >
-      <i class="nb-square"></i>
-    </button>
-    <button
-      class="grid-view-button"
-      nbButton
-      size="small"
-      [appearance]="isSingleView ? 'outline' : 'filled'"
-      (click)="isSingleView = false"
-    >
-      <nb-icon icon="grid" pack="eva"></nb-icon>
-    </button>
-  </nb-card-header>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Security Cameras</mat-card-title>
+    <div class="view-actions">
+      <button
+        class="single-view-button"
+        mat-icon-button
+        (click)="isSingleView = true"
+        aria-label="Single view"
+      >
+        <mat-icon>crop_square</mat-icon>
+      </button>
+      <button
+        class="grid-view-button"
+        mat-icon-button
+        (click)="isSingleView = false"
+        aria-label="Grid view"
+      >
+        <mat-icon>grid_view</mat-icon>
+      </button>
+    </div>
+  </mat-card-header>
 
   <div class="grid-container">
-    @if (isSingleView) {
+    @if (isSingleView && selectedCamera) {
       <div class="single-view">
         <div
           class="camera"
@@ -49,24 +48,24 @@
     }
   </div>
 
-  <nb-card-footer>
-    <nb-actions [size]="actionSize" fullWidth>
-      <nb-action>
-        <nb-icon icon="pause-circle-outline" pack="eva"></nb-icon>
-        Pause
-      </nb-action>
-      <nb-action>
-        <nb-icon icon="list-outline" pack="eva"></nb-icon>
-        Logs
-      </nb-action>
-      <nb-action>
-        <nb-icon icon="search-outline" pack="eva"></nb-icon>
-        Search
-      </nb-action>
-      <nb-action>
-        <nb-icon icon="settings-2-outline" pack="eva"></nb-icon>
-        Setup
-      </nb-action>
-    </nb-actions>
-  </nb-card-footer>
-</nb-card>
+  <mat-card-footer>
+    <mat-toolbar class="camera-toolbar">
+      <button mat-button>
+        <mat-icon>pause_circle</mat-icon>
+        <span>Pause</span>
+      </button>
+      <button mat-button>
+        <mat-icon>list</mat-icon>
+        <span>Logs</span>
+      </button>
+      <button mat-button>
+        <mat-icon>search</mat-icon>
+        <span>Search</span>
+      </button>
+      <button mat-button>
+        <mat-icon>settings</mat-icon>
+        <span>Setup</span>
+      </button>
+    </mat-toolbar>
+  </mat-card-footer>
+</mat-card>

@@ -1,7 +1,6 @@
 @import '../../../@theme/styles/themes';
 
 @include nb-install-component() {
-
   .picture {
     background-position: center;
     background-size: cover;
@@ -19,7 +18,7 @@
     text-align: justify;
   }
 
-  nb-card-footer {
+  mat-card-footer {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -29,7 +28,7 @@
     font-size: 1.75rem;
   }
 
-  nb-icon {
+  mat-icon {
     font-size: 1.55rem;
 
     ::ng-deep svg {

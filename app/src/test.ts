@@ -17,14 +17,15 @@ import {
 declare const __karma__: any;
 
 // Prevent Karma from running prematurely.
-__karma__.loaded = function () { };
+__karma__.loaded = function () {};
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting(), {
-  teardown: { destroyAfterEach: false },
-},
+  platformBrowserDynamicTesting(),
+  {
+    teardown: { destroyAfterEach: false },
+  }
 );
 // Finally, start Karma to run the tests.
 __karma__.start();

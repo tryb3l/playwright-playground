@@ -1,0 +1,24 @@
+@mixin nb-install-component() {
+  @content;
+}
+@mixin nb-for-theme($theme) {
+  @content;
+}
+@mixin nb-ltr() {
+  @content;
+}
+@mixin nb-rtl() {
+  @content;
+}
+@mixin nb-register-theme($theme, $name: null, $parent: null) {
+}
+
+@function nb-theme($var) {
+  @if $var == 'sidebar-width' {
+    @return 256px;
+  }
+  @if $var == 'header-padding' {
+    @return 1rem;
+  }
+  @return #000;
+}

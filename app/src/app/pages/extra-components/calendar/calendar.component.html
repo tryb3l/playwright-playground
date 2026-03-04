@@ -1,23 +1,53 @@
 <div class="calendars">
-  <div class="calendar-container">
-    <span class="subtitle">
-      Selected date: {{ date | date }}
-    </span>
-    <nb-calendar [(date)]="date" [boundingMonth]="true" showWeekNumber></nb-calendar>
-  </div>
-  <div class="calendar-container">
-    <span class="subtitle">
-      Selected range: {{ range.start | date }} - {{ range.end | date }}
-    </span>
-    <nb-calendar-range [(range)]="range"></nb-calendar-range>
-  </div>
-  <div class="calendar-container">
-    <span class="subtitle">
-      Selected date: {{ date2 | date }}
-    </span>
-    <nb-calendar
-      [(date)]="date2"
-      [dayCellComponent]="dayCellComponent"
-    ></nb-calendar>
-  </div>
+  <mat-card class="calendar-container">
+    <mat-card-header>Default Calendar</mat-card-header>
+    <mat-card-content>
+      <span class="subtitle">Selected date: {{ date | date: 'longDate' }}</span>
+      <mat-calendar [(selected)]="date"></mat-calendar>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="calendar-container">
+    <mat-card-header>Range Calendar</mat-card-header>
+    <mat-card-content>
+      <span class="subtitle">
+        Selected range:
+        @if (range.start) {
+          {{ range.start | date: 'mediumDate' }}
+        } @else {
+          -
+        }
+        -
+        @if (range.end) {
+          {{ range.end | date: 'mediumDate' }}
+        } @else {
+          -
+        }
+      </span>
+      <mat-calendar
+        [selected]="range.end || range.start"
+        [dateClass]="rangeDateClass"
+        (selectedChange)="selectRangeDate($event)"
+      >
+      </mat-calendar>
+      <div class="range-actions">
+        <button mat-button color="primary" (click)="clearRange()">
+          Clear range
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="calendar-container">
+    <mat-card-header>Custom Day Style</mat-card-header>
+    <mat-card-content>
+      <span class="subtitle"
+        >Selected date: {{ date2 | date: 'longDate' }}</span
+      >
+      <mat-calendar
+        [(selected)]="date2"
+        [dateClass]="weekendDateClass"
+      ></mat-calendar>
+    </mat-card-content>
+  </mat-card>
 </div>

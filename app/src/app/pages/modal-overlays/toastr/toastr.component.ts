@@ -6,13 +6,13 @@ import {
   NbGlobalPosition,
   NbToastrService,
   NbToastrConfig,
-} from '@nebular/theme';
+} from '../../../@core/utils';
 
 @Component({
-    selector: 'ngx-toastr',
-    styleUrls: ['./toastr.component.scss'],
-    templateUrl: './toastr.component.html',
-    standalone: false
+  selector: 'ngx-toastr',
+  styleUrls: ['./toastr.component.scss'],
+  templateUrl: './toastr.component.html',
+  standalone: false,
 })
 export class ToastrComponent {
   constructor(private toastrService: NbToastrService) {}
@@ -58,7 +58,7 @@ export class ToastrComponent {
     this.showToast(this.status, this.title, this.content);
   }
 
-  openRandomToast () {
+  openRandomToast() {
     const typeIndex = Math.floor(Math.random() * this.types.length);
     const quoteIndex = Math.floor(Math.random() * this.quotes.length);
     const type = this.types[typeIndex];
@@ -79,9 +79,6 @@ export class ToastrComponent {
     const titleContent = title ? `. ${title}` : '';
 
     this.index += 1;
-    this.toastrService.show(
-      body,
-      `Toast ${this.index}${titleContent}`,
-      config);
+    this.toastrService.show(body, `Toast ${this.index}${titleContent}`, config);
   }
 }

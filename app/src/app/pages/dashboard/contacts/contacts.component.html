@@ -1,35 +1,39 @@
-<nb-card size="giant">
-  <nb-tabset fullWidth>
-    <nb-tab tabTitle="Contacts">
-      <nb-list>
-        @for (c of contacts; track c) {
-          <nb-list-item class="contact">
-            <nb-user
-              [picture]="c.user.picture"
-              [name]="c.user.name"
-              [title]="c.type"
-              size="large"
-            ></nb-user>
-            <nb-icon icon="phone-outline" pack="eva"></nb-icon>
-          </nb-list-item>
+<mat-card>
+  <mat-tab-group>
+    <mat-tab label="Contacts">
+      <div class="contacts-list">
+        @for (c of contacts; track c.user.name + c.type) {
+          <div class="contact-row">
+            <div class="user-info">
+              <img class="avatar" [src]="c.user.picture" [alt]="c.user.name" />
+              <div class="meta">
+                <div class="name">{{ c.user.name }}</div>
+                <div class="type">{{ c.type }}</div>
+              </div>
+            </div>
+            <button mat-icon-button aria-label="Call contact">
+              <mat-icon>phone</mat-icon>
+            </button>
+          </div>
         }
-      </nb-list>
-    </nb-tab>
+      </div>
+    </mat-tab>
 
-    <nb-tab tabTitle="Recent">
-      <nb-list>
-        @for (c of recent; track c) {
-          <nb-list-item class="contact">
-            <nb-user
-              [picture]="c.user.picture"
-              [name]="c.user.name"
-              [title]="c.type"
-              size="large"
-            ></nb-user>
+    <mat-tab label="Recent">
+      <div class="contacts-list">
+        @for (c of recent; track c.user.name + c.time) {
+          <div class="contact-row">
+            <div class="user-info">
+              <img class="avatar" [src]="c.user.picture" [alt]="c.user.name" />
+              <div class="meta">
+                <div class="name">{{ c.user.name }}</div>
+                <div class="type">{{ c.type }}</div>
+              </div>
+            </div>
             <span class="caption">{{ c.time | date: 'shortTime' }}</span>
-          </nb-list-item>
+          </div>
         }
-      </nb-list>
-    </nb-tab>
-  </nb-tabset>
-</nb-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

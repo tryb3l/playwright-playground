@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'ngx-status-card',
-    styleUrls: ['./status-card.component.scss'],
-    template: `
-    <nb-card (click)="on = !on" [ngClass]="{'off': !on}">
+  selector: 'ngx-status-card',
+  styleUrls: ['./status-card.component.scss'],
+  template: `
+    <mat-card (click)="on = !on" [ngClass]="{ off: !on }">
       <div class="icon-container">
         <div class="icon status-{{ type }}">
           <ng-content></ng-content>
@@ -15,12 +15,11 @@ import { Component, Input } from '@angular/core';
         <div class="title h5">{{ title }}</div>
         <div class="status paragraph-2">{{ on ? 'ON' : 'OFF' }}</div>
       </div>
-    </nb-card>
+    </mat-card>
   `,
-    standalone: false
+  standalone: false,
 })
 export class StatusCardComponent {
-
   @Input() title: string;
   @Input() type: string;
   @Input() on = true;

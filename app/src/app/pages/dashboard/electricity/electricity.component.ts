@@ -1,18 +1,21 @@
 import { Component, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import { ThemeService } from '../../../@core/utils';
 
-import { Electricity, ElectricityChart, ElectricityData } from '../../../@core/data/electricity';
+import {
+  Electricity,
+  ElectricityChart,
+  ElectricityData,
+} from '../../../@core/data/electricity';
 import { takeWhile } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
 @Component({
-    selector: 'ngx-electricity',
-    styleUrls: ['./electricity.component.scss'],
-    templateUrl: './electricity.component.html',
-    standalone: false
+  selector: 'ngx-electricity',
+  styleUrls: ['./electricity.component.scss'],
+  templateUrl: './electricity.component.html',
+  standalone: false,
 })
 export class ElectricityComponent implements OnDestroy {
-
   private alive = true;
 
   listData: Electricity[];
@@ -24,23 +27,28 @@ export class ElectricityComponent implements OnDestroy {
   currentTheme: string;
   themeSubscription: any;
 
-  constructor(private electricityService: ElectricityData,
-              private themeService: NbThemeService) {
-    this.themeService.getJsTheme()
+  constructor(
+    private electricityService: ElectricityData,
+    private themeService: ThemeService
+  ) {
+    this.themeService
+      .getJsTheme()
       .pipe(takeWhile(() => this.alive))
-      .subscribe(theme => {
+      .subscribe((theme) => {
         this.currentTheme = theme.name;
-    });
+      });
 
     forkJoin(
       this.electricityService.getListData(),
-      this.electricityService.getChartData(),
+      this.electricityService.getChartData()
     )
       .pipe(takeWhile(() => this.alive))
-      .subscribe(([listData, chartData]: [Electricity[], ElectricityChart[]] ) => {
-        this.listData = listData;
-        this.chartData = chartData;
-      });
+      .subscribe(
+        ([listData, chartData]: [Electricity[], ElectricityChart[]]) => {
+          this.listData = listData;
+          this.chartData = chartData;
+        }
+      );
   }
 
   ngOnDestroy() {

@@ -1,6 +1,6 @@
 @import '../../../@theme/styles/themes';
 @import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+// @import/theme/styles/global/breakpoints';
 
 @include nb-install-component() {
   .position-select {
@@ -11,7 +11,7 @@
     display: block;
   }
 
-  nb-card-footer button:first-child {
+  mat-card-footer button:first-child {
     @include nb-ltr(margin-right, 1rem);
     @include nb-rtl(margin-left, 1rem);
   }
