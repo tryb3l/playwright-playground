@@ -5,7 +5,7 @@ import { TableAssertions } from './table-assertions';
 import { ToastrAssertions } from './toastr-assertions';
 
 export class AssertionsFactory {
-  constructor(private page: Page) { }
+  constructor(private page: Page) {}
 
   createFormAssertions() {
     return new FormAssertions(this.page);

@@ -5,24 +5,24 @@ import { GridFormComponent } from '@components/forms/grid-form.component';
 class FormLayoutsPage {
   private _inlineForm: InlineFormComponent | undefined;
   private _gridForm: GridFormComponent | undefined;
-  private page: Page
+  private page: Page;
 
   constructor(page: Page) {
-    this.page = page
+    this.page = page;
   }
 
   private get inlineForm(): InlineFormComponent {
     if (!this._inlineForm) {
       this._inlineForm = new InlineFormComponent(this.page);
     }
-    return this._inlineForm
+    return this._inlineForm;
   }
 
   private get gridForm(): GridFormComponent {
     if (!this._gridForm) {
-      this._gridForm = new GridFormComponent(this.page)
+      this._gridForm = new GridFormComponent(this.page);
     }
-    return this._gridForm
+    return this._gridForm;
   }
 
   async submitInlineFormWithOptions(

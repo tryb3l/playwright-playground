@@ -27,6 +27,7 @@ const defaultNetworkIgnorePatterns = [
   '.woff2',
   '.map',
   'favicon.ico',
+  'p.scdn.co',
 ];
 
 export const test = base.extend<{
