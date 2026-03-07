@@ -2,7 +2,6 @@ import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import prettierConfig from 'eslint-config-prettier';
-import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default [
   {
@@ -19,8 +18,6 @@ export default [
   ...tseslint.configs.recommended,
 
   prettierConfig,
-  prettierRecommended,
-
   {
     languageOptions: {
       ecmaVersion: 2020,
@@ -31,7 +28,6 @@ export default [
       },
     },
     rules: {
-      'prettier/prettier': 'error',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
     },
