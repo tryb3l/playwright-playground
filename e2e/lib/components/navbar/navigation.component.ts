@@ -10,7 +10,7 @@ class NavigationComponent extends BaseComponent {
     const menuItems = sectionPath.split(' > ');
 
     for (const menuItemName of menuItems) {
-      const menuItem = this.page.getByRole('link', { name: menuItemName });
+      const menuItem = this.page.getByTestId(this.getMenuTestId(menuItemName));
 
       //Check if the menu item is expandable
       const isExpandable =
@@ -25,6 +25,13 @@ class NavigationComponent extends BaseComponent {
         await menuItem.click();
       }
     }
+  }
+
+  private getMenuTestId(menuItemName: string): string {
+    return `nav-item-${menuItemName
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')}`;
   }
 }
 

@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import {
   test as base,
+  expect,
   TestInfo,
   BrowserContext,
   Page,
@@ -46,6 +47,8 @@ export const test = base.extend<{
   ignoreConsoleErrors: [],
   ignoreNetworkErrors: [],
   trackNetworkErrors: [true, { scope: 'test' }],
+  failOnConsoleErrors: [true, { scope: 'test' }],
+  failOnNetworkErrors: [false, { scope: 'test' }],
   strictNetwork: [false, { scope: 'test' }],
   statusCodesToIgnore: [],
 
@@ -179,7 +182,12 @@ export const test = base.extend<{
 
   observabilityReport: [
     async (
-      { consoleErrorsTracker, networkErrorsTracker },
+      {
+        consoleErrorsTracker,
+        networkErrorsTracker,
+        failOnConsoleErrors,
+        failOnNetworkErrors,
+      },
       use,
       testInfo: TestInfo
     ) => {
@@ -192,12 +200,36 @@ export const test = base.extend<{
         consoleErrorsTracker,
         networkErrorsTracker
       );
+
+      if (testInfo.status !== testInfo.expectedStatus) {
+        return;
+      }
+
+      const consoleErrors = consoleErrorsTracker.getErrors();
+      if (failOnConsoleErrors) {
+        expect(
+          consoleErrors,
+          consoleErrors.length
+            ? `Unexpected console errors:\n${consoleErrorsTracker.getErrorsAsText()}`
+            : undefined
+        ).toHaveLength(0);
+      }
+
+      const networkErrors = networkErrorsTracker.getErrors();
+      if (failOnNetworkErrors) {
+        expect(
+          networkErrors,
+          networkErrors.length
+            ? `Unexpected network errors:\n${networkErrorsTracker.getErrorsAsText()}`
+            : undefined
+        ).toHaveLength(0);
+      }
     },
     { auto: true },
   ],
 });
 
-export { expect } from '@playwright/test';
+export { expect };
 
 async function fileExists(path: string): Promise<boolean> {
   try {

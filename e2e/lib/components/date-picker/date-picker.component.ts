@@ -2,16 +2,11 @@ import { Page } from '@playwright/test';
 import { BaseComponent } from '@components/base.component';
 
 class DatePickerComponent extends BaseComponent {
-  private readonly calendarSelector = 'nb-calendar';
-  private readonly calendarViewModeSelector = 'nb-calendar-view-mode';
-  private readonly navChevronSelector =
-    'nb-calendar-pageable-navigation [data-name="chevron-right"]';
-  private readonly commonDayCellSelector =
-    'nb-calendar-day-cell.day-cell.ng-star-inserted:not(.bounding-month)';
-  private readonly rangeDayCellSelector =
-    'nb-calendar-range-day-cell.day-cell.ng-star-inserted';
-  private readonly currentMonthRangeDayCellSelector =
-    'nb-calendar-range-day-cell.day-cell.ng-star-inserted:not(.bounding-month)';
+  private readonly calendarSelector = 'mat-calendar';
+  private readonly calendarViewModeSelector =
+    'button.mat-calendar-period-button';
+  private readonly navChevronSelector = 'button.mat-calendar-next-button';
+  private readonly dayCellSelector = 'button.mat-calendar-body-cell';
 
   constructor(page: Page) {
     super(page, 'DatePickerComponent');
@@ -24,8 +19,7 @@ class DatePickerComponent extends BaseComponent {
    * @returns The formatted date string for assertion
    */
   private async selectDateInCalendar(
-    daysFromToday: number,
-    isRangePicker: boolean = false
+    daysFromToday: number
   ): Promise<string> {
     const date = new Date();
     date.setDate(date.getDate() + daysFromToday);
@@ -34,55 +28,46 @@ class DatePickerComponent extends BaseComponent {
     const expectedMonthShort = date.toLocaleString('default', {
       month: 'short',
     });
-    const expectedMonthLong = date.toLocaleString('default', { month: 'long' });
     const expectedYear = date.getFullYear().toString();
     const dateToAssert = `${expectedMonthShort} ${expectedDay}, ${expectedYear}`;
-    const expectedMonthAndYear = `${expectedMonthLong} ${expectedYear}`;
 
     // Navigate to the correct month/year using the next button if needed
     let calendarMonthYear = await this.getText(this.calendarViewModeSelector);
     while (
       calendarMonthYear &&
-      !calendarMonthYear.includes(expectedMonthAndYear)
+      !this.isExpectedCalendarMonth(calendarMonthYear, expectedMonthShort, expectedYear)
     ) {
       await this.click(this.navChevronSelector);
       calendarMonthYear = await this.getText(this.calendarViewModeSelector);
     }
 
-    if (isRangePicker) {
-      const calendarContainer = await this.page
-        .locator('nb-calendar-range')
-        .first();
-      const cells = await calendarContainer
-        .locator(this.currentMonthRangeDayCellSelector)
-        .filter({ hasText: new RegExp(`^${expectedDay}$`) })
-        .all();
-
-      if (cells.length > 0) {
-        await cells[0].click();
-      } else {
-        const anyCells = await calendarContainer
-          .locator(this.rangeDayCellSelector)
-          .filter({ hasText: new RegExp(`^${expectedDay}$`) })
-          .all();
-
-        if (anyCells.length > 0) {
-          await anyCells[0].click();
-        } else {
-          throw new Error(
-            `Could not find any date cell with text "${expectedDay}" in range picker`
-          );
-        }
-      }
-    } else {
-      await this.click(this.commonDayCellSelector, {
-        text: expectedDay,
-        exact: true,
-        useFirst: true,
-      });
-    }
+    await this.click(this.dayCellSelector, {
+      text: expectedDay,
+      exact: true,
+      useFirst: true,
+    });
 
     return dateToAssert;
+  }
+
+  private async openPickerInput(testId: string): Promise<void> {
+    const pickerInput = this.getByTestId(testId);
+    await pickerInput.evaluate((element) => {
+      element.scrollIntoView({ block: 'center', inline: 'nearest' });
+    });
+    await pickerInput.click({ force: true });
+  }
+
+  private isExpectedCalendarMonth(
+    calendarMonthYear: string,
+    expectedMonthShort: string,
+    expectedYear: string
+  ): boolean {
+    const normalizedMonthYear = calendarMonthYear.replace(/\s+/g, ' ').trim().toLowerCase();
+    const expectedMonthToken = expectedMonthShort.toLowerCase();
+
+    return normalizedMonthYear.includes(expectedMonthToken)
+      && normalizedMonthYear.includes(expectedYear);
   }
 
   /**
@@ -92,9 +77,8 @@ class DatePickerComponent extends BaseComponent {
   async selectCommonDatepickerDateFromToday(
     daysFromToday: number
   ): Promise<void> {
-    const calendarInputField = this.getByPlaceholder('Form Picker');
-    await calendarInputField.click();
-    await this.selectDateInCalendar(daysFromToday, false);
+    await this.openPickerInput('form-picker-input');
+    await this.selectDateInCalendar(daysFromToday);
   }
 
   /**
@@ -107,12 +91,11 @@ class DatePickerComponent extends BaseComponent {
     daysFromToday: number,
     daysAfter: number
   ): Promise<{ dateFrom: string; dateTo: string }> {
-    const calendarInputField = this.getByPlaceholder('Range Picker');
-    await calendarInputField.click();
+    await this.openPickerInput('range-picker-input');
 
-    const dateFrom = await this.selectDateInCalendar(daysFromToday, true);
+    const dateFrom = await this.selectDateInCalendar(daysFromToday);
 
-    const dateTo = await this.selectDateInCalendar(daysAfter, true);
+    const dateTo = await this.selectDateInCalendar(daysAfter);
 
     return { dateFrom, dateTo };
   }

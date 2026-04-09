@@ -3,7 +3,7 @@ import { FormComponent } from '@components/forms/base/base.form.component';
 
 class InlineFormComponent extends FormComponent {
   constructor(page: Page) {
-    super(page, 'nb-card.inline-form-card');
+    super(page, '[data-testid="inline-form-card"]');
   }
 
   async fillName(name: string) {

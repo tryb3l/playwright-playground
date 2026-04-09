@@ -3,7 +3,7 @@ import { FormComponent } from '@components/forms/base/base.form.component';
 
 class GridFormComponent extends FormComponent {
   constructor(page: Page) {
-    super(page, "nb-card:has-text('Using the Grid')");
+    super(page, '[data-testid="grid-form-card"]');
   }
 
   async fillEmail(email: string) {

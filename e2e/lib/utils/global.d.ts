@@ -21,6 +21,16 @@ declare module '@playwright/test' {
      */
     trackNetworkErrors?: boolean;
     /**
+     * Fail the test when unexpected console errors are captured.
+     * @default true
+     */
+    failOnConsoleErrors?: boolean;
+    /**
+     * Fail the test when unexpected network errors are captured.
+     * @default false
+     */
+    failOnNetworkErrors?: boolean;
+    /**
      * HTTP status codes to ignore (e.g. 404s in negative tests).
      */
     statusCodesToIgnore?: number[];
