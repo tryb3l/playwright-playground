@@ -12,20 +12,20 @@ jobs:
     env:
       ENV_FILE: '.env.dev'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '25'
           cache: 'npm'
 
       - name: Install App Dependencies
         working-directory: ./app
-        run: npm install --force
+        run: npm install
 
       - name: Install E2E Dependencies
-        run: npm ci --force
+        run: npm ci
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
@@ -33,7 +33,7 @@ jobs:
       - name: Run Playwright Tests
         run: node --run test:e2e
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
