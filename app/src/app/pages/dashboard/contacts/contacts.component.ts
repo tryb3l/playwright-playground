@@ -4,6 +4,8 @@ import { forkJoin } from 'rxjs';
 
 import { Contacts, RecentUsers, UserData } from '../../../@core/data/users';
 
+type ContactsPanel = 'contacts' | 'recent';
+
 @Component({
     selector: 'ngx-contacts',
     styleUrls: ['./contacts.component.scss'],
@@ -14,8 +16,9 @@ export class ContactsComponent implements OnDestroy {
 
   private alive = true;
 
-  contacts: any[];
-  recent: any[];
+  contacts: Contacts[] = [];
+  recent: RecentUsers[] = [];
+  activePanel: ContactsPanel = 'contacts';
 
   constructor(private userService: UserData) {
     forkJoin(
@@ -31,5 +34,13 @@ export class ContactsComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.alive = false;
+  }
+
+  setActivePanel(panel: ContactsPanel): void {
+    this.activePanel = panel;
+  }
+
+  getContactRowTestId(name: string): string {
+    return `dashboard-contact-row-${name.toLowerCase().split(' ').join('-')}`;
   }
 }

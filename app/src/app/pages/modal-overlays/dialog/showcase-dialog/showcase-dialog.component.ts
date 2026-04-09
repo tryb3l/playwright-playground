@@ -1,19 +1,24 @@
-import { Component, Input } from '@angular/core';
-import { NbDialogRef } from '@nebular/theme';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+interface ShowcaseDialogData {
+  title: string;
+}
 
 @Component({
-    selector: 'ngx-showcase-dialog',
-    templateUrl: 'showcase-dialog.component.html',
-    styleUrls: ['showcase-dialog.component.scss'],
-    standalone: false
+  selector: 'ngx-showcase-dialog',
+  templateUrl: 'showcase-dialog.component.html',
+  styleUrls: ['showcase-dialog.component.scss'],
+  standalone: false
 })
 export class ShowcaseDialogComponent {
 
-  @Input() title: string;
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public readonly data: ShowcaseDialogData,
+    private readonly ref: MatDialogRef<ShowcaseDialogComponent>,
+  ) { }
 
-  constructor(protected ref: NbDialogRef<ShowcaseDialogComponent>) {}
-
-  dismiss() {
+  dismiss(): void {
     this.ref.close();
   }
 }

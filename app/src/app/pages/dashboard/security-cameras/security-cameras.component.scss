@@ -1,114 +1,179 @@
-@import '../../../@theme/styles/themes';
-@import '@nebular/theme/styles/global/breakpoints';
-@import 'bootstrap/scss/mixins/breakpoints';
+:host {
+  display: block;
+  height: 100%;
+}
 
-@include nb-install-component() {
+.security-cameras-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 36rem;
+  height: 100%;
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+  overflow: hidden;
+}
 
-  nb-card-header {
-    display: flex;
-    align-items: center;
-    padding-top: 0.625rem;
-    padding-bottom: 0.625rem;
+.security-cameras-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.security-cameras-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--app-text);
+}
+
+.view-toggle {
+  margin-left: auto;
+  display: inline-flex;
+}
+
+.view-toggle-button {
+  border: 1px solid var(--app-border);
+  background: transparent;
+  color: var(--app-text-muted);
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-toggle-button.is-active {
+  background: var(--app-accent);
+  color: white;
+  border-color: var(--app-accent);
+}
+
+.single-view-button {
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+  border-right-width: 0;
+}
+
+.grid-view-button {
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
+.grid-container {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.single-view,
+.grid-view {
+  flex: 1 0 100%;
+}
+
+.single-view {
+  min-height: 27rem;
+}
+
+.grid-view {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.single-view .camera {
+  width: 100%;
+  height: 100%;
+}
+
+.camera {
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  min-height: 13.5rem;
+  border: 0;
+  padding: 0;
+}
+
+.camera::before {
+  background-color: rgba(255, 255, 255, 0.1);
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transition: opacity 160ms ease;
+}
+
+.camera:hover::before {
+  opacity: 0;
+}
+
+.camera-button {
+  cursor: pointer;
+}
+
+.camera-name {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  background: rgba(15, 23, 42, 0.72);
+  padding: 0.5rem 1rem;
+}
+
+.security-cameras-footer {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--app-border);
+}
+
+.security-cameras-footer--compact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.camera-action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3.5rem;
+  border: 0;
+  border-right: 1px solid var(--app-border);
+  background: transparent;
+  color: var(--app-text-muted);
+}
+
+.camera-action-button:last-child {
+  border-right: 0;
+}
+
+@media (max-width: 1199px) {
+  .camera-action-button {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .security-cameras-card {
+    min-height: 34rem;
   }
 
-  .single-view-button {
-    .nb-square {
-      font-size: 1.25rem;
-    }
-
-    @include nb-ltr {
-      margin-left: auto;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-    @include nb-rtl {
-      margin-right: auto;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-  }
-
-  .grid-view-button {
-    ::ng-deep svg {
-      vertical-align: top;
-    }
-
-    @include nb-ltr {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-    @include nb-rtl {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-  }
-
-  .grid-container {
-    height: 100%;
-    display: flex;
-  }
-
-  .single-view,
   .grid-view {
-    flex: 1 0 100%;
+    grid-template-columns: 1fr;
   }
 
-  .grid-view {
-    display: flex;
-    flex-wrap: wrap;
-
-    .camera {
-      flex: 1 0 50%;
-    }
+  .single-view {
+    min-height: 22rem;
   }
 
-  .single-view .camera {
-    width: 100%;
-    height: 100%;
+  .security-cameras-footer,
+  .security-cameras-footer--compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .camera {
-    background-position: center;
-    background-size: cover;
-    position: relative;
-
-    &::before {
-      background-color: rgba(255, 255, 255, 0.1);
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      opacity: 1;
-    }
-
-    &:hover::before {
-      opacity: 0;
-    }
-  }
-
-  .camera-name {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    color: white;
-    background: nb-theme(overlay-backdrop-background-color);
-    padding: 0.5rem 1rem;
-  }
-
-  nb-action {
-    nb-icon {
-      @include nb-ltr(margin-right, 0.5rem);
-      @include nb-rtl(margin-left, 0.5rem);
-    }
-
-    ::ng-deep svg {
-      vertical-align: top;
-    }
-  }
-
-  @include media-breakpoint-down(xl) {
-    nb-action {
-      padding: 0;
-    }
+  .camera-action-button:nth-child(2n) {
+    border-right: 0;
   }
 }

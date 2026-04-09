@@ -1,18 +1,20 @@
-@import '../@theme/styles/themes';
+:host {
+  display: block;
+}
 
-@include nb-install-component() {
-  ::ng-deep router-outlet + * {
-    display: block;
-    animation: fade 1s;
+:host ::ng-deep router-outlet+* {
+  display: block;
+  animation: fade 0.35s ease;
+}
 
-    @keyframes fade {
-      from {
-        opacity: 0;
-      }
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(0.25rem);
+  }
 
-      to {
-        opacity: 1;
-      }
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

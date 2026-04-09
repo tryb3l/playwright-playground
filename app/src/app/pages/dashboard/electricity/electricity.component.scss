@@ -1,90 +1,182 @@
-@import '../../../@theme/styles/themes';
-@import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+:host {
+  display: block;
+  height: 100%;
+}
 
-@include nb-install-component() {
+.electricity-widget {
+  display: flex;
+  gap: 1rem;
+  height: 100%;
+  min-height: 26.75rem;
+}
 
-  .cards-container {
+.electricity-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+  overflow: hidden;
+}
+
+.electricity-list-card {
+  flex: 0 0 18rem;
+}
+
+.electricity-chart-card {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 26.75rem;
+}
+
+.electricity-card__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--app-border);
+  color: var(--app-text);
+  font-weight: 700;
+}
+
+.electricity-card__header--chart {
+  margin-bottom: -1px;
+}
+
+.electricity-year-tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem 0;
+}
+
+.electricity-year-tab {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--app-text-muted);
+  font: inherit;
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
+}
+
+.electricity-year-tab--active {
+  border-color: var(--app-accent);
+  background: var(--app-accent-soft);
+  color: var(--app-accent);
+}
+
+.electricity-list {
+  overflow: auto;
+  padding: 0.25rem 0 0.75rem;
+}
+
+.electricity-list-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  border-top: 1px solid var(--app-border);
+  color: var(--app-text);
+}
+
+.month {
+  width: 2rem;
+  color: var(--app-text-muted);
+}
+
+.delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.electricity-icon--down {
+  color: #dc2626;
+}
+
+.electricity-icon--up {
+  color: #16a34a;
+}
+
+.results {
+  margin-left: auto;
+  color: var(--app-text-muted);
+  text-align: right;
+}
+
+.caption {
+  color: var(--app-text-muted);
+}
+
+.stats {
+  margin-right: 1rem;
+}
+
+.stats > .caption {
+  display: block;
+}
+
+.type-select {
+  margin-left: auto;
+}
+
+.type-select select {
+  min-width: 7rem;
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  background: var(--app-surface);
+  color: var(--app-text);
+  font: inherit;
+  padding: 0.45rem 2rem 0.45rem 0.85rem;
+}
+
+.electricity-chart-surface {
+  display: flex;
+  flex: 1;
+  min-height: 22rem;
+}
+
+ngx-electricity-chart {
+  display: block;
+  flex: 1;
+  min-height: 22rem;
+  position: relative;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 1199px) {
+  .electricity-list-card {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .electricity-widget {
+    flex-direction: column;
+  }
+
+  .electricity-list-card {
     display: flex;
-    flex-direction: row;
-    overflow: hidden;
+    flex-basis: auto;
   }
 
-  .table-card,
-  .chart-card {
-    box-shadow: none;
-    margin-bottom: 0;
-    border-width: 0;
-  }
-
-  .table-card {
-    flex: 0 0 auto;
-  }
-
-  .chart-card {
-    flex: 1 0 auto;
-  }
-
-  .chart-card nb-card-header {
-    display: flex;
-    align-items: center;
-    padding-top: nb-theme(card-header-with-select-padding-top);
-    padding-bottom: nb-theme(card-header-with-select-padding-bottom);
-
-    // prevents double border from chart yAxisSplitLine
-    margin-bottom: -1px;
+  .electricity-card__header--chart {
+    flex-wrap: wrap;
   }
 
   .type-select {
-    margin-left: auto;
-  }
-
-  .stats {
-    margin-right: 1rem;
-
-    > .caption {
-      display: block;
-    }
-  }
-
-  nb-tabset {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  nb-tab {
-    padding: 0;
-  }
-
-  nb-list-item {
-    display: flex;
-    align-items: baseline;
-
-    &:first-child {
-      border-top: none;
-    }
-  }
-
-  .month {
-    width: 2rem;
-  }
-
-  nb-icon.down {
-    color: nb-theme(color-danger-default);
-  }
-
-  nb-icon.up {
-    color: nb-theme(color-success-default);
-  }
-
-  .results {
-    margin-left: auto;
-  }
-
-  @include media-breakpoint-down(xl) {
-    .table-card {
-      display: none;
-    }
+    margin-left: 0;
   }
 }

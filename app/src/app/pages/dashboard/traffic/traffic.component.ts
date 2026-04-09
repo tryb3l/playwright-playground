@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import { AppThemeService } from '../../../@theme/services/app-theme.service';
 import { takeWhile } from 'rxjs/operators';
 
 import { TrafficChartData } from '../../../@core/data/traffic-chart';
@@ -8,19 +8,24 @@ import { TrafficChartData } from '../../../@core/data/traffic-chart';
   selector: 'ngx-traffic',
   styleUrls: ['./traffic.component.scss'],
   template: `
-    <nb-card size="tiny">
-      <nb-card-header>
+    <section class="traffic-card" data-testid="dashboard-traffic-card">
+      <header class="traffic-card__header">
         <span>Traffic Consumption</span>
 
-        <nb-select [(selected)]="type">
-          @for (t of types; track t) {
-            <nb-option [value]="t">{{ t }}</nb-option>
-          }
-        </nb-select>
-      </nb-card-header>
+        <label class="traffic-select">
+          <span class="sr-only">Traffic period</span>
+          <select [(ngModel)]="type" data-testid="dashboard-traffic-period-select">
+            @for (t of types; track t) {
+              <option [value]="t">{{ t }}</option>
+            }
+          </select>
+        </label>
+      </header>
 
-      <ngx-traffic-chart [points]="trafficChartPoints"></ngx-traffic-chart>
-    </nb-card>
+      <div class="traffic-chart-surface" data-testid="dashboard-traffic-chart-surface">
+        <ngx-traffic-chart [points]="trafficChartPoints"></ngx-traffic-chart>
+      </div>
+    </section>
   `,
   standalone: false,
 })
@@ -33,7 +38,7 @@ export class TrafficComponent implements OnDestroy {
   currentTheme: string;
 
   constructor(
-    private themeService: NbThemeService,
+    private themeService: AppThemeService,
     private trafficChartService: TrafficChartData
   ) {
     this.themeService

@@ -1,55 +1,86 @@
-<nb-card>
-  <nb-card-body>
+<mat-card class="table-card tree-grid-card" data-testid="tree-grid-card">
+  <mat-card-content>
     <label class="search-label" for="search">Search:</label>
-    <input
-      nbInput
-      [nbFilterInput]="dataSource"
-      id="search"
-      class="search-input"
-    />
+    <mat-form-field appearance="outline" class="search-field">
+      <input
+        #searchInput
+        matInput
+        id="search"
+        class="search-input"
+        data-testid="tree-grid-search-input"
+        placeholder="Filter files"
+        (input)="onFilterChange(searchInput.value)"
+      />
+    </mat-form-field>
 
-    <table
-      [nbTreeGrid]="dataSource"
-      [nbSort]="dataSource"
-      (sort)="updateSort($event)"
-    >
-      <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
-      <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
+    <div class="table-scroll">
+      <table class="tree-table" data-testid="tree-grid-table">
+        <thead>
+          <tr>
+            <th class="column-name">
+              <button type="button" class="sort-button" (click)="toggleSort(customColumn)">
+                <span>{{ customColumn }}</span>
+                <span class="fa-solid" [ngClass]="getSortIcon(customColumn)" aria-hidden="true"></span>
+              </button>
+            </th>
 
-      <ng-container [nbTreeGridColumnDef]="customColumn">
-        <th
-          nbTreeGridHeaderCell
-          [nbSortHeader]="getSortDirection(customColumn)"
-          *nbTreeGridHeaderCellDef
-        >
-          {{ customColumn }}
-        </th>
-        <td nbTreeGridCell *nbTreeGridCellDef="let row">
-          <ngx-fs-icon
-            [kind]="row.data.kind"
-            [expanded]="row.expanded"
-          ></ngx-fs-icon>
-          {{ row.data[customColumn] }}
-        </td>
-      </ng-container>
+            @for (column of defaultColumns; track column) {
+              <th [class]="'column-' + column">
+                <button type="button" class="sort-button" (click)="toggleSort(column)">
+                  <span>{{ column }}</span>
+                  <span class="fa-solid" [ngClass]="getSortIcon(column)" aria-hidden="true"></span>
+                </button>
+              </th>
+            }
+          </tr>
+        </thead>
 
-      @for (column of defaultColumns; track column; let index = $index) {
-        <ng-container
-          [nbTreeGridColumnDef]="column"
-          [showOn]="getShowOn(index)"
-        >
-          <th
-            nbTreeGridHeaderCell
-            [nbSortHeader]="getSortDirection(column)"
-            *nbTreeGridHeaderCellDef
-          >
-            {{ column }}
-          </th>
-          <td nbTreeGridCell *nbTreeGridCellDef="let row">
-            {{ row.data[column] || '-' }}
-          </td>
-        </ng-container>
-      }
-    </table>
-  </nb-card-body>
-</nb-card>
+        <tbody>
+          @for (row of rows; track trackByPath($index, row)) {
+            <tr [attr.data-testid]="'tree-grid-row-' + $index">
+              <td class="column-name">
+                <div class="tree-cell" [style.padding-left.rem]="0.75 + row.level * 1.2">
+                  @if (row.expandable) {
+                    <button
+                      type="button"
+                      class="tree-toggle"
+                      [attr.aria-label]="(row.expanded ? 'Collapse ' : 'Expand ') + row.name"
+                      (click)="toggleRow(row.path)"
+                    >
+                      <span
+                        class="fa-solid"
+                        [class.fa-chevron-down]="row.expanded"
+                        [class.fa-chevron-right]="!row.expanded"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  } @else {
+                    <span class="tree-toggle tree-toggle--spacer"></span>
+                  }
+
+                  <span
+                    class="fa-solid tree-icon"
+                    [class.fa-folder]="row.kind === 'dir'"
+                    [class.fa-file-lines]="row.kind !== 'dir'"
+                    aria-hidden="true"
+                  ></span>
+                  <span>{{ row.name }}</span>
+                </div>
+              </td>
+
+              <td class="column-size">{{ row.size || '-' }}</td>
+              <td class="column-kind">{{ row.kind || '-' }}</td>
+              <td class="column-items">{{ row.items ?? '-' }}</td>
+            </tr>
+          }
+
+          @if (rows.length === 0) {
+            <tr>
+              <td class="empty-state" colspan="4">No results match your search.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>

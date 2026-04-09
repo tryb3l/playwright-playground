@@ -1,39 +1,56 @@
-@import '../../../@theme/styles/themes';
+:host {
+  display: block;
+  height: 100%;
+}
 
-@include nb-install-component() {
+.kitten-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 24rem;
+  height: 100%;
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+  overflow: hidden;
+}
 
-  .picture {
-    background-position: center;
-    background-size: cover;
-    position: relative;
-    border-top-left-radius: nb-theme(card-border-radius);
-    border-top-right-radius: nb-theme(card-border-radius);
-    flex: 1;
-  }
+.picture {
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  min-height: 12rem;
+  flex: 1 0 12rem;
+}
 
-  .details {
-    padding: nb-theme(card-padding);
-  }
+.details {
+  padding: 1rem 1.25rem;
+}
 
-  .description {
-    text-align: justify;
-  }
+.description {
+  color: var(--app-text-muted);
+  text-align: left;
+}
 
-  nb-card-footer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
+.kitten-footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.875rem 1rem 1rem;
+  border-top: 1px solid var(--app-border);
+}
 
-  .link-icon {
-    font-size: 1.75rem;
-  }
+.kitten-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  color: var(--app-text-muted);
+  background: color-mix(in srgb, var(--app-surface) 76%, transparent);
+}
 
-  nb-icon {
-    font-size: 1.55rem;
-
-    ::ng-deep svg {
-      vertical-align: top;
-    }
-  }
+.kitten-link span {
+  font-size: 1.25rem;
 }

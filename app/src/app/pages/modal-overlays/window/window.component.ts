@@ -1,6 +1,11 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { NbWindowService } from '@nebular/theme';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { WindowFormComponent } from './window-form/window-form.component';
+
+interface WindowTemplateData {
+  title: string;
+  text: string;
+}
 
 @Component({
     selector: 'ngx-window',
@@ -9,36 +14,57 @@ import { WindowFormComponent } from './window-form/window-form.component';
     standalone: false
 })
 export class WindowComponent {
+  private readonly windowPanelClass = 'app-window-panel';
 
-  @ViewChild('contentTemplate', { static: true }) contentTemplate: TemplateRef<any>;
-  @ViewChild('disabledEsc', { read: TemplateRef, static: true }) disabledEscTemplate: TemplateRef<HTMLElement>;
+  @ViewChild('disabledEsc', { read: TemplateRef, static: true })
+  disabledEscTemplate: TemplateRef<WindowTemplateData>;
 
-  constructor(private windowService: NbWindowService) {}
+  constructor(private readonly dialog: MatDialog) {}
 
-  openWindow(contentTemplate) {
-    this.windowService.open(
+  openWindow(contentTemplate: TemplateRef<WindowTemplateData>): void {
+    this.openTemplateWindow(
       contentTemplate,
       {
-        title: 'Window content from template',
-        context: {
+        data: {
+          title: 'Window content from template',
           text: 'some text to pass into template',
         },
+        autoFocus: false,
       },
     );
   }
 
-  openWindowForm() {
-    this.windowService.open(WindowFormComponent, { title: `Window` });
+  openWindowForm(): void {
+    this.dialog.open(WindowFormComponent, {
+      autoFocus: true,
+      maxWidth: '32rem',
+      panelClass: this.windowPanelClass,
+    });
   }
 
-  openWindowWithoutBackdrop() {
-    this.windowService.open(
+  openWindowWithoutBackdrop(): void {
+    this.openTemplateWindow(
       this.disabledEscTemplate,
       {
-        title: 'Window without backdrop',
+        data: {
+          title: 'Window without backdrop',
+          text: 'Disabled close on escape click.',
+        },
         hasBackdrop: false,
-        closeOnEsc: false,
+        disableClose: true,
+        autoFocus: false,
       },
     );
+  }
+
+  private openTemplateWindow(
+    windowTemplate: TemplateRef<WindowTemplateData>,
+    config: MatDialogConfig<WindowTemplateData>,
+  ): MatDialogRef<unknown> {
+    return this.dialog.open(windowTemplate, {
+      maxWidth: '34rem',
+      panelClass: this.windowPanelClass,
+      ...config,
+    });
   }
 }

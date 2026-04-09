@@ -1,18 +1,18 @@
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import { AppThemeService } from '../../../@theme/services/app-theme.service';
 
 @Component({
-    selector: 'ngx-echarts-multiple-xaxis',
-    template: `
+  selector: 'ngx-echarts-multiple-xaxis',
+  template: `
     <div echarts [options]="options" class="echart"></div>
   `,
-    standalone: false
+  standalone: false
 })
 export class EchartsMultipleXaxisComponent implements AfterViewInit, OnDestroy {
   options: any = {};
   themeSubscription: any;
 
-  constructor(private theme: NbThemeService) {
+  constructor(private theme: AppThemeService) {
   }
 
   ngAfterViewInit() {

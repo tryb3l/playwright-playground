@@ -1,7 +1,42 @@
-@import '../../../@theme/styles/themes';
+:host {
+  display: block;
+}
 
-@include nb-install-component() {
-  nb-card {
-    transform: translate3d(0, 0, 0);
-  }
+.table-card {
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+}
+
+.table-card mat-card-content {
+  overflow-x: auto;
+}
+
+:host ::ng-deep angular2-smart-table table {
+  min-width: 48rem;
+  border-collapse: collapse;
+}
+
+:host ::ng-deep angular2-smart-table table th,
+:host ::ng-deep angular2-smart-table table td {
+  border-color: var(--app-border);
+}
+
+:host ::ng-deep angular2-smart-table table th {
+  color: var(--app-text);
+}
+
+:host ::ng-deep angular2-smart-table table td {
+  color: var(--app-text-muted);
+}
+
+:host ::ng-deep angular2-smart-table a.ng2-smart-sort-link,
+:host ::ng-deep angular2-smart-table .ng2-smart-action {
+  color: var(--app-accent);
+}
+
+:host ::ng-deep angular2-smart-table .ng2-smart-pagination-nav {
+  display: flex;
+  gap: 0.5rem;
 }

@@ -1,36 +1,35 @@
-<div class="header-container">
-  <div class="logo-container">
-    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
-      <nb-icon icon="menu-2-outline"></nb-icon>
-    </a>
-    <a class="logo" href="#" (click)="navigateHome()">PW-<span>test</span></a>
-  </div>
-  <nb-select
-    [selected]="currentTheme"
-    (selectedChange)="changeTheme($event)"
-    status="primary"
-  >
-    @for (theme of themes; track theme) {
-      <nb-option [value]="theme.value"> {{ theme.name }}</nb-option>
-    }
-  </nb-select>
-</div>
+<div class="header-bar">
+  <div class="brand-group">
+    <button type="button" class="icon-button" aria-label="Toggle navigation" (click)="toggleSidebar()">
+      <span class="fa-solid fa-bars" aria-hidden="true"></span>
+    </button>
 
-<div class="header-container">
-  <nb-actions size="small">
-    <nb-action class="control-item">
-      <nb-search type="rotate-layout"></nb-search>
-    </nb-action>
-    <nb-action class="control-item" icon="email-outline"></nb-action>
-    <nb-action class="control-item" icon="bell-outline"></nb-action>
-    <nb-action class="user-action" *nbIsGranted="['view', 'user']">
-      <nb-user
-        [nbContextMenu]="userMenu"
-        [onlyPicture]="userPictureOnly"
-        [name]="user?.name"
-        [picture]="user?.picture"
-      >
-      </nb-user>
-    </nb-action>
-  </nb-actions>
+    <a class="brand-link" href="/" (click)="navigateHome(); $event.preventDefault()">
+      PW-<span>test</span>
+    </a>
+  </div>
+
+  <div class="header-actions">
+    <mat-form-field appearance="outline" class="theme-field">
+      <mat-label>Theme</mat-label>
+      <mat-select data-testid="theme-select" [value]="currentTheme" [panelClass]="'theme-select-panel'"
+        (valueChange)="changeTheme($event)">
+        @for (theme of themes; track theme.name) {
+        <mat-option [value]="theme.name" [attr.data-testid]="'theme-option-' + theme.name">
+          {{ theme.label }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (user; as currentUser) {
+    <div class="user-pill">
+      @if (!userPictureOnly) {
+      <span class="user-pill__label">{{ currentUser.name }}</span>
+      }
+
+      <img class="user-pill__avatar" [src]="currentUser.picture" [alt]="currentUser.name" />
+    </div>
+    }
+  </div>
 </div>

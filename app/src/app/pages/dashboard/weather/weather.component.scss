@@ -1,76 +1,117 @@
-@import '../../../@theme/styles/themes';
+:host {
+  display: block;
+  height: 100%;
+}
 
-@include nb-install-component() {
+.weather-card {
+  display: flex;
+  height: 100%;
+  min-height: 22rem;
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+}
 
-  nb-card-body {
-    display: flex;
-    flex-direction: column;
-  }
+.weather-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 1.25rem;
+}
 
-  .location,
-  .date {
-    display: block;
-  }
+.location,
+.date {
+  display: block;
+}
 
-  .location {
-    margin-bottom: 0.1rem;
-  }
+.location {
+  margin-bottom: 0.1rem;
+  color: var(--app-text);
+}
 
-  .today {
-    display: flex;
-    justify-content: space-around;
-  }
+.date,
+.parameter-name {
+  color: var(--app-text-muted);
+}
 
-  .today-temperature {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 2rem 1.5rem;
+.today {
+  display: flex;
+  justify-content: space-around;
+}
+
+.today-temperature {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 2rem 1.5rem;
+}
+
+.today-icon {
+  color: var(--app-accent);
+  font-size: 8rem;
+  line-height: 1;
+  margin-top: -2rem;
+  margin-left: auto;
+  margin-right: 0.4rem;
+}
+
+.today-details {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+}
+
+.parameter {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.parameter-name,
+.parameter-value {
+  display: block;
+}
+
+.parameter-value,
+.temperature {
+  color: var(--app-text);
+}
+
+.caption {
+  text-transform: uppercase;
+}
+
+.weekly-forecast {
+  display: flex;
+  justify-content: space-around;
+  margin: auto 0 0;
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.weather-icon {
+  color: var(--app-accent);
+  font-size: 2rem;
+  line-height: 2rem;
+  margin: 0.35rem 0;
+}
+
+@media (max-width: 575px) {
+  .weather-card__body {
+    padding: 1rem;
   }
 
   .today-icon {
-    color: nb-theme(color-primary-default);
-    font-size: 10rem;
-    line-height: 1;
-    margin-top: -4rem;
-    margin-left: auto;
-    margin-right: 0.4rem;
+    font-size: 5.5rem;
+    margin-top: 0;
   }
 
-  .today-details {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 2rem;
-  }
-
-  .parameter {
-    flex: 1 1 auto;
-    text-align: center;
-  }
-
-  .parameter-name,
-  .parameter-value {
-    display: block;
-  }
-
-  .caption {
-    text-transform: uppercase;
-  }
-
+  .today-details,
   .weekly-forecast {
-    display: flex;
-    justify-content: space-around;
-    margin: auto 0;
-  }
-
-  .day {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .weather-icon {
-    font-size: 2.5rem;
-    line-height: 2.5rem;
+    gap: 0.5rem;
   }
 }

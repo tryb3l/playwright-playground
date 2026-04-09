@@ -1,31 +1,53 @@
-<div class="row">
-  <div class="col-md-12 col-lg-12 col-xxxl-6">
-    <nb-card>
-      <nb-card-header>Window Form</nb-card-header>
-      <nb-card-body>
-        <button (click)="openWindowForm()" nbButton>Open window form</button>
+<div class="window-grid">
+  <mat-card class="window-card">
+    <mat-card-header>
+      <mat-card-title>Window Form</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="window-card__actions">
+      <button mat-flat-button type="button" color="primary" data-testid="window-open-form-button" (click)="openWindowForm()">
+        Open window form
+      </button>
 
-        <button (click)="openWindow(contentTemplate)" nbButton>Open window with template</button>
-      </nb-card-body>
-    </nb-card>
-  </div>
+      <button mat-stroked-button type="button" data-testid="window-open-template-button" (click)="openWindow(contentTemplate)">
+        Open window with template
+      </button>
+    </mat-card-content>
+  </mat-card>
 
-  <div class="col-md-12 col-lg-12 col-xxxl-6">
-    <nb-card>
-      <nb-card-header>Window Without Backdrop</nb-card-header>
-      <nb-card-body>
-        <button (click)="openWindow(contentTemplate)" nbButton>Open window with backdrop</button>
+  <mat-card class="window-card">
+    <mat-card-header>
+      <mat-card-title>Window Without Backdrop</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="window-card__actions">
+      <button mat-flat-button type="button" color="primary" (click)="openWindow(contentTemplate)">
+        Open window with backdrop
+      </button>
 
-        <button (click)="openWindowWithoutBackdrop()" nbButton>Open window without backdrop</button>
-      </nb-card-body>
-    </nb-card>
-  </div>
+      <button mat-stroked-button type="button" data-testid="window-open-no-backdrop-button" (click)="openWindowWithoutBackdrop()">
+        Open window without backdrop
+      </button>
+    </mat-card-content>
+  </mat-card>
 </div>
 
 <ng-template #contentTemplate let-data>
-  <p>Here is the text provided via config: "{{ data.text }}"</p>
+  <h2 mat-dialog-title>{{ data.title }}</h2>
+  <mat-dialog-content class="window-template__content" data-testid="window-template-content">
+    Here is the text provided via config: "{{ data.text }}"
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button type="button" mat-dialog-close>
+      Close Window
+    </button>
+  </mat-dialog-actions>
 </ng-template>
 
-<ng-template #disabledEsc>
-  Disabled close on escape click.
+<ng-template #disabledEsc let-data>
+  <h2 mat-dialog-title>{{ data.title }}</h2>
+  <mat-dialog-content class="window-template__content">{{ data.text }}</mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-flat-button type="button" color="primary" mat-dialog-close data-testid="window-close-button">
+      Close Window
+    </button>
+  </mat-dialog-actions>
 </ng-template>

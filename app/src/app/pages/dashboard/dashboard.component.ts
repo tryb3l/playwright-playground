@@ -1,6 +1,6 @@
-import {Component, OnDestroy} from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
-import { takeWhile } from 'rxjs/operators' ;
+import { Component, OnDestroy } from '@angular/core';
+import { AppThemeService } from '../../@theme/services/app-theme.service';
+import { takeWhile } from 'rxjs/operators';
 import { SolarData } from '../../@core/data/solar';
 
 interface CardSettings {
@@ -10,10 +10,10 @@ interface CardSettings {
 }
 
 @Component({
-    selector: 'ngx-dashboard',
-    styleUrls: ['./dashboard.component.scss'],
-    templateUrl: './dashboard.component.html',
-    standalone: false
+  selector: 'ngx-dashboard',
+  styleUrls: ['./dashboard.component.scss'],
+  templateUrl: './dashboard.component.html',
+  standalone: false
 })
 export class DashboardComponent implements OnDestroy {
 
@@ -22,26 +22,26 @@ export class DashboardComponent implements OnDestroy {
   solarValue: number;
   lightCard: CardSettings = {
     title: 'Light',
-    iconClass: 'nb-lightbulb',
+    iconClass: 'fa-solid fa-lightbulb',
     type: 'primary',
   };
   rollerShadesCard: CardSettings = {
     title: 'Roller Shades',
-    iconClass: 'nb-roller-shades',
+    iconClass: 'fa-solid fa-window-maximize',
     type: 'success',
   };
   wirelessAudioCard: CardSettings = {
     title: 'Wireless Audio',
-    iconClass: 'nb-audio',
+    iconClass: 'fa-solid fa-volume-high',
     type: 'info',
   };
   coffeeMakerCard: CardSettings = {
     title: 'Coffee Maker',
-    iconClass: 'nb-coffee-maker',
+    iconClass: 'fa-solid fa-mug-hot',
     type: 'warning',
   };
 
-  statusCards: string;
+  statusCards: CardSettings[];
 
   commonStatusCardsSet: CardSettings[] = [
     this.lightCard,
@@ -56,36 +56,36 @@ export class DashboardComponent implements OnDestroy {
     corporate: CardSettings[];
     dark: CardSettings[];
   } = {
-    default: this.commonStatusCardsSet,
-    cosmic: this.commonStatusCardsSet,
-    corporate: [
-      {
-        ...this.lightCard,
-        type: 'warning',
-      },
-      {
-        ...this.rollerShadesCard,
-        type: 'primary',
-      },
-      {
-        ...this.wirelessAudioCard,
-        type: 'danger',
-      },
-      {
-        ...this.coffeeMakerCard,
-        type: 'info',
-      },
-    ],
-    dark: this.commonStatusCardsSet,
-  };
+      default: this.commonStatusCardsSet,
+      cosmic: this.commonStatusCardsSet,
+      corporate: [
+        {
+          ...this.lightCard,
+          type: 'warning',
+        },
+        {
+          ...this.rollerShadesCard,
+          type: 'primary',
+        },
+        {
+          ...this.wirelessAudioCard,
+          type: 'danger',
+        },
+        {
+          ...this.coffeeMakerCard,
+          type: 'info',
+        },
+      ],
+      dark: this.commonStatusCardsSet,
+    };
 
-  constructor(private themeService: NbThemeService,
-              private solarService: SolarData) {
+  constructor(private themeService: AppThemeService,
+    private solarService: SolarData) {
     this.themeService.getJsTheme()
       .pipe(takeWhile(() => this.alive))
       .subscribe(theme => {
         this.statusCards = this.statusCardsByThemes[theme.name];
-    });
+      });
 
     this.solarService.getSolarData()
       .pipe(takeWhile(() => this.alive))

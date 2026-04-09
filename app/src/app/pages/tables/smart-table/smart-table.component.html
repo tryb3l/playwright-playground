@@ -1,10 +1,14 @@
-<nb-card>
-  <nb-card-header>
-    Smart Table
-  </nb-card-header>
+<mat-card class="table-card smart-table-card" data-testid="smart-table-card">
+  <mat-card-header>
+    <mat-card-title>Smart Table</mat-card-title>
+  </mat-card-header>
 
-  <nb-card-body>
-    <angular2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
+  <mat-card-content>
+    <angular2-smart-table
+      [settings]="settings"
+      [source]="source"
+      (deleteConfirm)="onDeleteConfirm($event)"
+    >
     </angular2-smart-table>
-  </nb-card-body>
-</nb-card>
+  </mat-card-content>
+</mat-card>

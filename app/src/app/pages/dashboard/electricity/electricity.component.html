@@ -1,38 +1,50 @@
-<nb-card class="cards-container">
-  <nb-card size="large" class="table-card">
-    <nb-card-header> Electricity Consumption </nb-card-header>
+<section class="electricity-widget" data-testid="dashboard-electricity-widget">
+  <section class="electricity-card electricity-list-card" data-testid="dashboard-electricity-list-card">
+    <header class="electricity-card__header">Electricity Consumption</header>
 
-    <nb-tabset fullWidth>
-      @for (year of listData; track year) {
-        <nb-tab [tabTitle]="year.title" [active]="year.active">
-          <nb-list>
-            @for (month of year.months; track month) {
-              <nb-list-item>
-                <span class="month">{{ month.month }}</span>
-                <span>
-                  <nb-icon
-                    [class.down]="month.down"
-                    [class.up]="!month.down"
-                    [icon]="month.down ? 'arrow-down' : 'arrow-up'"
-                    pack="eva"
-                  >
-                  </nb-icon>
-                  {{ month.delta }}
-                </span>
-                <span class="results">
-                  {{ month.kWatts }} <span class="caption">kWh</span> /
-                  {{ month.cost }} <span class="caption">USD</span>
-                </span>
-              </nb-list-item>
-            }
-          </nb-list>
-        </nb-tab>
-      }
-    </nb-tabset>
-  </nb-card>
+    @if (activeYear; as year) {
+      <div class="electricity-year-tabs" role="tablist" aria-label="Electricity year tabs">
+        @for (item of listData; track item.title) {
+          <button
+            type="button"
+            class="electricity-year-tab"
+            [class.electricity-year-tab--active]="selectedYearTitle === item.title"
+            [attr.aria-pressed]="selectedYearTitle === item.title"
+            [attr.data-testid]="'dashboard-electricity-year-' + item.title"
+            (click)="setActiveYear(item.title)"
+          >
+            {{ item.title }}
+          </button>
+        }
+      </div>
 
-  <nb-card size="large" class="chart-card">
-    <nb-card-header>
+      <div class="electricity-list" data-testid="dashboard-electricity-year-panel">
+        @for (month of year.months; track month.month) {
+          <div class="electricity-list-row">
+            <span class="month">{{ month.month }}</span>
+            <span class="delta">
+              <span
+                class="fa-solid"
+                [class.electricity-icon--down]="month.down"
+                [class.electricity-icon--up]="!month.down"
+                [class.fa-arrow-trend-down]="month.down"
+                [class.fa-arrow-trend-up]="!month.down"
+                aria-hidden="true"
+              ></span>
+              {{ month.delta }}
+            </span>
+            <span class="results">
+              {{ month.kWatts }} <span class="caption">kWh</span> /
+              {{ month.cost }} <span class="caption">USD</span>
+            </span>
+          </div>
+        }
+      </div>
+    }
+  </section>
+
+  <section class="electricity-card electricity-chart-card" data-testid="dashboard-electricity-chart-card">
+    <header class="electricity-card__header electricity-card__header--chart">
       <span class="stats">
         <span class="caption">Consumed</span>
         <span>816 <span class="caption">kWh</span></span>
@@ -42,13 +54,18 @@
         <span>291 <span class="caption">USD</span></span>
       </span>
 
-      <nb-select [(selected)]="type" class="type-select">
-        @for (t of types; track t) {
-          <nb-option [value]="t">{{ t }}</nb-option>
-        }
-      </nb-select>
-    </nb-card-header>
+      <label class="type-select">
+        <span class="sr-only">Electricity period</span>
+        <select [(ngModel)]="type" data-testid="dashboard-electricity-period-select">
+          @for (t of types; track t) {
+            <option [value]="t">{{ t }}</option>
+          }
+        </select>
+      </label>
+    </header>
 
-    <ngx-electricity-chart [data]="chartData"></ngx-electricity-chart>
-  </nb-card>
-</nb-card>
+    <div class="electricity-chart-surface">
+      <ngx-electricity-chart [data]="chartData"></ngx-electricity-chart>
+    </div>
+  </section>
+</section>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { NbCardModule } from '@nebular/theme';
 import { EchartsBarAnimationComponent } from './echarts/echarts-bar-animation.component';
 import { ThemeModule } from '../../@theme/theme.module';
 import { ChartsRoutingModule, routedComponents } from './charts-routing.module';
@@ -27,10 +27,8 @@ const components = [
     ThemeModule,
     ChartsRoutingModule,
     NgxChartsModule,
-    NbCardModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
-    })
+    MatCardModule,
+    NgxEchartsModule,
   ],
   declarations: [
     ...routedComponents,

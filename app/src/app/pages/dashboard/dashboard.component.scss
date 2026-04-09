@@ -1,16 +1,56 @@
-@import '../../@theme/styles/themes';
-@import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+:host {
+  display: block;
+}
 
-@include nb-install-component() {
-  .solar-card nb-card-header {
-    border: none;
-    padding-bottom: 0;
+.dashboard-shell {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.dashboard-shell>.row {
+  margin-bottom: 0;
+}
+
+.dashboard-living-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(16.5rem, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.dashboard-main-column,
+.dashboard-sidebar-column {
+  display: grid;
+  gap: 1.5rem;
+  align-content: start;
+  min-width: 0;
+}
+
+.dashboard-widget-shell {
+  min-width: 0;
+}
+
+.dashboard-widget-shell>* {
+  display: block;
+  min-width: 0;
+}
+
+.dashboard-widget-shell--solar,
+.dashboard-widget-shell--kitten,
+.dashboard-widget-shell--weather,
+.dashboard-widget-shell--traffic,
+.dashboard-widget-shell--contacts {
+  min-width: 0;
+}
+
+@media (max-width: 1199px) {
+  .dashboard-living-layout {
+    grid-template-columns: 1fr;
   }
+}
 
-  @include media-breakpoint-down(sm) {
-    ngx-traffic {
-      display: none;
-    }
+@media (max-width: 575px) {
+  .dashboard-widget-shell--traffic {
+    display: none;
   }
 }

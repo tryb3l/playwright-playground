@@ -1,66 +1,65 @@
-<nb-card>
-  <nb-card-header> Toaster configuration </nb-card-header>
-  <nb-card-body>
-    <div class="row">
-      <div class="col-md-6 col-sm-12">
-        <div class="form-group">
-          <label class="label">Position:</label>
-          <nb-select [(selected)]="position" class="position-select">
+<mat-card class="toast-card">
+  <mat-card-header>
+    <mat-card-title>Toaster configuration</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="toast-grid">
+      <div class="toast-grid__column">
+        <mat-form-field appearance="outline">
+          <mat-label>Position</mat-label>
+          <mat-select [(ngModel)]="position" name="position">
             @for (p of positions; track p) {
-              <nb-option [value]="p">{{ p }}</nb-option>
+            <mat-option [value]="p">{{ p }}</mat-option>
             }
-          </nb-select>
-        </div>
+          </mat-select>
+        </mat-form-field>
 
-        <div class="form-group">
-          <label class="label">Title:</label>
-          <input nbInput [(ngModel)]="title" name="title" />
-        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input matInput [(ngModel)]="title" name="title" />
+        </mat-form-field>
 
-        <form>
-          <div class="form-group">
-            <label class="label">Content:</label>
-            <input nbInput [(ngModel)]="content" name="content" />
-          </div>
-        </form>
+        <mat-form-field appearance="outline">
+          <mat-label>Content</mat-label>
+          <input matInput [(ngModel)]="content" name="content" />
+        </mat-form-field>
 
-        <div class="form-group">
-          <label class="label"
-            >Time to hide toast, ms. 0 to persistent toast:</label
-          >
-          <input nbInput type="number" [(ngModel)]="duration" name="timeout" />
-        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Time to hide toast, ms. 0 to persist</mat-label>
+          <input matInput type="number" [(ngModel)]="duration" name="timeout" />
+        </mat-form-field>
       </div>
 
-      <div class="col-md-6 col-sm-12">
-        <div class="form-group">
-          <label class="label">Toast type:</label>
-          <nb-select [(selected)]="status">
+      <div class="toast-grid__column">
+        <mat-form-field appearance="outline">
+          <mat-label>Toast type</mat-label>
+          <mat-select [(ngModel)]="status" name="status">
             @for (t of types; track t) {
-              <nb-option [value]="t">{{ t }}</nb-option>
+            <mat-option [value]="t">{{ t }}</mat-option>
             }
-          </nb-select>
-        </div>
+          </mat-select>
+        </mat-form-field>
 
-        <div>
-          <nb-checkbox [(ngModel)]="destroyByClick">Hide on click</nb-checkbox>
-        </div>
-        <div>
-          <nb-checkbox [(ngModel)]="preventDuplicates"
-            >Prevent arising of duplicate toast</nb-checkbox
-          >
-        </div>
-        <div>
-          <nb-checkbox [(ngModel)]="hasIcon">Show toast with icon</nb-checkbox>
-        </div>
+        <mat-checkbox [(ngModel)]="destroyByClick" name="destroyByClick">
+          Hide on click
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="preventDuplicates" name="preventDuplicates">
+          Prevent arising of duplicate toast
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="hasIcon" name="hasIcon">
+          Show toast with icon
+        </mat-checkbox>
       </div>
     </div>
-  </nb-card-body>
+  </mat-card-content>
 
-  <nb-card-footer>
-    <button nbButton (click)="makeToast()">Show toast</button>
-    <button nbButton status="success" (click)="openRandomToast()">
+  <mat-card-actions class="toast-actions">
+    <button mat-flat-button type="button" color="primary" (click)="makeToast()">
+      Show toast
+    </button>
+    <button mat-stroked-button type="button" (click)="openRandomToast()">
       Random toast
     </button>
-  </nb-card-footer>
-</nb-card>
+  </mat-card-actions>
+</mat-card>

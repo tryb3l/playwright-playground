@@ -1,15 +1,137 @@
-@import '@nebular/theme/styles/core/mixins';
+:host {
+  display: block;
+}
 
-nb-card-body {
-  margin: 0 -0.5rem;
-
-  button,
-  p {
-    margin: 0.5rem 0.5rem 0;
-  }
+.popover-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
 }
 
 .popover-card {
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+}
+
+.popover-card--wide {
+  grid-column: 1 / -1;
+}
+
+.popover-card__content {
+  display: grid;
+  gap: 1rem;
+}
+
+.popover-card__content p {
   margin: 0;
-  max-width: 20rem;
+  color: var(--app-text-muted);
+  line-height: 1.6;
+}
+
+.popover-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.popover-button {
+  min-width: 7rem;
+}
+
+.popover-button--danger {
+  color: #b91c1c;
+}
+
+.popover-button--success {
+  color: #15803d;
+}
+
+.popover-button--warning {
+  color: #b45309;
+}
+
+.popover-debounce-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+}
+
+.app-popover-panel {
+  width: min(22rem, calc(100vw - 2rem));
+  padding: 1rem;
+  border: 1px solid var(--app-border);
+  border-radius: 1.1rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+  backdrop-filter: blur(18px);
+}
+
+.app-popover-panel--primary {
+  border-color: rgba(15, 118, 110, 0.3);
+}
+
+.app-popover-panel--success {
+  border-color: rgba(21, 128, 61, 0.3);
+}
+
+.app-popover-panel--warning {
+  border-color: rgba(180, 83, 9, 0.28);
+}
+
+.app-popover-panel--danger {
+  border-color: rgba(185, 28, 28, 0.3);
+}
+
+.app-popover-panel__message {
+  margin: 0;
+  color: var(--app-text);
+}
+
+.popover-tab-group {
+  min-width: min(20rem, calc(100vw - 3rem));
+}
+
+.popover-template-body {
+  padding: 1rem;
+  color: var(--app-text-muted);
+}
+
+.popover-form {
+  display: grid;
+  gap: 0.9rem;
+  min-width: min(20rem, calc(100vw - 3rem));
+}
+
+.popover-form__field {
+  width: 100%;
+}
+
+.popover-form__field ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.popover-preview-card {
+  margin: 0;
+  border: 1px solid var(--app-border);
+  border-radius: 1rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+.popover-preview-card__content {
+  color: var(--app-text-muted);
+  line-height: 1.55;
+}
+
+@media (max-width: 680px) {
+  .popover-card__actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .popover-button {
+    width: 100%;
+  }
 }

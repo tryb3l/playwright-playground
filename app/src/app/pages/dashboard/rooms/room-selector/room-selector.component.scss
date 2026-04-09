@@ -1,76 +1,79 @@
-@import '../../../../@theme/styles/themes';
+:host {
+  display: block;
+  height: 100%;
+}
 
-@include nb-install-component() {
+.room-selector-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: transparent;
+}
 
-  nb-card {
-    background-color: transparent;
-    border-width: 0;
-    box-shadow: none;
-    margin: 0;
-  }
+.room-selector-header {
+  padding: 1rem 1.25rem 0.25rem;
+  color: var(--app-text);
+  font-weight: 700;
+}
 
-  nb-card-header {
-    border-color: transparent;
-  }
+.room-selector {
+  flex: 1;
+  min-height: 0;
+}
 
-  svg {
-    width: 100%;
-  }
+svg {
+  width: 100%;
+}
 
-  .stroke-pattern {
-    fill: none;
-    stroke: #bdc4cd;
-    stroke-miterlimit: 10;
-    opacity: 0.1;
-    stroke-width: 1px;
-  }
+.stroke-pattern {
+  fill: none;
+  stroke: #bdc4cd;
+  stroke-miterlimit: 10;
+  opacity: 0.1;
+  stroke-width: 1px;
+}
 
-  .stroked-element {
-    stroke-width: 4px;
-    stroke: #bdc4cd;
-    stroke-miterlimit: 10;
-  }
+.stroked-element {
+  stroke-width: 4px;
+  stroke: #bdc4cd;
+  stroke-miterlimit: 10;
+}
 
-  .room-border {
-    stroke-width: 4px;
-    stroke: #bdc4cd;
-    stroke-miterlimit: 10;
-    fill: none;
-  }
+.room-border {
+  stroke-width: 4px;
+  stroke: #bdc4cd;
+  stroke-miterlimit: 10;
+  fill: none;
+}
 
-  .room-bg {
-    fill: nb-theme(card-background-color);
-    stroke: transparent;
-    cursor: pointer;
-    stroke-width: 4px;
-  }
+.room-bg {
+  fill: var(--app-surface, #ffffff);
+  stroke: transparent;
+  cursor: pointer;
+  stroke-width: 4px;
+}
 
-  .room-bg-border-grad {
-    fill: none;
-    stroke: none;
-    stroke-width: 4px;
-  }
+.room-bg-border-grad {
+  fill: none;
+  stroke: none;
+  stroke-width: 4px;
+}
 
-  .room-text {
-    cursor: pointer;
-    user-select: none;
-    pointer-events: none;
-    fill: nb-theme(text-hint-color);
-  }
+.room-text {
+  cursor: pointer;
+  user-select: none;
+  pointer-events: none;
+  fill: var(--app-text-muted);
+}
 
-  .selected-room {
-    z-index: 40;
+.selected-room {
+  z-index: 40;
+}
 
-    .room-text {
-      fill: nb-theme(text-basic-color);
-    }
-    .room-border {
-      stroke: nb-theme(color-primary-default);
-    }
-  }
+.selected-room .room-text {
+  fill: var(--app-text);
+}
 
-  .header {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
+.selected-room .room-border {
+  stroke: var(--app-accent);
 }

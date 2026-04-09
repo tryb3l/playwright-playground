@@ -1,22 +1,39 @@
 import { Component, HostBinding, OnDestroy } from '@angular/core';
-import { NbThemeService, NbMediaBreakpoint, NbMediaBreakpointsService } from '@nebular/theme';
+import { AppMediaBreakpoint, AppThemeService } from '../../../@theme/services/app-theme.service';
 import { map } from 'rxjs/operators';
 
 @Component({
-    selector: 'ngx-rooms',
-    styleUrls: ['./rooms.component.scss'],
-    template: `
-    <nb-card [size]="breakpoint.width >= breakpoints.sm ? 'giant' : ''">
-      <nb-icon icon="arrow-ios-downward" pack="eva"
-               (click)="collapse()"
-               class="collapse"
-               [hidden]="isCollapsed()">
-      </nb-icon>
-      <ngx-room-selector [class.dark-background]="isDarkTheme" (selectEvent)="select($event)"></ngx-room-selector>
-      <ngx-player [collapsed]="isCollapsed() && breakpoint.width <= breakpoints.md"></ngx-player>
-    </nb-card>
+  selector: 'ngx-rooms',
+  styleUrls: ['./rooms.component.scss'],
+  template: `
+    <section class="rooms-card" data-testid="dashboard-rooms-card">
+      @if (!isCollapsed()) {
+        <button
+          type="button"
+          class="collapse"
+          data-testid="dashboard-rooms-collapse-button"
+          (click)="collapse()"
+          aria-label="Collapse room details"
+        >
+          <span class="fa-solid fa-chevron-down" aria-hidden="true"></span>
+        </button>
+      }
+
+      <ngx-room-selector
+        class="rooms-selector-pane"
+        data-testid="dashboard-rooms-selector-pane"
+        [class.dark-background]="isDarkTheme"
+        (selectEvent)="select($event)"
+      ></ngx-room-selector>
+
+      <ngx-player
+        class="rooms-player-pane"
+        data-testid="dashboard-rooms-player-pane"
+        [collapsed]="isCollapsed() && breakpoint.width <= breakpoints.md"
+      ></ngx-player>
+    </section>
   `,
-    standalone: false
+  standalone: false
 })
 export class RoomsComponent implements OnDestroy {
 
@@ -26,15 +43,15 @@ export class RoomsComponent implements OnDestroy {
 
   isDarkTheme: boolean;
 
-  breakpoint: NbMediaBreakpoint;
+  breakpoint: AppMediaBreakpoint;
   breakpoints: any;
   themeSubscription: any;
   themeChangeSubscription: any;
 
-  constructor(private themeService: NbThemeService,
-              private breakpointService: NbMediaBreakpointsService) {
+  constructor(private themeService: AppThemeService) {
 
-    this.breakpoints = this.breakpointService.getBreakpointsMap();
+    this.breakpoint = this.themeService.getCurrentBreakpoint();
+    this.breakpoints = this.themeService.getBreakpointsMap();
     this.themeSubscription = this.themeService.onMediaQueryChange()
       .subscribe(([, newValue]) => {
         this.breakpoint = newValue;

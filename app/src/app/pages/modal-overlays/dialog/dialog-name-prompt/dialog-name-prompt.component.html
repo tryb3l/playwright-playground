@@ -1,10 +1,17 @@
-<nb-card>
-  <nb-card-header>Enter your name</nb-card-header>
-  <nb-card-body>
-    <input #name nbInput placeholder="Name">
-  </nb-card-body>
-  <nb-card-footer>
-    <button class="cancel" nbButton status="danger" (click)="cancel()">Cancel</button>
-    <button nbButton status="success" (click)="submit(name.value)">Submit</button>
-  </nb-card-footer>
-</nb-card>
+<h2 mat-dialog-title>Enter your name</h2>
+
+<mat-dialog-content>
+  <mat-form-field appearance="outline" class="dialog-name-prompt__field">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="name" placeholder="Name" data-testid="dialog-name-input" />
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button class="cancel" mat-stroked-button type="button" (click)="cancel()">
+    Cancel
+  </button>
+  <button mat-flat-button type="button" color="primary" data-testid="dialog-submit-button" (click)="submit(name)">
+    Submit
+  </button>
+</mat-dialog-actions>

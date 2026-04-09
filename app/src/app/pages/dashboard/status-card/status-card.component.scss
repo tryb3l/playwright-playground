@@ -1,79 +1,110 @@
-@import '../../../@theme/styles/themes';
+:host {
+  display: block;
+}
 
-@include nb-install-component() {
-  nb-card {
-    flex-direction: row;
-    align-items: center;
-    height: 6rem;
-    overflow: visible;
+.status-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 6rem;
+  padding: 0;
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+  color: var(--app-text);
+  overflow: hidden;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-    .icon-container {
-      height: 100%;
-      padding: 0.625rem;
-    }
+.status-card:hover {
+  transform: translateY(-2px);
+}
 
-    .icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 5.75rem;
-      height: 4.75rem;
-      font-size: 3.75rem;
-      border-radius: nb-theme(card-border-radius);
-      transition: width 0.4s ease;
-      transform: translate3d(0, 0, 0);
-      -webkit-transform-style: preserve-3d;
-      -webkit-backface-visibility: hidden;
-      color: nb-theme(text-control-color);
+.status-card:focus-visible {
+  outline: 2px solid var(--app-accent);
+  outline-offset: 3px;
+}
 
-      @each $status in nb-get-statuses() {
-        &.status-#{$status} {
-          $left-color: nb-theme(button-hero-#{$status}-left-background-color);
-          $right-color: nb-theme(button-hero-#{$status}-right-background-color);
-          background-image: linear-gradient(to right, $left-color, $right-color);
+.icon-container {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  padding: 0.625rem;
+}
 
-          &:hover {
-            $left-hover-color: nb-theme(button-hero-#{$status}-hover-left-background-color);
-            $right-hover-color: nb-theme(button-hero-#{$status}-hover-right-background-color);
-            background-image: linear-gradient(to right, $left-hover-color, $right-hover-color);
-          }
-        }
-      }
-    }
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.75rem;
+  height: 4.75rem;
+  border-radius: 1rem;
+  color: #fff;
+  font-size: 2.5rem;
+  transition: filter 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
 
-    &.off {
-      color: nb-theme(text-hint-color);
+.details {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
+  min-height: 100%;
+  padding: 0 1rem 0 0.75rem;
+}
 
-      .status,
-      .title,
-      .icon {
-        color: nb-theme(text-hint-color);
-      }
+.title {
+  margin: 0;
+}
 
-      @each $status in nb-get-statuses() {
-        .icon.status-#{$status} {
-          box-shadow: none;
-          background-image: linear-gradient(to right, transparent, transparent);
-        }
-      }
-    }
+.status {
+  color: var(--app-text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 
-    .details {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      height: 100%;
-      @include nb-ltr(padding, 0 0.5rem 0 0.75rem);
-      @include nb-rtl(padding, 0 0.75rem 0 0.5rem);
-      border-left: 1px solid transparent;
-    }
+.status-primary .icon {
+  background: linear-gradient(135deg, #2563eb, #0ea5e9);
+}
 
-    .title {
-      margin: 0;
-    }
+.status-success .icon {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+}
 
-    .status {
-      text-transform: uppercase;
-    }
+.status-info .icon {
+  background: linear-gradient(135deg, #0891b2, #06b6d4);
+}
+
+.status-warning .icon {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+}
+
+.status-card.off {
+  color: var(--app-text-muted);
+}
+
+.status-card.off .title,
+.status-card.off .status {
+  color: var(--app-text-muted);
+}
+
+.status-card.off .icon {
+  background: linear-gradient(135deg, rgba(148, 163, 184, 0.2), rgba(148, 163, 184, 0.1));
+  color: var(--app-text-muted);
+  box-shadow: inset 0 0 0 1px var(--app-border);
+}
+
+@media (max-width: 575px) {
+  .status-card {
+    min-height: 5.5rem;
+  }
+
+  .icon {
+    width: 4.5rem;
+    height: 4rem;
+    font-size: 2rem;
   }
 }

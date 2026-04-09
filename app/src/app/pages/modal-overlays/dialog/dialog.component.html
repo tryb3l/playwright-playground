@@ -1,81 +1,89 @@
-<div class="row">
-  <div class="col-md-12 col-lg-6 col-xxxl-3">
-    <nb-card>
-      <nb-card-header>Open Dialog</nb-card-header>
-      <nb-card-body>
-        <button nbButton (click)="open()">Open Dialog with component</button>
+<div class="dialog-grid">
+  <mat-card class="dialog-card">
+    <mat-card-header>
+      <mat-card-title>Open Dialog</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="dialog-card__actions">
+      <button mat-flat-button type="button" color="primary" (click)="open()">
+        Open Dialog with component
+      </button>
 
-        <button nbButton (click)="open2(dialog)">
-          Open Dialog with template
-        </button>
-      </nb-card-body>
-    </nb-card>
-  </div>
+      <button mat-stroked-button type="button" (click)="open2(dialog)">
+        Open Dialog with template
+      </button>
+    </mat-card-content>
+  </mat-card>
 
-  <div class="col-md-12 col-lg-6 col-xxxl-3">
-    <nb-card>
-      <nb-card-header>Open Without Backdrop</nb-card-header>
-      <nb-card-body>
-        <button nbButton (click)="open()">Open Dialog with backdrop</button>
+  <mat-card class="dialog-card">
+    <mat-card-header>
+      <mat-card-title>Open Without Backdrop</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="dialog-card__actions">
+      <button mat-flat-button type="button" color="primary" (click)="open()">
+        Open Dialog with backdrop
+      </button>
 
-        <button nbButton (click)="openWithoutBackdrop(dialog)">
-          Open Dialog without backdrop
-        </button>
-      </nb-card-body>
-    </nb-card>
-  </div>
+      <button mat-stroked-button type="button" (click)="openWithoutBackdrop(dialog)">
+        Open Dialog without backdrop
+      </button>
+    </mat-card-content>
+  </mat-card>
 
-  <div class="col-md-12 col-lg-6 col-xxxl-3">
-    <nb-card>
-      <nb-card-header>Open Without Esc Close</nb-card-header>
-      <nb-card-body>
-        <button nbButton (click)="open()">Open Dialog with esc close</button>
+  <mat-card class="dialog-card">
+    <mat-card-header>
+      <mat-card-title>Open Without Esc Close</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="dialog-card__actions">
+      <button mat-flat-button type="button" color="primary" (click)="open()">
+        Open Dialog with esc close
+      </button>
 
-        <button nbButton (click)="openWithoutEscClose(dialog)">
-          Open Dialog without esc close
-        </button>
-      </nb-card-body>
-    </nb-card>
-  </div>
+      <button mat-stroked-button type="button" (click)="openWithoutEscClose(dialog)">
+        Open Dialog without esc close
+      </button>
+    </mat-card-content>
+  </mat-card>
 
-  <div class="col-md-12 col-lg-6 col-xxxl-3">
-    <nb-card>
-      <nb-card-header>Open Without Backdrop Click</nb-card-header>
-      <nb-card-body>
-        <button nbButton (click)="open()">
-          Open Dialog with backdrop click
-        </button>
+  <mat-card class="dialog-card">
+    <mat-card-header>
+      <mat-card-title>Open Without Backdrop Click</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="dialog-card__actions">
+      <button mat-flat-button type="button" color="primary" (click)="open()">
+        Open Dialog with backdrop click
+      </button>
 
-        <button nbButton (click)="openWithoutBackdropClick(dialog)">
-          Open without backdrop click
-        </button>
-      </nb-card-body>
-    </nb-card>
-  </div>
+      <button mat-stroked-button type="button" (click)="openWithoutBackdropClick(dialog)">
+        Open without backdrop click
+      </button>
+    </mat-card-content>
+  </mat-card>
 
-  <div class="col-md-12 col-lg-6 col-xxxl-3">
-    <nb-card class="form-input-card">
-      <nb-card-header>Return Result From Dialog</nb-card-header>
-      <nb-card-body class="result-from-dialog">
-        <button nbButton (click)="open3()">Enter Name</button>
-        <br />
-        <h3 class="title">Names:</h3>
-        <ul>
+  <mat-card class="dialog-card dialog-card--result">
+    <mat-card-header>
+      <mat-card-title>Return Result From Dialog</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="result-from-dialog">
+      <button mat-flat-button type="button" color="primary" data-testid="dialog-enter-name-button" (click)="open3()">
+        Enter Name
+      </button>
+
+      <div>
+        <h3 class="result-from-dialog__title">Names:</h3>
+        <ul data-testid="dialog-name-list">
           @for (name of names; track name) {
-            <li>{{ name }}</li>
+          <li>{{ name }}</li>
           }
         </ul>
-      </nb-card-body>
-    </nb-card>
-  </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
 
-<ng-template #dialog let-data let-ref="dialogRef">
-  <nb-card>
-    <nb-card-header>Template Dialog</nb-card-header>
-    <nb-card-body>{{ data }}</nb-card-body>
-    <nb-card-footer>
-      <button nbButton (click)="ref.close()">Close Dialog</button>
-    </nb-card-footer>
-  </nb-card>
+<ng-template #dialog let-data>
+  <h2 mat-dialog-title>Template Dialog</h2>
+  <mat-dialog-content class="dialog-template__content">{{ data }}</mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button type="button" mat-dialog-close>Close Dialog</button>
+  </mat-dialog-actions>
 </ng-template>

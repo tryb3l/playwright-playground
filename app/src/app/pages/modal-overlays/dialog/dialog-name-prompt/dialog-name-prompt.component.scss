@@ -1,11 +1,11 @@
-@import '../../../../@theme/styles/themes';
+.dialog-name-prompt__field {
+  width: 100%;
+}
 
-@include nb-install-component() {
-  input {
-    width: 100%;
-  }
+.dialog-name-prompt__field ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
 
-  .cancel {
-    margin-right: 1rem;
-  }
+.cancel {
+  margin-right: 0.75rem;
 }

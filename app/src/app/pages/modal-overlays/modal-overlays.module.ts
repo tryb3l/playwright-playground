@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  NbButtonModule,
-  NbCardModule,
-  NbCheckboxModule,
-  NbDialogModule,
-  NbInputModule,
-  NbPopoverModule,
-  NbSelectModule,
-  NbTabsetModule,
-  NbTooltipModule,
-  NbWindowModule,
-} from '@nebular/theme';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // modules
 import { ThemeModule } from '../../@theme/theme.module';
@@ -25,6 +24,7 @@ import { DialogNamePromptComponent } from './dialog/dialog-name-prompt/dialog-na
 import { WindowComponent } from './window/window.component';
 import { WindowFormComponent } from './window/window-form/window-form.component';
 import { ToastrComponent } from './toastr/toastr.component';
+import { ToastPreviewComponent } from './toastr/toast-preview.component';
 import { PopoversComponent } from './popovers/popovers.component';
 import {
   NgxPopoverCardComponent, NgxPopoverFormComponent,
@@ -36,6 +36,7 @@ import { TooltipComponent } from './tooltip/tooltip.component';
 const COMPONENTS = [
   ModalOverlaysComponent,
   ToastrComponent,
+  ToastPreviewComponent,
   DialogComponent,
   ShowcaseDialogComponent,
   DialogNamePromptComponent,
@@ -48,44 +49,36 @@ const COMPONENTS = [
   TooltipComponent,
 ];
 
-const ENTRY_COMPONENTS = [
-  ShowcaseDialogComponent,
-  DialogNamePromptComponent,
-  WindowFormComponent,
-  NgxPopoverCardComponent,
-  NgxPopoverFormComponent,
-  NgxPopoverTabsComponent,
-];
-
 const MODULES = [
   FormsModule,
   ThemeModule,
   ModalOverlaysRoutingModule,
-  NbDialogModule.forChild(),
-  NbWindowModule.forChild(),
-  NbCardModule,
-  NbCheckboxModule,
-  NbTabsetModule,
-  NbPopoverModule,
-  NbButtonModule,
-  NbInputModule,
-  NbSelectModule,
-  NbTooltipModule,
+  OverlayModule,
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatSelectModule,
+  MatSnackBarModule,
+  MatTabsModule,
+  MatTooltipModule,
 ];
 
 const SERVICES = [
 ];
 
 @NgModule({
-    imports: [
-        ...MODULES,
-    ],
-    declarations: [
-        ...COMPONENTS,
-    ],
-    providers: [
-        ...SERVICES,
-    ],
+  imports: [
+    ...MODULES,
+  ],
+  declarations: [
+    ...COMPONENTS,
+  ],
+  providers: [
+    ...SERVICES,
+  ],
 })
 export class ModalOverlaysModule {
 }

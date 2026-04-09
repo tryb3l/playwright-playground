@@ -1,15 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { NbComponentSize, NbMediaBreakpointsService, NbThemeService } from '@nebular/theme';
+import { AppThemeService } from '../../../@theme/services/app-theme.service';
 
 import { Camera, SecurityCamerasData } from '../../../@core/data/security-cameras';
 
 @Component({
-    selector: 'ngx-security-cameras',
-    styleUrls: ['./security-cameras.component.scss'],
-    templateUrl: './security-cameras.component.html',
-    standalone: false
+  selector: 'ngx-security-cameras',
+  styleUrls: ['./security-cameras.component.scss'],
+  templateUrl: './security-cameras.component.html',
+  standalone: false
 })
 export class SecurityCamerasComponent implements OnInit, OnDestroy {
 
@@ -18,13 +18,12 @@ export class SecurityCamerasComponent implements OnInit, OnDestroy {
   cameras: Camera[];
   selectedCamera: Camera;
   isSingleView = false;
-  actionSize: NbComponentSize = 'medium';
+  actionSize: 'small' | 'medium' = 'medium';
 
   constructor(
-    private themeService: NbThemeService,
-    private breakpointService: NbMediaBreakpointsService,
+    private themeService: AppThemeService,
     private securityCamerasService: SecurityCamerasData,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.securityCamerasService.getCamerasData()
@@ -34,9 +33,12 @@ export class SecurityCamerasComponent implements OnInit, OnDestroy {
         this.selectedCamera = this.cameras[0];
       });
 
-    const breakpoints = this.breakpointService.getBreakpointsMap();
+    const breakpoints = this.themeService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
-      .pipe(map(([, breakpoint]) => breakpoint.width))
+      .pipe(
+        map(([, breakpoint]) => breakpoint.width),
+        takeUntil(this.destroy$),
+      )
       .subscribe((width: number) => {
         this.actionSize = width > breakpoints.md ? 'medium' : 'small';
       });

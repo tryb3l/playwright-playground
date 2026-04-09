@@ -1,72 +1,58 @@
-<nb-card size="giant">
-  <nb-card-header>
-    Security Cameras
+<section class="security-cameras-card" data-testid="dashboard-security-cameras-card">
+  <header class="security-cameras-header">
+    <h3 class="security-cameras-title">Security Cameras</h3>
 
-    <button
-      class="single-view-button"
-      nbButton
-      size="small"
-      [appearance]="isSingleView ? 'filled' : 'outline'"
-      (click)="isSingleView = true"
-    >
-      <i class="nb-square"></i>
-    </button>
-    <button
-      class="grid-view-button"
-      nbButton
-      size="small"
-      [appearance]="isSingleView ? 'outline' : 'filled'"
-      (click)="isSingleView = false"
-    >
-      <nb-icon icon="grid" pack="eva"></nb-icon>
-    </button>
-  </nb-card-header>
+    <div class="view-toggle" role="group" aria-label="Security camera view mode">
+      <button type="button" class="view-toggle-button single-view-button"
+        data-testid="dashboard-security-cameras-single-view-button" [class.is-active]="isSingleView"
+        [attr.aria-pressed]="isSingleView" (click)="isSingleView = true" aria-label="Single camera view">
+        <span class="fa-solid fa-square" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="view-toggle-button grid-view-button"
+        data-testid="dashboard-security-cameras-grid-view-button" [class.is-active]="!isSingleView"
+        [attr.aria-pressed]="!isSingleView" (click)="isSingleView = false" aria-label="Grid camera view">
+        <span class="fa-solid fa-border-all" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
 
   <div class="grid-container">
-    @if (isSingleView) {
-      <div class="single-view">
-        <div
-          class="camera"
-          [style.background-image]="'url(' + selectedCamera.source + ')'"
-        >
-          <span class="camera-name">{{ selectedCamera.title }}</span>
-        </div>
+    @if (isSingleView && selectedCamera) {
+    <div class="single-view" data-testid="dashboard-security-cameras-single-view">
+      <div class="camera" [style.background-image]="'url(' + selectedCamera.source + ')'">
+        <span class="camera-name">{{ selectedCamera.title }}</span>
       </div>
+    </div>
     }
 
     @if (!isSingleView) {
-      <div class="grid-view">
-        @for (camera of cameras; track camera) {
-          <div
-            class="camera"
-            [style.background-image]="'url(' + camera.source + ')'"
-            (click)="selectCamera(camera)"
-          >
-            <span class="camera-name">{{ camera.title }}</span>
-          </div>
-        }
-      </div>
+    <div class="grid-view" data-testid="dashboard-security-cameras-grid-view">
+      @for (camera of cameras; track camera.title; let index = $index) {
+      <button type="button" class="camera camera-button" [style.background-image]="'url(' + camera.source + ')'"
+        [attr.data-testid]="'dashboard-security-camera-' + index" (click)="selectCamera(camera)">
+        <span class="camera-name">{{ camera.title }}</span>
+      </button>
+      }
+    </div>
     }
   </div>
 
-  <nb-card-footer>
-    <nb-actions [size]="actionSize" fullWidth>
-      <nb-action>
-        <nb-icon icon="pause-circle-outline" pack="eva"></nb-icon>
-        Pause
-      </nb-action>
-      <nb-action>
-        <nb-icon icon="list-outline" pack="eva"></nb-icon>
-        Logs
-      </nb-action>
-      <nb-action>
-        <nb-icon icon="search-outline" pack="eva"></nb-icon>
-        Search
-      </nb-action>
-      <nb-action>
-        <nb-icon icon="settings-2-outline" pack="eva"></nb-icon>
-        Setup
-      </nb-action>
-    </nb-actions>
-  </nb-card-footer>
-</nb-card>
+  <footer class="security-cameras-footer" [class.security-cameras-footer--compact]="actionSize === 'small'">
+    <button type="button" class="camera-action-button" data-testid="dashboard-security-action-pause">
+      <span class="fa-regular fa-circle-pause" aria-hidden="true"></span>
+      <span>Pause</span>
+    </button>
+    <button type="button" class="camera-action-button" data-testid="dashboard-security-action-logs">
+      <span class="fa-solid fa-list" aria-hidden="true"></span>
+      <span>Logs</span>
+    </button>
+    <button type="button" class="camera-action-button" data-testid="dashboard-security-action-search">
+      <span class="fa-solid fa-magnifying-glass" aria-hidden="true"></span>
+      <span>Search</span>
+    </button>
+    <button type="button" class="camera-action-button" data-testid="dashboard-security-action-setup">
+      <span class="fa-solid fa-sliders" aria-hidden="true"></span>
+      <span>Setup</span>
+    </button>
+  </footer>
+</section>

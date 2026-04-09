@@ -1,11 +1,37 @@
-@import '../../../@theme/styles/themes';
+:host {
+  display: block;
+}
 
-@include nb-install-component() {
-  nb-card-body {
-    margin: -0.5rem;
-  }
+.tooltip-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}
 
-  button {
-    margin: 0.5rem;
-  }
+.tooltip-card {
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+}
+
+.tooltip-card__content {
+  display: grid;
+  gap: 1rem;
+}
+
+.tooltip-card__actions {
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+}
+
+.tooltip-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 2.75rem;
+}
+
+.tooltip-button .fa-solid {
+  font-size: 0.95rem;
 }

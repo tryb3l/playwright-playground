@@ -1,6 +1,37 @@
-@import '../../../@theme/styles/themes';
+:host {
+  display: block;
+}
 
-@include nb-install-component() {
+.chart-card {
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+  margin-bottom: 1.5rem;
+}
+
+.chart-card mat-card-content {
+  padding-top: 0.5rem;
+}
+
+ngx-echarts-pie,
+ngx-echarts-bar,
+ngx-echarts-line,
+ngx-echarts-multiple-xaxis,
+ngx-echarts-area-stack,
+ngx-echarts-bar-animation,
+ngx-echarts-radar {
+  display: block;
+  height: 22rem;
+  width: 100%;
+}
+
+:host ::ng-deep .echart {
+  height: 100%;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
   ngx-echarts-pie,
   ngx-echarts-bar,
   ngx-echarts-line,
@@ -8,13 +39,6 @@
   ngx-echarts-area-stack,
   ngx-echarts-bar-animation,
   ngx-echarts-radar {
-    display: block;
-    height: nb-theme(card-height-medium);
-    width: 100%;
-  }
-
-  ::ng-deep .echart {
-    height: 100%;
-    width: 100%;
+    height: 18rem;
   }
 }

@@ -1,35 +1,79 @@
-@import '../../../@theme/styles/themes';
+:host {
+  display: block;
+  height: 100%;
+}
 
-@include nb-install-component() {
+.traffic-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 22rem;
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+  overflow: hidden;
+}
 
-  nb-card {
-    position: relative;
-    overflow: hidden;
-  }
+.traffic-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--app-border);
+  color: var(--app-text);
+  font-weight: 700;
+  margin-bottom: -1px;
+}
 
-  nb-card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: nb-theme(card-header-with-select-padding-top);
-    padding-bottom: nb-theme(card-header-with-select-padding-bottom);
-    margin-bottom: -1px;
-  }
+.traffic-select select {
+  min-width: 7rem;
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  background: var(--app-surface);
+  color: var(--app-text);
+  font: inherit;
+  padding: 0.45rem 2rem 0.45rem 0.85rem;
+}
 
-  ngx-traffic-chart {
-    flex: 1;
-  }
+.traffic-chart-surface {
+  display: flex;
+  flex: 1;
+  min-height: 16rem;
+}
 
-  ::ng-deep {
-    .echart {
-      display: block;
-      height: 100%;
-      width: 100%;
-    }
+ngx-traffic-chart {
+  display: block;
+  flex: 1;
+  min-height: 16rem;
+}
 
-    canvas {
-      border-bottom-left-radius: nb-theme(card-border-radius);
-      border-bottom-right-radius: nb-theme(card-border-radius);
-    }
+:host ::ng-deep ngx-traffic-chart .echart {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+:host ::ng-deep ngx-traffic-chart canvas {
+  border-bottom-left-radius: 1.25rem;
+  border-bottom-right-radius: 1.25rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 575px) {
+  .traffic-card__header {
+    flex-wrap: wrap;
   }
 }

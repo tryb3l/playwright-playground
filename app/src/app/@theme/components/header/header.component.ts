@@ -1,95 +1,73 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { Component, DestroyRef, HostListener, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { UserData } from '../../../@core/data/users';
-import { LayoutService } from '../../../@core/utils';
-import { map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { User, UserData } from '../../../@core/data/users';
+import {
+  AppThemeName,
+  APP_THEME_OPTIONS,
+  AppThemeService,
+} from '../../services/app-theme.service';
+import { AppShellService } from '../../services/app-shell.service';
 
 @Component({
-    selector: 'ngx-header',
-    styleUrls: ['./header.component.scss'],
-    templateUrl: './header.component.html',
-    standalone: false
+  selector: 'ngx-header',
+  styleUrls: ['./header.component.scss'],
+  templateUrl: './header.component.html',
+  standalone: false
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
 
-  private destroy$: Subject<void> = new Subject<void>();
-  userPictureOnly: boolean = false;
-  user: any;
+  readonly themes = APP_THEME_OPTIONS;
 
-  themes = [
-    {
-      value: 'default',
-      name: 'Light',
-    },
-    {
-      value: 'dark',
-      name: 'Dark',
-    },
-    {
-      value: 'cosmic',
-      name: 'Cosmic',
-    },
-    {
-      value: 'corporate',
-      name: 'Corporate',
-    },
-  ];
+  userPictureOnly = false;
+  user?: User;
+  currentTheme: AppThemeName = 'default';
 
-  currentTheme = 'default';
+  constructor(
+    private readonly router: Router,
+    private readonly userService: UserData,
+    private readonly appThemeService: AppThemeService,
+    private readonly appShellService: AppShellService,
+  ) { }
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
-
-  constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private themeService: NbThemeService,
-              private userService: UserData,
-              private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
-  }
-
-  ngOnInit() {
-    this.currentTheme = this.themeService.currentTheme;
+  ngOnInit(): void {
+    this.currentTheme = this.appThemeService.currentTheme;
+    this.updateResponsiveState();
 
     this.userService.getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.nick);
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((users) => {
+        if (Array.isArray(users)) {
+          this.user = users[0];
+          return;
+        }
 
-    const { xl } = this.breakpointService.getBreakpointsMap();
-    this.themeService.onMediaQueryChange()
-      .pipe(
-        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
-        takeUntil(this.destroy$),
-      )
-      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
+        this.user = (users as unknown as Record<string, User>).nick;
+      });
 
-    this.themeService.onThemeChange()
-      .pipe(
-        map(({ name }) => name),
-        takeUntil(this.destroy$),
-      )
-      .subscribe(themeName => this.currentTheme = themeName);
+    this.appThemeService.theme$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((themeName) => {
+        this.currentTheme = themeName;
+      });
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+  @HostListener('window:resize')
+  updateResponsiveState(): void {
+    this.userPictureOnly = window.innerWidth < 1280;
   }
 
-  changeTheme(themeName: string) {
-    this.themeService.changeTheme(themeName);
+  changeTheme(themeName: AppThemeName): void {
+    this.appThemeService.setTheme(themeName);
   }
 
-  toggleSidebar(): boolean {
-    this.sidebarService.toggle(true, 'menu-sidebar');
-    this.layoutService.changeLayoutSize();
-
-    return false;
+  toggleSidebar(): void {
+    this.appShellService.toggleSidebar();
   }
 
-  navigateHome() {
-    this.menuService.navigateHome();
-    return false;
+  navigateHome(): void {
+    void this.router.navigate(['/pages/iot-dashboard']);
   }
 }

@@ -1,0 +1,32 @@
+<section class="auth-shell" data-testid="auth-shell">
+    <div class="auth-shell__content">
+        <aside class="auth-shell__hero">
+            <a class="auth-shell__brand" routerLink="/pages/iot-dashboard">playwright-test-admin</a>
+            <p class="auth-shell__eyebrow">Auth</p>
+            <h1 class="auth-shell__title">Access the migrated demo routes without Nebular auth UI.</h1>
+            <p class="auth-shell__body">
+                The authentication strategy is still powered by the existing demo service, but the routed experience is
+                now app-owned and aligned with the rest of the Angular Material migration.
+            </p>
+
+            <ul class="auth-shell__highlights">
+                <li>
+                    <span class="fa-solid fa-route" aria-hidden="true"></span>
+                    Routed auth pages with explicit navigation
+                </li>
+                <li>
+                    <span class="fa-solid fa-layer-group" aria-hidden="true"></span>
+                    Shared shell and consistent app tokens
+                </li>
+                <li>
+                    <span class="fa-solid fa-shield-heart" aria-hidden="true"></span>
+                    Existing auth service and token flow preserved
+                </li>
+            </ul>
+        </aside>
+
+        <main class="auth-shell__panel">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</section>

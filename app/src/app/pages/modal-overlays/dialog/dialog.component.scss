@@ -1,42 +1,55 @@
-@import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+:host {
+  display: block;
+}
 
-@import '../../../@theme/styles/themes';
+.dialog-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}
 
-@include nb-install-component() {
-  nb-card-body {
-    display: block;
+.dialog-card {
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+}
 
-    button {
-      width: 100%;
-      margin-bottom: 2rem;
-      display: block;
+.dialog-card__actions {
+  display: grid;
+  gap: 1rem;
+}
 
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
+.dialog-card__actions button {
+  width: 100%;
+}
 
-  .result-from-dialog {
-    flex-direction: column;
-  }
+.dialog-card--result {
+  grid-column: span min(2, 1);
+}
 
-  .form-input-card {
-    nb-card-body {
-      display: block;
-    }
-  }
+.result-from-dialog {
+  display: grid;
+  gap: 1.25rem;
+}
 
-  @include media-breakpoint-down(lg) {
-    button {
-      padding: 0.8rem;
-    }
-  }
+.result-from-dialog__title {
+  margin: 0 0 0.75rem;
+  color: var(--app-text);
+}
 
-  @include media-breakpoint-down(is) {
-    button {
-      padding: 0.75rem;
-    }
+.result-from-dialog ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--app-text-muted);
+}
+
+.dialog-template__content {
+  color: var(--app-text-muted);
+}
+
+@media (max-width: 680px) {
+  .dialog-card__actions button {
+    min-height: 2.75rem;
   }
 }

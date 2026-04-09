@@ -1,15 +1,36 @@
-<nb-card size="large">
-  <nb-tabset fullWidth>
+<section class="temperature-card" data-testid="dashboard-temperature-card">
+  <div class="temperature-tabs" role="tablist" aria-label="Temperature dashboard tabs">
+    <button
+      type="button"
+      class="temperature-tab"
+      data-testid="dashboard-temperature-tab-temperature"
+      [class.temperature-tab--active]="activePanel === 'temperature'"
+      [attr.aria-selected]="activePanel === 'temperature'"
+      (click)="setActivePanel('temperature')"
+    >
+      Temperature
+    </button>
+    <button
+      type="button"
+      class="temperature-tab"
+      data-testid="dashboard-temperature-tab-humidity"
+      [class.temperature-tab--active]="activePanel === 'humidity'"
+      [attr.aria-selected]="activePanel === 'humidity'"
+      (click)="setActivePanel('humidity')"
+    >
+      Humidity
+    </button>
+  </div>
 
-    <nb-tab tabTitle="Temperature">
-
+  @if (activePanel === 'temperature') {
+    <div class="temperature-panel" data-testid="dashboard-temperature-panel-temperature">
       <div class="slider-container">
         <ngx-temperature-dragger [(value)]="temperature" (power)="temperatureOff = !$event"
                                  [min]="temperatureData.min" [max]="temperatureData.max" [disableArcColor]="theme.arcEmpty"
                                  [fillColors]="theme.arcFill" [thumbBg]="theme.thumbBg" [thumbBorderColor]="theme.thumbBorder">
 
-          <div class="slider-value-container"  [ngClass]="{ 'off': temperatureOff }">
-            <div class="value temperature h1">
+          <div class="slider-value-container" [ngClass]="{ 'off': temperatureOff }">
+            <div class="value temperature h1" data-testid="dashboard-temperature-value">
               {{ temperatureOff ? '--' : (temperature | ngxRound) }}
             </div>
             <div class="desc">
@@ -19,51 +40,106 @@
         </ngx-temperature-dragger>
       </div>
 
-      <nb-radio-group [(ngModel)]="temperatureMode" name="temperature-mode">
-        <nb-radio value="cool">
-          <i class="nb-snowy-circled"></i>
-        </nb-radio>
-        <nb-radio value="warm">
-          <i class="nb-sunny-circled"></i>
-        </nb-radio>
-        <nb-radio value="heat">
-          <i class="nb-flame-circled"></i>
-        </nb-radio>
-        <nb-radio value="fan">
-          <i class="nb-loop-circled"></i>
-        </nb-radio>
-      </nb-radio-group>
-    </nb-tab>
-
-    <nb-tab tabTitle="Humidity">
-
+      <div class="mode-group" data-testid="dashboard-temperature-mode-group" role="radiogroup" aria-label="Temperature mode">
+        <button
+          type="button"
+          class="mode-button"
+          data-testid="dashboard-temperature-mode-cool"
+          [class.mode-button--active]="temperatureMode === 'cool'"
+          [attr.aria-pressed]="temperatureMode === 'cool'"
+          (click)="temperatureMode = 'cool'"
+        >
+          <span class="fa-solid fa-snowflake" aria-hidden="true"></span>
+        </button>
+        <button
+          type="button"
+          class="mode-button"
+          data-testid="dashboard-temperature-mode-warm"
+          [class.mode-button--active]="temperatureMode === 'warm'"
+          [attr.aria-pressed]="temperatureMode === 'warm'"
+          (click)="temperatureMode = 'warm'"
+        >
+          <span class="fa-solid fa-sun" aria-hidden="true"></span>
+        </button>
+        <button
+          type="button"
+          class="mode-button"
+          data-testid="dashboard-temperature-mode-heat"
+          [class.mode-button--active]="temperatureMode === 'heat'"
+          [attr.aria-pressed]="temperatureMode === 'heat'"
+          (click)="temperatureMode = 'heat'"
+        >
+          <span class="fa-solid fa-fire-flame-curved" aria-hidden="true"></span>
+        </button>
+        <button
+          type="button"
+          class="mode-button"
+          data-testid="dashboard-temperature-mode-fan"
+          [class.mode-button--active]="temperatureMode === 'fan'"
+          [attr.aria-pressed]="temperatureMode === 'fan'"
+          (click)="temperatureMode = 'fan'"
+        >
+          <span class="fa-solid fa-fan" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="temperature-panel" data-testid="dashboard-temperature-panel-humidity">
       <div class="slider-container">
         <ngx-temperature-dragger [(value)]="humidity" (power)="humidityOff = !$event"
                                  [min]="humidityData.min" [max]="humidityData.max" [disableArcColor]="theme.arcEmpty"
                                  [fillColors]="theme.arcFill" [thumbBg]="theme.thumbBg" [thumbBorderColor]="theme.thumbBorder">
 
-          <div class="slider-value-container"  [ngClass]="{ 'off': humidityOff }">
-            <div class="value humidity h1">
+          <div class="slider-value-container" [ngClass]="{ 'off': humidityOff }">
+            <div class="value humidity h1" data-testid="dashboard-humidity-value">
               {{ humidityOff ? '--' : (humidity | ngxRound) }}
             </div>
           </div>
         </ngx-temperature-dragger>
       </div>
 
-      <nb-radio-group [(ngModel)]="humidityMode" name="humidity-mode">
-        <nb-radio value="cool">
-          <i class="nb-snowy-circled"></i>
-        </nb-radio>
-        <nb-radio value="warm">
-          <i class="nb-sunny-circled"></i>
-        </nb-radio>
-        <nb-radio value="heat">
-          <i class="nb-flame-circled"></i>
-        </nb-radio>
-        <nb-radio value="fan">
-          <i class="nb-loop-circled"></i>
-        </nb-radio>
-      </nb-radio-group>
-    </nb-tab>
-  </nb-tabset>
-</nb-card>
+      <div class="mode-group" data-testid="dashboard-humidity-mode-group" role="radiogroup" aria-label="Humidity mode">
+        <button
+          type="button"
+          class="mode-button"
+          data-testid="dashboard-humidity-mode-cool"
+          [class.mode-button--active]="humidityMode === 'cool'"
+          [attr.aria-pressed]="humidityMode === 'cool'"
+          (click)="humidityMode = 'cool'"
+        >
+          <span class="fa-solid fa-snowflake" aria-hidden="true"></span>
+        </button>
+        <button
+          type="button"
+          class="mode-button"
+          data-testid="dashboard-humidity-mode-warm"
+          [class.mode-button--active]="humidityMode === 'warm'"
+          [attr.aria-pressed]="humidityMode === 'warm'"
+          (click)="humidityMode = 'warm'"
+        >
+          <span class="fa-solid fa-sun" aria-hidden="true"></span>
+        </button>
+        <button
+          type="button"
+          class="mode-button"
+          data-testid="dashboard-humidity-mode-heat"
+          [class.mode-button--active]="humidityMode === 'heat'"
+          [attr.aria-pressed]="humidityMode === 'heat'"
+          (click)="humidityMode = 'heat'"
+        >
+          <span class="fa-solid fa-fire-flame-curved" aria-hidden="true"></span>
+        </button>
+        <button
+          type="button"
+          class="mode-button"
+          data-testid="dashboard-humidity-mode-fan"
+          [class.mode-button--active]="humidityMode === 'fan'"
+          [attr.aria-pressed]="humidityMode === 'fan'"
+          (click)="humidityMode = 'fan'"
+        >
+          <span class="fa-solid fa-fan" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  }
+</section>

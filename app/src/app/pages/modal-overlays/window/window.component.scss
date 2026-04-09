@@ -1,38 +1,35 @@
-@import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+:host {
+  display: block;
+}
 
-@import '../../../@theme/styles/themes';
+.window-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}
 
-@include nb-install-component() {
-  button + button {
-    margin-left: 2rem;
-  }
+.window-card {
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+}
 
-  @include media-breakpoint-down(xxl) {
-    nb-card-body {
-      display: flex;
-    }
+.window-card__actions {
+  display: grid;
+  gap: 1rem;
+}
 
-    button {
-      flex: 1;
-      padding: 0.8rem;
-    }
-  }
+.window-card__actions button {
+  width: 100%;
+}
 
-  @include media-breakpoint-down(is) {
-    nb-card-body {
-      display: block;
-    }
+.window-template__content {
+  color: var(--app-text-muted);
+}
 
-    button {
-      + button {
-        margin-left: 0;
-      }
-
-      width: 100%;
-      display: block;
-      margin-bottom: 2rem;
-      padding: 0.75rem;
-    }
+@media (max-width: 680px) {
+  .window-card__actions button {
+    min-height: 2.75rem;
   }
 }

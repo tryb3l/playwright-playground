@@ -1,9 +1,128 @@
-@import '../../styles/themes';
-@import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+:host {
+  display: block;
+  min-height: 100vh;
+}
 
-@include nb-install-component() {
-  .menu-sidebar ::ng-deep .scrollable {
-    padding-top: nb-theme(layout-padding-top);
+.app-shell {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  color: var(--app-text);
+}
+
+.app-shell__header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  margin: 1rem 1rem 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--app-border);
+  border-radius: 1.3rem;
+  background: var(--app-surface-elevated);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--app-shadow);
+}
+
+.app-shell__body {
+  display: grid;
+  grid-template-columns: 18rem minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem 1rem;
+}
+
+.app-shell--collapsed .app-shell__body {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.app-shell__sidebar {
+  align-self: start;
+  position: sticky;
+  top: 6.5rem;
+  padding: 1rem;
+  border: 1px solid var(--app-border);
+  border-radius: 1.3rem;
+  background: var(--app-sidebar);
+  backdrop-filter: blur(20px);
+  box-shadow: var(--app-shadow);
+}
+
+.app-shell--collapsed .app-shell__sidebar {
+  display: none;
+}
+
+.app-shell__content {
+  min-width: 0;
+}
+
+.app-shell__footer {
+  margin: 0 1rem 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--app-border);
+  border-radius: 1.3rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+}
+
+.app-nav {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.app-nav__group {
+  padding: 0.25rem 0.85rem;
+  color: var(--app-text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.app-nav__section {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.app-nav__children {
+  display: grid;
+  gap: 0.35rem;
+  padding-left: 0.6rem;
+}
+
+.app-nav__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.8rem 0.95rem;
+  border-radius: 0.95rem;
+  color: var(--app-text);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.app-nav__link:hover {
+  background: var(--app-accent-soft);
+  color: var(--app-accent);
+  transform: translateX(2px);
+}
+
+.app-nav__link--child {
+  padding-left: 1.2rem;
+  font-weight: 500;
+}
+
+.app-nav__link--active {
+  background: var(--app-accent-soft);
+  color: var(--app-accent);
+}
+
+@media (max-width: 960px) {
+  .app-shell__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .app-shell__sidebar {
+    position: static;
   }
 }

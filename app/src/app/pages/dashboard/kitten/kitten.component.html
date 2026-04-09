@@ -1,25 +1,33 @@
-<nb-card size="medium">
-  <div class="picture" style.background-image="url('assets/images/kitten-{{currentTheme}}.png')"></div>
+<section class="kitten-card" data-testid="dashboard-kitten-card">
+  <div class="picture" [style.background-image]="'url(assets/images/kitten-' + currentTheme + '.png)'"
+    data-testid="dashboard-kitten-picture"></div>
 
   <div class="details">
     <div class="h4">UI Kitten</div>
-    <div class="description">
-      UI Kitten is a framework that contains a set of commonly used UI components styled in a similar way. The most awesome thing: you can change themes on the fly by just passing a different set of variables. 100% native. Give our kitten a try!
+    <div class="description" data-testid="dashboard-kitten-description">
+      UI Kitten is a framework that contains a set of commonly used UI components styled in a similar way. The most
+      awesome thing: you can change themes on the fly by just passing a different set of variables. 100% native. Give
+      our kitten a try!
     </div>
   </div>
 
-  <nb-card-footer>
-    <a href="https://akveo.github.io/react-native-ui-kitten?utm_campaign=ui_kitten%20-%20home%20-%20ngx_admin%20code%20embed&utm_source=ngx_admin&utm_medium=embedded&utm_content=iot_dashboard_kitten_card" target="_blank">
-      <nb-icon icon="globe" pack="eva"></nb-icon>
+  <footer class="kitten-footer">
+    <a class="kitten-link"
+      href="https://akveo.github.io/react-native-ui-kitten?utm_campaign=ui_kitten%20-%20home%20-%20ngx_admin%20code%20embed&utm_source=ngx_admin&utm_medium=embedded&utm_content=iot_dashboard_kitten_card"
+      target="_blank" rel="noreferrer" aria-label="UI Kitten website">
+      <span class="fa-solid fa-globe" aria-hidden="true"></span>
     </a>
-    <a href="https://itunes.apple.com/us/app/kitten-tricks/id1246143230" target="_blank">
-      <i class="link-icon ion-social-apple"></i>
+    <a class="kitten-link" href="https://itunes.apple.com/us/app/kitten-tricks/id1246143230" target="_blank"
+      rel="noreferrer" aria-label="UI Kitten on Apple App Store">
+      <span class="fa-brands fa-apple" aria-hidden="true"></span>
     </a>
-    <a href="https://play.google.com/store/apps/details?id=com.akveo.kittenTricks" target="_blank">
-      <i class="link-icon ion-social-android"></i>
+    <a class="kitten-link" href="https://play.google.com/store/apps/details?id=com.akveo.kittenTricks" target="_blank"
+      rel="noreferrer" aria-label="UI Kitten on Google Play">
+      <span class="fa-brands fa-android" aria-hidden="true"></span>
     </a>
-    <a href="https://github.com/akveo/react-native-ui-kitten" target="_blank">
-      <nb-icon icon="github" pack="eva"></nb-icon>
+    <a class="kitten-link" href="https://github.com/akveo/react-native-ui-kitten" target="_blank" rel="noreferrer"
+      aria-label="UI Kitten GitHub repository">
+      <span class="fa-brands fa-github" aria-hidden="true"></span>
     </a>
-  </nb-card-footer>
-</nb-card>
+  </footer>
+</section>

@@ -1,26 +1,27 @@
 import { delay } from 'rxjs/operators';
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import { AppThemeService } from '../../../@theme/services/app-theme.service';
 
 declare const echarts: any;
 
 @Component({
-    selector: 'ngx-solar',
-    styleUrls: ['./solar.component.scss'],
-    template: `
-    <nb-card size="tiny" class="solar-card">
-      <nb-card-header>Solar Energy Consumption</nb-card-header>
-      <nb-card-body>
-        <div echarts [options]="option" class="echart">
+  selector: 'ngx-solar',
+  styleUrls: ['./solar.component.scss'],
+  template: `
+    <section class="solar-card" data-testid="dashboard-solar-card">
+      <header class="solar-card__header">Solar Energy Consumption</header>
+      <div class="solar-card__body">
+        <div class="solar-chart-shell" data-testid="dashboard-solar-chart-shell">
+          <div echarts [options]="option" class="echart"></div>
         </div>
         <div class="info">
           <div class="h4 value">6.421 kWh</div>
           <div class="details subtitle-2"><span>out of</span> 8.421 kWh</div>
         </div>
-      </nb-card-body>
-    </nb-card>
+      </div>
+    </section>
   `,
-    standalone: false
+  standalone: false
 })
 export class SolarComponent implements AfterViewInit, OnDestroy {
 
@@ -40,7 +41,7 @@ export class SolarComponent implements AfterViewInit, OnDestroy {
   option: any = {};
   themeSubscription: any;
 
-  constructor(private theme: NbThemeService) {
+  constructor(private theme: AppThemeService) {
   }
 
   ngAfterViewInit() {
@@ -182,6 +183,6 @@ export class SolarComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.themeSubscription.unsubscribe();
+    this.themeSubscription?.unsubscribe();
   }
 }

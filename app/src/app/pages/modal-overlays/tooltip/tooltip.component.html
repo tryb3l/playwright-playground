@@ -1,37 +1,52 @@
-<div class="row">
-  <div class="col-md-12 col-lg-6 col-xxxl-4">
-    <nb-card>
-      <nb-card-header>Tooltip With Icon</nb-card-header>
-      <nb-card-body>
-        <button nbTooltip="This is a tooltip" nbTooltipIcon="home-outline" nbButton>Show Tooltip</button>
-        <button nbTooltip="" nbTooltipIcon="alert-triangle" nbTooltipStatus="danger" nbButton>Show Tooltip</button>
-      </nb-card-body>
-    </nb-card>
-  </div>
+<div class="tooltip-grid">
+  <mat-card class="tooltip-card">
+    <mat-card-header>
+      <mat-card-title>Tooltip With Icon</mat-card-title>
+    </mat-card-header>
 
-  <div class="col-md-12 col-lg-6 col-xxxl-4">
-    <nb-card>
-      <nb-card-header>Tooltip Placements</nb-card-header>
-      <nb-card-body>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbButton>Top</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="right" nbButton>Right</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="bottom" nbButton>Bottom</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="left" nbButton>Left</button>
-      </nb-card-body>
-    </nb-card>
-  </div>
+    <mat-card-content class="tooltip-card__content tooltip-card__actions">
+      @for (button of iconButtons; track button.id) {
+      <button mat-stroked-button type="button" class="tooltip-button" [attr.data-testid]="button.id"
+        [matTooltip]="button.message" [matTooltipPosition]="button.position"
+        [matTooltipClass]="getTooltipClasses(button.status)">
+        @if (button.iconClass; as iconClass) {
+        <span class="fa-solid" [ngClass]="iconClass" aria-hidden="true"></span>
+        }
+        {{ button.label }}
+      </button>
+      }
+    </mat-card-content>
+  </mat-card>
 
-  <div class="col-md-12 col-lg-6 col-xxxl-4">
-    <nb-card>
-      <nb-card-header>Colored Tooltips</nb-card-header>
-      <nb-card-body>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbButton>Default</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbTooltipStatus="primary" nbButton>Primary</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbTooltipStatus="success" nbButton>Success</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbTooltipStatus="danger" nbButton>Danger</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbTooltipStatus="info" nbButton>Info</button>
-        <button nbTooltip="This is a tooltip" nbTooltipPlacement="top" nbTooltipStatus="warning" nbButton>Warning</button>
-      </nb-card-body>
-    </nb-card>
-  </div>
+  <mat-card class="tooltip-card">
+    <mat-card-header>
+      <mat-card-title>Tooltip Placements</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="tooltip-card__content tooltip-card__actions">
+      @for (button of placementButtons; track button.id) {
+      <button mat-stroked-button type="button" class="tooltip-button" [attr.data-testid]="button.id"
+        [matTooltip]="button.message" [matTooltipPosition]="button.position"
+        [matTooltipClass]="getTooltipClasses(button.status)">
+        {{ button.label }}
+      </button>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="tooltip-card">
+    <mat-card-header>
+      <mat-card-title>Colored Tooltips</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="tooltip-card__content tooltip-card__actions">
+      @for (button of colorButtons; track button.id) {
+      <button mat-stroked-button type="button" class="tooltip-button" [attr.data-testid]="button.id"
+        [matTooltip]="button.message" [matTooltipPosition]="button.position"
+        [matTooltipClass]="getTooltipClasses(button.status)">
+        {{ button.label }}
+      </button>
+      }
+    </mat-card-content>
+  </mat-card>
 </div>

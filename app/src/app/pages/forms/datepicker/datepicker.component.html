@@ -1,32 +1,62 @@
-<div class="row">
-  <div class="col-md-12 col-lg-4 col-xxxl-4">
-    <nb-card>
-      <nb-card-header>Common Datepicker</nb-card-header>
-      <nb-card-body>
-        <input nbInput
-               placeholder="Form Picker"
-               [nbDatepicker]="formpicker">
-        <nb-datepicker #formpicker></nb-datepicker>
-      </nb-card-body>
-    </nb-card>
-  </div>
+<div class="datepicker-grid">
+  <mat-card class="picker-card">
+    <mat-card-header>
+      <mat-card-title>Common Datepicker</mat-card-title>
+    </mat-card-header>
 
-  <div class="col-md-12 col-lg-4 col-xxxl-4">
-    <nb-card>
-      <nb-card-header>Datepicker With Range</nb-card-header>
-      <nb-card-body>
-        <input nbInput placeholder="Range Picker" [nbDatepicker]="rangepicker">
-        <nb-rangepicker #rangepicker></nb-rangepicker>
-      </nb-card-body>
-    </nb-card>
-  </div>
-  <div class="col-md-12 col-lg-4 col-xxxl-4">
-    <nb-card>
-      <nb-card-header>Datepicker With Disabled Min Max Values</nb-card-header>
-      <nb-card-body>
-        <input nbInput placeholder="Min Max Picker" [nbDatepicker]="picker">
-        <nb-datepicker #picker [min]="min" [max]="max"></nb-datepicker>
-      </nb-card-body>
-    </nb-card>
-  </div>
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="picker-field">
+        <mat-label>Pick a date</mat-label>
+        <input matInput readonly placeholder="Form Picker" data-testid="form-picker-input" [value]="formPickerValue"
+          (click)="openCommonPicker()" />
+      </mat-form-field>
+
+      <div class="picker-anchor">
+        <input matInput [matDatepicker]="formPicker" (dateChange)="onCommonDateChange($event.value)" />
+        <mat-datepicker #formPicker></mat-datepicker>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="picker-card">
+    <mat-card-header>
+      <mat-card-title>Datepicker With Range</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="picker-field">
+        <mat-label>Choose a range</mat-label>
+        <input matInput readonly placeholder="Range Picker" data-testid="range-picker-input" [value]="rangePickerValue"
+          (click)="openRangePicker()" />
+      </mat-form-field>
+
+      <div class="picker-anchor picker-anchor--range">
+        <mat-date-range-input [rangePicker]="rangePicker">
+          <input matStartDate (dateChange)="onRangeDateChange('start', $event.value)" />
+          <input matEndDate (dateChange)="onRangeDateChange('end', $event.value)" />
+        </mat-date-range-input>
+        <mat-date-range-picker #rangePicker></mat-date-range-picker>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="picker-card">
+    <mat-card-header>
+      <mat-card-title>Datepicker With Disabled Min Max Values</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="picker-field">
+        <mat-label>Bounded picker</mat-label>
+        <input matInput readonly placeholder="Min Max Picker" data-testid="min-max-picker-input"
+          [value]="minMaxPickerValue" (click)="openMinMaxPicker()" />
+      </mat-form-field>
+
+      <div class="picker-anchor">
+        <input matInput [matDatepicker]="minMaxPicker" [min]="min" [max]="max"
+          (dateChange)="onMinMaxDateChange($event.value)" />
+        <mat-datepicker #minMaxPicker></mat-datepicker>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

@@ -1,8 +1,5 @@
-@import '../../../../@theme/styles/themes';
-
-@include nb-install-component() {
-  nb-card {
-    max-width: 600px;
-    max-height: 500px;
-  }
+.showcase-dialog__content {
+  max-width: 36rem;
+  color: var(--app-text-muted);
+  line-height: 1.65;
 }

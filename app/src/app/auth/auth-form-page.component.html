@@ -1,0 +1,99 @@
+<section class="auth-card" [attr.data-testid]="pageTestId">
+    <header class="auth-card__header">
+        <p class="auth-card__eyebrow">{{ mode.replace('-', ' ') }}</p>
+        <h2 class="auth-card__title">{{ meta.title }}</h2>
+        <p class="auth-card__subtitle">{{ meta.subtitle }}</p>
+    </header>
+
+    @if (errors.length > 0) {
+    <div class="auth-card__message auth-card__message--error" data-testid="auth-error-alert" role="alert">
+        <strong>Request failed.</strong>
+        <ul>
+            @for (error of errors; track error) {
+            <li>{{ error }}</li>
+            }
+        </ul>
+    </div>
+    }
+
+    @if (messages.length > 0 && !submitted) {
+    <div class="auth-card__message auth-card__message--success" data-testid="auth-success-alert" role="status">
+        <strong>Request completed.</strong>
+        <ul>
+            @for (message of messages; track message) {
+            <li>{{ message }}</li>
+            }
+        </ul>
+    </div>
+    }
+
+    <form class="auth-form" #form="ngForm" (ngSubmit)="submit()">
+        @if (showFullName) {
+        <label class="auth-field">
+            <span class="auth-field__label">Full name</span>
+            <input [(ngModel)]="user.fullName" name="fullName" type="text" autocomplete="name"
+                placeholder="Ada Lovelace" data-testid="auth-full-name-input" [required]="fullNameRequired" />
+        </label>
+        }
+
+        @if (showEmail) {
+        <label class="auth-field">
+            <span class="auth-field__label">Email address</span>
+            <input [(ngModel)]="user.email" name="email" type="email" autocomplete="email"
+                placeholder="demo@example.com" data-testid="auth-email-input" required />
+        </label>
+        }
+
+        @if (showPassword) {
+        <label class="auth-field">
+            <span class="auth-field__label">Password</span>
+            <input [(ngModel)]="user.password" name="password" type="password" autocomplete="current-password"
+                placeholder="Enter password" data-testid="auth-password-input" required />
+        </label>
+        }
+
+        @if (showConfirmPassword) {
+        <label class="auth-field">
+            <span class="auth-field__label">Confirm password</span>
+            <input [(ngModel)]="user.confirmPassword" name="confirmPassword" type="password" autocomplete="new-password"
+                placeholder="Repeat password" data-testid="auth-confirm-password-input" required />
+        </label>
+        }
+
+        @if (rememberMeEnabled) {
+        <label class="auth-checkbox" data-testid="auth-remember-checkbox">
+            <input [(ngModel)]="user.rememberMe" name="rememberMe" type="checkbox" />
+            <span>Remember me</span>
+        </label>
+        }
+
+        <button type="submit" class="auth-submit" data-testid="auth-submit-button"
+            [disabled]="submitted || form.invalid || hasPasswordMismatch()">
+            @if (submitted) {
+            <span class="auth-submit__spinner" aria-hidden="true"></span>
+            }
+            <span>{{ meta.submitLabel }}</span>
+        </button>
+    </form>
+
+    @if (socialLinks.length > 0) {
+    <section class="auth-social" aria-label="Social links">
+        <span class="auth-social__label">Links</span>
+        <div class="auth-social__links">
+            @for (socialLink of socialLinks; track getSocialLinkUrl(socialLink)) {
+            <a class="auth-social__link" [href]="getSocialLinkUrl(socialLink)"
+                [attr.target]="socialLink.target || '_blank'" rel="noreferrer"
+                [attr.aria-label]="getSocialLinkLabel(socialLink)">
+                <span [class]="getSocialIconClass(socialLink.icon)" aria-hidden="true"></span>
+            </a>
+            }
+        </div>
+    </section>
+    }
+
+    <footer class="auth-card__footer">
+        @for (link of meta.helperLinks; track link.link) {
+        <a [routerLink]="link.link">{{ link.label }}</a>
+        }
+    </footer>
+</section>

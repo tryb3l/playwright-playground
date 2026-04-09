@@ -1,12 +1,9 @@
-@import '../../../../@theme/styles/themes';
+.form {
+  display: grid;
+  gap: 1rem;
+  padding-top: 0.25rem;
+}
 
-@include nb-install-component() {
-  ::ng-deep .form {
-    display: flex;
-    flex-direction: column;
-
-    .text-label {
-      margin-top: 1.5rem;
-    }
-  }
+.form mat-form-field {
+  width: 100%;
 }

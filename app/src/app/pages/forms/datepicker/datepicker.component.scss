@@ -1,12 +1,37 @@
-@import '../../../@theme/styles/themes';
+:host {
+  display: block;
+}
 
-@include nb-install-component() {
-  nb-card-body {
-    display: flex;
-    justify-content: space-between;
+.datepicker-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}
 
-    input {
-      width: 100%;
-    }
-  }
+.picker-card {
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+}
+
+.picker-field {
+  width: 100%;
+}
+
+.picker-field ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.picker-anchor {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.picker-anchor--range {
+  display: block;
 }

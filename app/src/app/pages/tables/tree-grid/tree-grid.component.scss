@@ -1,55 +1,104 @@
-@import '../../../@theme/styles/themes';
+:host {
+  display: block;
+}
 
-@include nb-install-component() {
-  button[nbTreeGridRowToggle] {
-    background: transparent;
-    border: none;
-    padding: 0;
-  }
+.table-card {
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+}
 
-  .search-label {
-    display: block;
-  }
-  .search-input {
-    margin-bottom: 1rem;
-  }
+.search-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--app-text);
+  font-weight: 600;
+}
 
-  .nb-column-name {
-    width: 100%;
-  }
+.search-field {
+  width: min(20rem, 100%);
+}
 
-  ::ng-deep .row-toggle-button {
-    color: nb-theme(text-basic-color);
-  }
+.search-field ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
 
-  .nb-tree-grid-header-cell,
-  .nb-tree-grid-header-cell button {
-    text-transform: capitalize;
-  }
+.table-scroll {
+  overflow-x: auto;
+}
 
-  @media screen and (min-width: 400px) {
-    .nb-column-name,
-    .nb-column-size {
-      width: 50%;
-    }
-  }
+.tree-table {
+  width: 100%;
+  min-width: 42rem;
+  border-collapse: collapse;
+}
 
-  @media screen and (min-width: 500px) {
-    .nb-column-name,
-    .nb-column-size,
-    .nb-column-kind {
-      width: 33.333%;
-    }
-  }
+.tree-table th,
+.tree-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--app-border);
+  text-align: left;
+}
 
-  @media screen and (min-width: 600px) {
-    .nb-column-name {
-      width: 31%;
-    }
-    .nb-column-size,
-    .nb-column-kind,
-    .nb-column-items {
-      width: 23%;
-    }
+.tree-table th {
+  color: var(--app-text);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: capitalize;
+}
+
+.tree-table td {
+  color: var(--app-text-muted);
+}
+
+.tree-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tree-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
+  background: transparent;
+  color: var(--app-accent);
+  padding: 0;
+}
+
+.tree-toggle--spacer {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-block;
+}
+
+.tree-icon {
+  color: var(--app-text);
+}
+
+.sort-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--app-text-muted);
+}
+
+@media (max-width: 680px) {
+  .tree-table {
+    min-width: 36rem;
   }
 }

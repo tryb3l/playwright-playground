@@ -1,51 +1,58 @@
 import { Component } from '@angular/core';
 import {
-  NbComponentStatus,
-  NbGlobalLogicalPosition,
-  NbGlobalPhysicalPosition,
-  NbGlobalPosition,
-  NbToastrService,
-  NbToastrConfig,
-} from '@nebular/theme';
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
+
+import { ToastPreviewComponent, ToastStatus } from './toast-preview.component';
+
+type ToastPosition =
+  | 'top-right'
+  | 'top-left'
+  | 'bottom-left'
+  | 'bottom-right'
+  | 'top-end'
+  | 'top-start'
+  | 'bottom-end'
+  | 'bottom-start';
 
 @Component({
-    selector: 'ngx-toastr',
-    styleUrls: ['./toastr.component.scss'],
-    templateUrl: './toastr.component.html',
-    standalone: false
+  selector: 'ngx-toastr',
+  styleUrls: ['./toastr.component.scss'],
+  templateUrl: './toastr.component.html',
+  standalone: false
 })
 export class ToastrComponent {
-  constructor(private toastrService: NbToastrService) {}
-
-  config: NbToastrConfig;
+  constructor(private readonly snackBar: MatSnackBar) { }
 
   index = 1;
   destroyByClick = true;
   duration = 2000;
   hasIcon = true;
-  position: NbGlobalPosition = NbGlobalPhysicalPosition.TOP_RIGHT;
+  position: ToastPosition = 'top-right';
   preventDuplicates = false;
-  status: NbComponentStatus = 'primary';
+  status: ToastStatus = 'primary';
 
   title = 'HI there!';
   content = `I'm cool toaster!`;
 
-  types: NbComponentStatus[] = [
+  types: ToastStatus[] = [
     'primary',
     'success',
     'info',
     'warning',
     'danger',
   ];
-  positions: string[] = [
-    NbGlobalPhysicalPosition.TOP_RIGHT,
-    NbGlobalPhysicalPosition.TOP_LEFT,
-    NbGlobalPhysicalPosition.BOTTOM_LEFT,
-    NbGlobalPhysicalPosition.BOTTOM_RIGHT,
-    NbGlobalLogicalPosition.TOP_END,
-    NbGlobalLogicalPosition.TOP_START,
-    NbGlobalLogicalPosition.BOTTOM_END,
-    NbGlobalLogicalPosition.BOTTOM_START,
+  positions: ToastPosition[] = [
+    'top-right',
+    'top-left',
+    'bottom-left',
+    'bottom-right',
+    'top-end',
+    'top-start',
+    'bottom-end',
+    'bottom-start',
   ];
 
   quotes = [
@@ -58,7 +65,7 @@ export class ToastrComponent {
     this.showToast(this.status, this.title, this.content);
   }
 
-  openRandomToast () {
+  openRandomToast() {
     const typeIndex = Math.floor(Math.random() * this.types.length);
     const quoteIndex = Math.floor(Math.random() * this.quotes.length);
     const type = this.types[typeIndex];
@@ -67,21 +74,59 @@ export class ToastrComponent {
     this.showToast(type, quote.title, quote.body);
   }
 
-  private showToast(type: NbComponentStatus, title: string, body: string) {
-    const config = {
-      status: type,
-      destroyByClick: this.destroyByClick,
-      duration: this.duration,
-      hasIcon: this.hasIcon,
-      position: this.position,
-      preventDuplicates: this.preventDuplicates,
-    };
+  private showToast(type: ToastStatus, title: string | null, body: string) {
     const titleContent = title ? `. ${title}` : '';
+    const toastKey = `${type}|${titleContent}|${body}`;
+
+    if (this.preventDuplicates && toastKey === this.lastToastKey) {
+      return;
+    }
+
+    const { horizontalPosition, verticalPosition } = this.resolvePosition(this.position);
 
     this.index += 1;
-    this.toastrService.show(
-      body,
-      `Toast ${this.index}${titleContent}`,
-      config);
+    const snackBarRef = this.snackBar.openFromComponent(ToastPreviewComponent, {
+      duration: this.duration > 0 ? this.duration : undefined,
+      horizontalPosition,
+      verticalPosition,
+      panelClass: ['app-toast-panel'],
+      data: {
+        title: `Toast ${this.index}${titleContent}`,
+        content: body,
+        status: type,
+        hasIcon: this.hasIcon,
+        destroyByClick: this.destroyByClick,
+      },
+    });
+
+    this.lastToastKey = toastKey;
+    snackBarRef.afterDismissed().subscribe(() => {
+      if (this.lastToastKey === toastKey) {
+        this.lastToastKey = null;
+      }
+    });
+  }
+
+  private lastToastKey: string | null = null;
+
+  private resolvePosition(position: ToastPosition): {
+    horizontalPosition: MatSnackBarHorizontalPosition;
+    verticalPosition: MatSnackBarVerticalPosition;
+  } {
+    switch (position) {
+      case 'top-left':
+      case 'top-start':
+        return { horizontalPosition: 'start', verticalPosition: 'top' };
+      case 'bottom-left':
+      case 'bottom-start':
+        return { horizontalPosition: 'start', verticalPosition: 'bottom' };
+      case 'bottom-right':
+      case 'bottom-end':
+        return { horizontalPosition: 'end', verticalPosition: 'bottom' };
+      case 'top-right':
+      case 'top-end':
+      default:
+        return { horizontalPosition: 'end', verticalPosition: 'top' };
+    }
   }
 }

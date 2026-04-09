@@ -1,35 +1,56 @@
-<nb-card size="giant">
-  <nb-tabset fullWidth>
-    <nb-tab tabTitle="Contacts">
-      <nb-list>
-        @for (c of contacts; track c) {
-          <nb-list-item class="contact">
-            <nb-user
-              [picture]="c.user.picture"
-              [name]="c.user.name"
-              [title]="c.type"
-              size="large"
-            ></nb-user>
-            <nb-icon icon="phone-outline" pack="eva"></nb-icon>
-          </nb-list-item>
-        }
-      </nb-list>
-    </nb-tab>
+<section class="contacts-card" data-testid="dashboard-contacts-card">
+  <div class="contacts-tabs" role="tablist" aria-label="Contacts widget tabs">
+    <button
+      type="button"
+      class="contacts-tab"
+      data-testid="dashboard-contacts-tab-contacts"
+      [class.contacts-tab--active]="activePanel === 'contacts'"
+      [attr.aria-selected]="activePanel === 'contacts'"
+      (click)="setActivePanel('contacts')"
+    >
+      Contacts
+    </button>
+    <button
+      type="button"
+      class="contacts-tab"
+      data-testid="dashboard-contacts-tab-recent"
+      [class.contacts-tab--active]="activePanel === 'recent'"
+      [attr.aria-selected]="activePanel === 'recent'"
+      (click)="setActivePanel('recent')"
+    >
+      Recent
+    </button>
+  </div>
 
-    <nb-tab tabTitle="Recent">
-      <nb-list>
-        @for (c of recent; track c) {
-          <nb-list-item class="contact">
-            <nb-user
-              [picture]="c.user.picture"
-              [name]="c.user.name"
-              [title]="c.type"
-              size="large"
-            ></nb-user>
-            <span class="caption">{{ c.time | date: 'shortTime' }}</span>
-          </nb-list-item>
-        }
-      </nb-list>
-    </nb-tab>
-  </nb-tabset>
-</nb-card>
+  @if (activePanel === 'contacts') {
+    <div class="contacts-list" data-testid="dashboard-contacts-panel-contacts">
+      @for (c of contacts; track c.user.name) {
+        <div class="contact-row" [attr.data-testid]="getContactRowTestId(c.user.name)">
+          <div class="contact-user">
+            <img class="contact-avatar" [src]="c.user.picture" [alt]="c.user.name" />
+            <div class="contact-copy">
+              <div class="contact-name">{{ c.user.name }}</div>
+              <div class="contact-meta">{{ c.type }}</div>
+            </div>
+          </div>
+          <span class="fa-solid fa-phone contact-action" aria-hidden="true"></span>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="contacts-list" data-testid="dashboard-contacts-panel-recent">
+      @for (c of recent; track c.time; let index = $index) {
+        <div class="contact-row" [attr.data-testid]="'dashboard-recent-row-' + index">
+          <div class="contact-user">
+            <img class="contact-avatar" [src]="c.user.picture" [alt]="c.user.name" />
+            <div class="contact-copy">
+              <div class="contact-name">{{ c.user.name }}</div>
+              <div class="contact-meta">{{ c.type }}</div>
+            </div>
+          </div>
+          <span class="contact-time">{{ c.time | date: 'shortTime' }}</span>
+        </div>
+      }
+    </div>
+  }
+</section>

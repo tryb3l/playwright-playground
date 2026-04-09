@@ -1,7 +1,13 @@
-import { NbMenuItem } from '@nebular/theme';
+export interface AppMenuItem {
+  title: string;
+  icon?: string;
+  link?: string;
+  group?: boolean;
+  children?: AppMenuItem[];
+}
 
-export const MENU_ITEMS: NbMenuItem[] = [
-  
+export const MENU_ITEMS: AppMenuItem[] = [
+
   {
     title: 'IoT Dashboard',
     icon: 'home-outline',

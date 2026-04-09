@@ -1,23 +1,88 @@
-<div class="calendars">
-  <div class="calendar-container">
-    <span class="subtitle">
-      Selected date: {{ date | date }}
-    </span>
-    <nb-calendar [(date)]="date" [boundingMonth]="true" showWeekNumber></nb-calendar>
-  </div>
-  <div class="calendar-container">
-    <span class="subtitle">
-      Selected range: {{ range.start | date }} - {{ range.end | date }}
-    </span>
-    <nb-calendar-range [(range)]="range"></nb-calendar-range>
-  </div>
-  <div class="calendar-container">
-    <span class="subtitle">
-      Selected date: {{ date2 | date }}
-    </span>
-    <nb-calendar
-      [(date)]="date2"
-      [dayCellComponent]="dayCellComponent"
-    ></nb-calendar>
-  </div>
+<div class="calendar-grid" data-testid="calendar-grid">
+  <mat-card class="calendar-card" data-testid="calendar-inline-card">
+    <mat-card-header>
+      <mat-card-title>Inline Calendar</mat-card-title>
+      <mat-card-subtitle data-testid="calendar-inline-subtitle">Selected date: {{ date | date: 'fullDate'
+        }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="calendar-card__content">
+      <mat-calendar data-testid="calendar-inline" [selected]="date"
+        (selectedChange)="onPrimaryDateChange($event)"></mat-calendar>
+
+      <div class="calendar-preview" data-testid="calendar-inline-preview">
+        <span class="calendar-preview__label">Selected day</span>
+        <div class="calendar-preview__value" data-testid="calendar-inline-preview-value">{{ date | date: 'fullDate' }}
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="calendar-card calendar-card--range" data-testid="calendar-range-card">
+    <mat-card-header>
+      <mat-card-title>Range Calendar</mat-card-title>
+      <mat-card-subtitle data-testid="calendar-range-subtitle">Selected range: {{ range.start | date: 'mediumDate' }} -
+        {{ range.end | date: 'mediumDate' }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="calendar-card__content">
+      <div class="range-toolbar">
+        <button mat-stroked-button type="button" data-testid="calendar-range-boundary-start"
+          [class.is-active]="activeRangeBoundary === 'start'" [attr.aria-pressed]="activeRangeBoundary === 'start'"
+          (click)="setRangeBoundary('start')">
+          Pick start
+        </button>
+
+        <button mat-stroked-button type="button" data-testid="calendar-range-boundary-end"
+          [class.is-active]="activeRangeBoundary === 'end'" [attr.aria-pressed]="activeRangeBoundary === 'end'"
+          (click)="setRangeBoundary('end')">
+          Pick end
+        </button>
+
+        <button mat-button type="button" data-testid="calendar-range-reset" (click)="resetRange()">Reset</button>
+      </div>
+
+      <div class="calendar-range-summary" data-testid="calendar-range-summary">
+        <div class="calendar-preview" [class.calendar-preview--active]="activeRangeBoundary === 'start'"
+          data-testid="calendar-range-start-preview">
+          <span class="calendar-preview__label">Start</span>
+          <div class="calendar-preview__value" data-testid="calendar-range-start-value">{{ range.start | date:
+            'fullDate' }}</div>
+        </div>
+
+        <div class="calendar-preview" [class.calendar-preview--active]="activeRangeBoundary === 'end'"
+          data-testid="calendar-range-end-preview">
+          <span class="calendar-preview__label">End</span>
+          <div class="calendar-preview__value" data-testid="calendar-range-end-value">{{ range.end | date: 'fullDate' }}
+          </div>
+        </div>
+      </div>
+
+      <mat-calendar data-testid="calendar-range" [selected]="activeRangeBoundary === 'start' ? range.start : range.end"
+        [dateClass]="rangeDateClass" (selectedChange)="onRangeDateChange($event)"></mat-calendar>
+
+      <p class="range-hint" data-testid="calendar-range-hint">Next selection updates the {{ activeRangeBoundary }}
+        boundary.</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="calendar-card calendar-card--custom" data-testid="calendar-custom-card">
+    <mat-card-header>
+      <mat-card-title>Calendar With Custom Day Styling</mat-card-title>
+      <mat-card-subtitle data-testid="calendar-custom-subtitle">Selected date: {{ date2 | date: 'fullDate'
+        }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="calendar-card__content">
+      <mat-calendar data-testid="calendar-custom" [selected]="date2" [dateClass]="customDateClass"
+        (selectedChange)="onCustomDateChange($event)"></mat-calendar>
+
+      <div class="calendar-preview" data-testid="calendar-custom-preview">
+        <span class="calendar-preview__label">Selected day</span>
+        <div class="calendar-preview__value" data-testid="calendar-custom-preview-value">{{ date2 | date: 'fullDate' }}
+        </div>
+        <div class="calendar-preview__caption" data-testid="calendar-custom-caption">{{ getCustomCaption() }}</div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

@@ -1,42 +1,184 @@
-@import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
-@import '../../../@theme/styles/themes';
+:host {
+  display: block;
+  --calendar-day-size: 2.45rem;
+  --calendar-frame-width: min(100%, 21.75rem);
+}
 
-@include nb-install-component() {
-  .calendars {
-    display: flex;
-    flex-wrap: wrap;
-    margin: -1rem -0.5rem;
-    justify-content: center;
+.calendar-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+}
+
+.calendar-card {
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+}
+
+.calendar-card ::ng-deep .mat-mdc-card-title {
+  color: var(--app-text);
+}
+
+.calendar-card ::ng-deep .mat-mdc-card-subtitle {
+  color: color-mix(in srgb, var(--app-text) 88%, var(--app-text-muted));
+}
+
+.calendar-card__content {
+  display: grid;
+  gap: 1rem;
+}
+
+.calendar-range-summary {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+.range-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.range-toolbar .is-active {
+  border-color: var(--app-accent);
+  background: var(--app-accent-soft);
+  color: var(--app-accent);
+}
+
+.range-hint {
+  margin: 0;
+  color: var(--app-text-muted);
+}
+
+.calendar-preview {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--app-border);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--app-surface) 88%, white);
+}
+
+.calendar-preview--active {
+  border-color: color-mix(in srgb, var(--app-accent) 40%, var(--app-border));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--app-accent) 12%, transparent);
+}
+
+.calendar-preview__label {
+  color: var(--app-text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.calendar-preview__value {
+  color: var(--app-text);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.calendar-preview__caption {
+  color: var(--app-accent);
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+:host ::ng-deep .mat-calendar {
+  width: var(--calendar-frame-width);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+:host ::ng-deep .mat-calendar-header {
+  padding: 0.75rem 0.85rem 0.35rem;
+}
+
+:host ::ng-deep .mat-calendar-content {
+  padding: 0 0.85rem 0.85rem;
+}
+
+:host ::ng-deep .mat-calendar-table-header th {
+  padding-bottom: 0.45rem;
+  color: var(--app-text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+:host ::ng-deep .mat-calendar-body-label {
+  padding: 0.4rem 0 0.65rem;
+  color: var(--app-text-muted);
+  font-weight: 700;
+}
+
+:host ::ng-deep .mat-calendar-body-cell-content {
+  width: var(--calendar-day-size);
+  height: var(--calendar-day-size);
+  line-height: var(--calendar-day-size);
+  font-size: 0.95rem;
+  color: var(--app-text);
+}
+
+:host ::ng-deep .mat-calendar-body-disabled>.mat-calendar-body-cell-content {
+  color: color-mix(in srgb, var(--app-text-muted) 70%, transparent);
+}
+
+:host ::ng-deep .mat-calendar-body-selected {
+  background: var(--app-accent);
+  color: #f8fafc;
+}
+
+:host ::ng-deep .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+  border-color: var(--app-accent);
+}
+
+:host ::ng-deep .mat-calendar-arrow,
+:host ::ng-deep .mat-calendar-previous-button,
+:host ::ng-deep .mat-calendar-next-button,
+:host ::ng-deep .mat-calendar-period-button {
+  color: var(--app-text);
+}
+
+:host ::ng-deep .calendar-card--range .calendar-cell--range .mat-calendar-body-cell-content {
+  border-radius: 999px;
+  background: var(--app-accent-soft);
+  color: var(--app-text);
+}
+
+:host ::ng-deep .calendar-card--range .calendar-cell--range-start .mat-calendar-body-cell-content,
+:host ::ng-deep .calendar-card--range .calendar-cell--range-end .mat-calendar-body-cell-content {
+  background: var(--app-accent);
+  color: #f8fafc;
+}
+
+:host ::ng-deep .calendar-card--custom .calendar-cell--weekend .mat-calendar-body-cell-content {
+  color: var(--app-text-muted);
+}
+
+:host ::ng-deep .calendar-card--custom .calendar-cell--accent .mat-calendar-body-cell-content {
+  border: 1px dashed var(--app-accent);
+}
+
+:host ::ng-deep .calendar-card--custom .calendar-cell--custom-selected .mat-calendar-body-cell-content {
+  background: linear-gradient(135deg, var(--app-accent), #0ea5e9);
+  color: #f8fafc;
+}
+
+@media (max-width: 680px) {
+  :host {
+    --calendar-day-size: 2.2rem;
+    --calendar-frame-width: min(100%, 20.25rem);
   }
 
-  .calendar-container {
-    margin: 1rem 0.5rem;
+  .calendar-range-summary {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .subtitle {
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  @include media-breakpoint-up(md) {
-    .calendars {
-      justify-content: flex-start;
-    }
-  }
-
-  @include media-breakpoint-up(lg) {
-    .calendars {
-      margin: -1.1rem;
-    }
-    .calendar-container {
-      margin: 1rem;
-    }
-  }
-
-  @include media-breakpoint-up(xxxl) {
-    .calendars {
-      margin: -1rem;
-    }
+  .range-toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
   }
 }

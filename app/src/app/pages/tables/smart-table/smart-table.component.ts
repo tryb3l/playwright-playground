@@ -13,17 +13,17 @@ export class SmartTableComponent {
 
   settings = {
     add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
+      addButtonContent: '<i class="fa-solid fa-plus"></i>',
+      createButtonContent: '<i class="fa-solid fa-check"></i>',
+      cancelButtonContent: '<i class="fa-solid fa-xmark"></i>',
     },
     edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
+      editButtonContent: '<i class="fa-solid fa-pen"></i>',
+      saveButtonContent: '<i class="fa-solid fa-check"></i>',
+      cancelButtonContent: '<i class="fa-solid fa-xmark"></i>',
     },
     delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
+      deleteButtonContent: '<i class="fa-solid fa-trash"></i>',
       confirmDelete: true,
     },
     columns: {
@@ -61,7 +61,7 @@ export class SmartTableComponent {
     this.source.load(data);
   }
 
-  onDeleteConfirm(event): void {
+  onDeleteConfirm(event: { confirm: { resolve: () => void; reject: () => void } }): void {
     if (window.confirm('Are you sure you want to delete?')) {
       event.confirm.resolve();
     } else {

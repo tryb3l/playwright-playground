@@ -1,18 +1,18 @@
 import { delay, takeWhile } from 'rxjs/operators';
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import { AppThemeService } from '../../../@theme/services/app-theme.service';
 import { LayoutService } from '../../../@core/utils';
 
 @Component({
-    selector: 'ngx-traffic-chart',
-    template: `
+  selector: 'ngx-traffic-chart',
+  template: `
     <div echarts
          [options]="option"
          class="echart"
          (chartInit)="onChartInit($event)">
     </div>
   `,
-    standalone: false
+  standalone: false
 })
 export class TrafficChartComponent implements AfterViewInit, OnDestroy {
 
@@ -25,8 +25,8 @@ export class TrafficChartComponent implements AfterViewInit, OnDestroy {
   option: any = {};
   echartsIntance: any;
 
-  constructor(private theme: NbThemeService,
-              private layoutService: LayoutService) {
+  constructor(private theme: AppThemeService,
+    private layoutService: LayoutService) {
     this.layoutService.onSafeChangeLayoutSize()
       .pipe(
         takeWhile(() => this.alive),
@@ -156,7 +156,7 @@ export class TrafficChartComponent implements AfterViewInit, OnDestroy {
             },
           ],
         });
-    });
+      });
   }
 
   onChartInit(echarts) {

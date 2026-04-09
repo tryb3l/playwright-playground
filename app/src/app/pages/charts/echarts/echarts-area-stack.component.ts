@@ -1,18 +1,18 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import { AppThemeService } from '../../../@theme/services/app-theme.service';
 
 @Component({
-    selector: 'ngx-echarts-area-stack',
-    template: `
+  selector: 'ngx-echarts-area-stack',
+  template: `
     <div echarts [options]="options" class="echart"></div>
   `,
-    standalone: false
+  standalone: false
 })
 export class EchartsAreaStackComponent implements AfterViewInit, OnDestroy {
   options: any = {};
   themeSubscription: any;
 
-  constructor(private theme: NbThemeService) {
+  constructor(private theme: AppThemeService) {
   }
 
   ngAfterViewInit() {

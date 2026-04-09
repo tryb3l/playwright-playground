@@ -1,121 +1,140 @@
-@import '../../../@theme/styles/themes';
-@import 'bootstrap/scss/mixins/breakpoints';
-@import '@nebular/theme/styles/global/breakpoints';
+:host {
+  display: block;
+  height: 100%;
+}
 
-@include nb-install-component() {
+.temperature-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--app-border);
+  border-radius: 1.25rem;
+  background: var(--app-surface-elevated);
+  box-shadow: var(--app-shadow);
+  overflow: hidden;
+}
 
-  nb-tabset {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+.temperature-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--app-border);
+  padding: 0 1rem;
+}
 
-    ::ng-deep ul {
-      // make same size as card header
-      border-color: transparent;
-      padding-bottom: 1px;
-      .tab-link {
-        padding: 1.25rem 2rem;
-      }
-    }
+.temperature-tab {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--app-text-muted);
+  font: inherit;
+  font-weight: 600;
+  padding: 1.1rem 1rem;
+}
+
+.temperature-tab--active {
+  border-bottom-color: var(--app-accent);
+  color: var(--app-text);
+}
+
+.temperature-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 0;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.slider-container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+ngx-temperature-dragger {
+  margin-top: -1.5rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.slider-value-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slider-value-container .value {
+  position: relative;
+  margin: 0;
+}
+
+.slider-value-container .value.temperature::before {
+  position: absolute;
+  content: '°';
+  top: 0;
+  right: -0.85rem;
+}
+
+.slider-value-container .value.humidity::before {
+  position: absolute;
+  content: '%';
+  top: 3px;
+  right: -1.6rem;
+  font-size: 0.7em;
+}
+
+.slider-value-container.off .value {
+  color: var(--app-text-muted);
+  letter-spacing: 0.25rem;
+  padding-left: 0.5rem;
+}
+
+.slider-value-container.off .value::before {
+  display: none;
+}
+
+.slider-value-container.off .desc {
+  display: none;
+}
+
+.mode-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.mode-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(3.5rem + 2px);
+  height: calc(3.5rem + 2px);
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  background: transparent;
+  color: var(--app-text-muted);
+  font-size: 1.75rem;
+}
+
+.mode-button--active {
+  border-color: var(--app-accent);
+  color: var(--app-accent);
+  background: var(--app-accent-soft);
+}
+
+.mode-button:focus-visible,
+.temperature-tab:focus-visible {
+  outline: 2px solid var(--app-accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .temperature-panel {
+    padding: 1rem;
   }
 
-  nb-tab.content-active {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    height: 100%;
-  }
-
-  .slider-container {
-    display: flex;
+  .temperature-tab {
     flex: 1;
-    -ms-flex: 1 1 auto;
-    justify-content: center;
-    align-items: center;
-  }
-
-  ngx-temperature-dragger {
-    margin-top: -1.5rem;
-    width: 100%;
-    max-width: 300px;
-  }
-
-  .slider-value-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .value {
-      position: relative;
-      margin: 0;
-
-      &.temperature::before {
-        position: absolute;
-        content: '°';
-        top: 0;
-        right: -0.85rem;
-      }
-
-      &.humidity::before {
-        position: absolute;
-        content: '%';
-        top: 3px;
-        right: -1.6rem;
-        font-size: 0.7em;
-      }
-    }
-
-    &.off {
-      .value {
-        color: nb-theme(text-hint-color);
-        letter-spacing: 0.25rem;
-        padding-left: 0.5rem;
-
-        &::before {
-          display: none;
-        }
-      }
-
-      .desc {
-        display: none;
-      }
-    }
-  }
-
-  nb-radio-group {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  nb-radio {
-    flex: 0 0 auto;
-    width: calc(3.5rem + 2px);
-    height: calc(3.5rem + 2px);
-
-    ::ng-deep {
-      .outer-circle,
-      .inner-circle {
-        display: none;
-      }
-
-      label {
-        padding: 0;
-      }
-
-      .text {
-        border: 1px solid transparent;
-        font-size: 2.5rem;
-        padding: 0.5rem;
-        margin: 0;
-        color: nb-theme(text-hint-color);
-      }
-
-      input:checked ~ .text {
-        border-color: nb-theme(color-primary-default);
-        border-radius: nb-theme(card-border-radius);
-        color: nb-theme(text-primary-color);
-      }
-    }
+    text-align: center;
   }
 }
