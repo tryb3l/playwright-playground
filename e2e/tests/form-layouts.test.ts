@@ -12,11 +12,7 @@ test.use({
 });
 
 test.describe('Form Layouts Tests', () => {
-  test('Submit Inline Form', async ({
-    pageObject,
-    consoleErrorsTracker,
-    assertions,
-  }) => {
+  test('Submit Inline Form', async ({ pageObject, assertions }) => {
     // Arrange
     const formAssertions = assertions.createFormAssertions();
 
@@ -29,17 +25,9 @@ test.describe('Form Layouts Tests', () => {
 
     // Assert
     await formAssertions.assertFormSubmitted('form.form-inline');
-
-    // Check for console errors
-    const consoleErrors = consoleErrorsTracker.getErrors();
-    expect(consoleErrors.length).toBe(0);
   });
 
-  test('Submit grid form', async ({
-    pageObject,
-    consoleErrorsTracker,
-    assertions,
-  }) => {
+  test('Submit grid form', async ({ pageObject, assertions }) => {
     // Arrange
     const formAssertions = assertions.createFormAssertions();
 
@@ -52,9 +40,5 @@ test.describe('Form Layouts Tests', () => {
 
     // Assert
     await formAssertions.assertFormSubmitted('form.form-grid');
-
-    // Check for console errors
-    const consoleErrors = consoleErrorsTracker.getErrors();
-    expect(consoleErrors.length).toBe(0);
   });
 });

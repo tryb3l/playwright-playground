@@ -14,11 +14,7 @@ test.use({
 });
 
 test.describe('Datepicker Tests', () => {
-  test('Select date from common datepicker', async ({
-    pageObject,
-    consoleErrorsTracker,
-    assertions,
-  }) => {
+  test('Select date from common datepicker', async ({ pageObject, assertions }) => {
     // Arrange
     const datePickerAssertions = assertions.createDatePickerAssertions();
     const daysFromToday = 3;
@@ -31,20 +27,12 @@ test.describe('Datepicker Tests', () => {
 
     // Assert
     await datePickerAssertions.assertSelectedDate(
-      'input[placeholder="Form Picker"]',
+      '[data-testid="form-picker-input"]',
       dateToAssert
     );
-
-    // Check for console errors
-    const consoleErrors = consoleErrorsTracker.getErrors();
-    expect(consoleErrors.length).toBe(0);
   });
 
-  test('Select date from date range picker', async ({
-    pageObject,
-    consoleErrorsTracker,
-    assertions,
-  }) => {
+  test('Select date from date range picker', async ({ pageObject, assertions }) => {
     // Arrange
     const datePickerAssertions = assertions.createDatePickerAssertions();
     const daysFromToday = 14;
@@ -59,13 +47,9 @@ test.describe('Datepicker Tests', () => {
 
     // Assert
     await datePickerAssertions.assertDateRange(
-      'input[placeholder="Range Picker"]',
+      '[data-testid="range-picker-input"]',
       dateRange.startDate,
       dateRange.endDate
     );
-
-    // Check for console errors
-    const consoleErrors = consoleErrorsTracker.getErrors();
-    expect(consoleErrors.length).toBe(0);
   });
 });

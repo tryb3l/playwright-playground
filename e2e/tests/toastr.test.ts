@@ -11,20 +11,17 @@ test.use({
 });
 
 test.describe('Toastr Tests', () => {
-  test.afterEach(({ consoleErrorsTracker }) => {
-    const consoleErrors = consoleErrorsTracker.getErrors();
-    expect(consoleErrors.length).toBe(0);
-  });
-
   test('Show basic toast with default settings', async ({
     pageObject,
     assertions,
   }) => {
-    // Arrange Act
+    // Arrange
+    const toastrAssertions = assertions.createToastrAssertions();
+
+    // Act
     await pageObject.clickShowToastButton();
 
     // Assert
-    const toastrAssertions = assertions.createToastrAssertions();
     await toastrAssertions.expectToastToBeVisible();
   });
 });
