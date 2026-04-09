@@ -1,5 +1,8 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import {
   NbActionsModule,
   NbLayoutModule,
@@ -52,6 +55,10 @@ const NB_MODULES = [
   NbIconModule,
   NbEvaIconsModule,
 ];
+const MATERIAL_MODULES = [
+  MatFormFieldModule,
+  MatSelectModule,
+];
 const COMPONENTS = [
   HeaderComponent,
   FooterComponent,
@@ -69,7 +76,7 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, ...NB_MODULES],
+  imports: [CommonModule, RouterModule, ...NB_MODULES, ...MATERIAL_MODULES],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
 })
@@ -82,7 +89,7 @@ export class ThemeModule {
           {
             name: 'default',
           },
-          [ DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME ],
+          [DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME],
         ).providers,
       ],
     };

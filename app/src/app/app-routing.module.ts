@@ -1,13 +1,8 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import {
-  NbAuthComponent,
-  NbLoginComponent,
-  NbLogoutComponent,
-  NbRegisterComponent,
-  NbRequestPasswordComponent,
-  NbResetPasswordComponent,
-} from '@nebular/auth';
+import { AuthFormPageComponent } from './auth/auth-form-page.component';
+import { AuthLogoutPageComponent } from './auth/auth-logout-page.component';
+import { AuthShellComponent } from './auth/auth-shell.component';
 
 export const routes: Routes = [
   {
@@ -17,31 +12,36 @@ export const routes: Routes = [
   },
   {
     path: 'auth',
-    component: NbAuthComponent,
+    component: AuthShellComponent,
     children: [
       {
         path: '',
-        component: NbLoginComponent,
+        component: AuthFormPageComponent,
+        data: { mode: 'login' },
       },
       {
         path: 'login',
-        component: NbLoginComponent,
+        component: AuthFormPageComponent,
+        data: { mode: 'login' },
       },
       {
         path: 'register',
-        component: NbRegisterComponent,
+        component: AuthFormPageComponent,
+        data: { mode: 'register' },
       },
       {
         path: 'logout',
-        component: NbLogoutComponent,
+        component: AuthLogoutPageComponent,
       },
       {
         path: 'request-password',
-        component: NbRequestPasswordComponent,
+        component: AuthFormPageComponent,
+        data: { mode: 'request-password' },
       },
       {
         path: 'reset-password',
-        component: NbResetPasswordComponent,
+        component: AuthFormPageComponent,
+        data: { mode: 'reset-password' },
       },
     ],
   },
