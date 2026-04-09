@@ -22,7 +22,7 @@ jobs:
 
       - name: Install App Dependencies
         working-directory: ./app
-        run: npm install
+        run: npm ci
 
       - name: Install E2E Dependencies
         run: npm ci
