@@ -2,7 +2,7 @@ import { BaseAssertions } from './base-assertions';
 
 export class DatePickerAssertions extends BaseAssertions {
   async assertCalendarVisible() {
-    await this.expectToBeVisible('nb-calendar');
+    await this.expectToBeVisible('mat-calendar');
   }
 
   async assertSelectedDate(pickerSelector: string, expectedValue: string) {

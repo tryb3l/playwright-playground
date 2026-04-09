@@ -15,6 +15,7 @@ interface CustomFixtures<T extends StartPageKeys> {
   consoleErrorsTracker: ConsoleErrorsTracker;
   networkErrorsTracker: NetworkErrorsTracker;
   assertions: AssertionsFactory;
+  startPageReady: void;
 }
 
 function createTestForStartPage<T extends StartPageKeys>(startPage: T) {
@@ -23,8 +24,14 @@ function createTestForStartPage<T extends StartPageKeys>(startPage: T) {
       const pageManager = new PageManager(page);
       await use(pageManager);
     },
+    startPageReady: [
+      async ({ pageManager }, use) => {
+        await pageManager.navigateTo(startPage);
+        await use();
+      },
+      { auto: true },
+    ],
     pageObject: async ({ pageManager }, use) => {
-      await pageManager.navigateTo(startPage);
       const PageClass = startPageClassMap[startPage];
       const pageObject = new PageClass(pageManager.getPageInstance());
       await use(pageObject as PageObjectOf<T>);

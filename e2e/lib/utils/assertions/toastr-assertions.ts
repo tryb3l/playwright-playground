@@ -3,28 +3,31 @@ import { BaseAssertions } from './base-assertions';
 
 export class ToastrAssertions extends BaseAssertions {
   async expectToastToBeVisible() {
-    await this.expectToBeVisible('nb-toast');
+    await this.expectToBeVisible('[data-testid="app-toast"]');
   }
 
   async expectToastToBeHidden() {
-    await this.expectToBeHidden('nb-toast');
+    await this.expectToBeHidden('[data-testid="app-toast"]');
   }
   async checkToastMessage(title: string, content: string) {
-    const toastrContainer = this.page.locator('nb-toast.content-container');
-    const toastTitle = toastrContainer.filter({ hasText: title });
-    const toastContent = toastrContainer.filter({ hasText: content });
+    const toastTitle = this.page.getByTestId('app-toast-title').filter({
+      hasText: title,
+    });
+    const toastContent = this.page.getByTestId('app-toast-content').filter({
+      hasText: content,
+    });
 
     await expect(toastTitle).toBeVisible();
     await expect(toastContent).toBeVisible();
   }
 
   async expectToastTitle(expectedTitle: string) {
-    const title = this.page.locator('.title');
+    const title = this.page.getByTestId('app-toast-title');
     await expect(title).toContainText(expectedTitle);
   }
 
   async expectToastContent(expectedContent: string) {
-    const contentElement = this.page.locator('.message');
+    const contentElement = this.page.getByTestId('app-toast-content');
     await expect(contentElement).toContainText(expectedContent);
   }
 }
