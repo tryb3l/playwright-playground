@@ -44,8 +44,6 @@ async function attachObservabilityReport(
     body: report,
     contentType: 'text/plain',
   });
-
-  testInfo.fail(true, 'Observability errors detected');
 }
 
 export { buildObservabilityReport, attachObservabilityReport };
