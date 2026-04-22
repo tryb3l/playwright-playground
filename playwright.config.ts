@@ -22,6 +22,7 @@ const isCI = !!process.env.CI;
 
 const config: PlaywrightTestConfig = {
   ...createBaseConfig(isCI),
+  globalSetup: './global-setup.ts',
   projects: createProjects(),
   webServer: createWebServerConfig(isCI),
 };

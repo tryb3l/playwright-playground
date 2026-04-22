@@ -131,10 +131,9 @@ dist
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+/playwright/.auth/user.json
 dist/
 *.js
 *.js.map
 *.d.ts
 !playwright.config.ts
-!global-setup.ts
-!global-teardown.ts
