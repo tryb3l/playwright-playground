@@ -14,11 +14,9 @@ test.describe('Dialog Tests', () => {
         const name = 'Ada Lovelace';
 
         // Act
-        await pageObject.openNamePrompt();
-        await pageObject.fillName(name);
-        await pageObject.submitName();
+        await pageObject.submitNamePrompt(name);
 
         // Assert
-        await expect(pageObject.getListedName(name)).toBeVisible();
+        await expect(pageObject.getSubmittedName(name)).toBeVisible();
     });
 });

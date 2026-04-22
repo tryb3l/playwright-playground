@@ -14,40 +14,39 @@ test.describe('Window Tests', () => {
         const subject = 'Quarterly rollout';
         const text = 'Review the migration checklist before release.';
 
-        await expect(pageObject.getDialogs()).toHaveCount(0);
+        await expect.poll(() => pageObject.getOpenWindowCount()).toBe(0);
 
         // Act
         await pageObject.openWindowForm();
-        await expect(pageObject.getSubjectInput()).toBeVisible();
-
         await pageObject.fillWindowForm(subject, text);
-        await expect(pageObject.getSubjectInput()).toHaveValue(subject);
-        await expect(pageObject.getTextInput()).toHaveValue(text);
-
-        await pageObject.closeWindowForm();
+        const draft = await pageObject.getWindowFormDraft();
+        await pageObject.closeActiveWindow();
+        const canOpenWindowForm = await pageObject.canOpenWindowForm();
 
         // Assert
-        await expect(pageObject.getDialogs()).toHaveCount(0);
-        await expect(pageObject.getOpenFormButton()).toBeVisible();
+        expect(draft).toEqual({ subject, text });
+        await expect.poll(() => pageObject.getOpenWindowCount()).toBe(0);
+        expect(canOpenWindowForm).toBe(true);
     });
 
     test('Keep no-backdrop window open until explicitly closed', async ({ pageObject }) => {
         // Arrange
-        await expect(pageObject.getDialogs()).toHaveCount(0);
+        await expect.poll(() => pageObject.getOpenWindowCount()).toBe(0);
 
         // Act
         await pageObject.openWindowWithoutBackdrop();
-        await expect(pageObject.getDialogTitle()).toContainText('Window without backdrop');
-        await expect(pageObject.getDialogContent()).toContainText('Disabled close on escape click.');
-
+        const openedWindow = await pageObject.getActiveWindowCopy();
         await pageObject.pressEscape();
+        const openWindowCountAfterEscape = await pageObject.getOpenWindowCount();
+        const stillOpenWindow = await pageObject.getActiveWindowCopy();
+        await pageObject.closeActiveWindow();
 
         // Assert
-        await expect(pageObject.getDialogs()).toHaveCount(1);
-        await expect(pageObject.getDialogTitle()).toContainText('Window without backdrop');
-        await expect(pageObject.getDialogContent()).toContainText('Disabled close on escape click.');
-
-        await pageObject.closeNoBackdropWindow();
-        await expect(pageObject.getDialogs()).toHaveCount(0);
+        expect(openedWindow.title).toContain('Window without backdrop');
+        expect(openedWindow.content).toContain('Disabled close on escape click.');
+        expect(openWindowCountAfterEscape).toBe(1);
+        expect(stillOpenWindow.title).toContain('Window without backdrop');
+        expect(stillOpenWindow.content).toContain('Disabled close on escape click.');
+        await expect.poll(() => pageObject.getOpenWindowCount()).toBe(0);
     });
 });

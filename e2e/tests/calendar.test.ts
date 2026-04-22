@@ -10,56 +10,54 @@ test.use({
 
 test.describe('Calendar Tests', () => {
     test('Render calendar cards with initial selections', async ({ pageObject }) => {
+        // Arrange
         await expect(pageObject.getCard('inline')).toBeVisible();
         await expect(pageObject.getCard('range')).toBeVisible();
         await expect(pageObject.getCard('custom')).toBeVisible();
-        await expect(pageObject.getPreviewValue('inline')).not.toBeEmpty();
-        await expect(pageObject.getRangeValue('start')).not.toBeEmpty();
-        await expect(pageObject.getRangeValue('end')).not.toBeEmpty();
-        await expect(pageObject.getPreviewValue('custom')).not.toBeEmpty();
-        await expect(pageObject.getRangeBoundaryButton('end')).toHaveAttribute('aria-pressed', 'true');
+
+        // Act
+        const summary = await pageObject.getSelectionSummary();
+
+        // Assert
+        expect(summary.inline).not.toBe('');
+        expect(summary.rangeStart).not.toBe('');
+        expect(summary.rangeEnd).not.toBe('');
+        expect(summary.custom).not.toBe('');
+        expect(summary.activeRangeBoundary).toBe('end');
     });
 
     test('Update inline and custom calendar selections', async ({ pageObject }) => {
         // Arrange
-        const initialInline = await pageObject.getPreviewValue('inline').textContent();
-        const initialCustom = await pageObject.getPreviewValue('custom').textContent();
+        const initialSummary = await pageObject.getSelectionSummary();
 
         // Act
         await pageObject.selectDifferentDay('inline');
         await pageObject.selectDifferentDay('custom');
 
         // Assert
-        await expect(pageObject.getPreviewValue('inline')).not.toHaveText(initialInline ?? '');
-        await expect(pageObject.getPreviewValue('custom')).not.toHaveText(initialCustom ?? '');
-        await expect(pageObject.getCustomCaption()).not.toBeEmpty();
+        await expect.poll(async () => (await pageObject.getSelectionSummary()).inline).not.toBe(initialSummary.inline);
+        await expect.poll(async () => (await pageObject.getSelectionSummary()).custom).not.toBe(initialSummary.custom);
+        await expect.poll(async () => (await pageObject.getSelectionSummary()).customCaption).not.toBe('');
     });
 
     test('Switch range boundary and reset the selected range', async ({ pageObject }) => {
         // Arrange
-        const initialStart = await pageObject.getRangeValue('start').textContent();
-        const initialEnd = await pageObject.getRangeValue('end').textContent();
+        const initialRange = await pageObject.getRangeState();
 
         // Act
-        await pageObject.getRangeBoundaryButton('start').click();
-        await expect(pageObject.getRangeBoundaryButton('start')).toHaveAttribute('aria-pressed', 'true');
-        await expect(pageObject.getRangeHint()).toContainText('start');
-
-        await pageObject.selectDifferentDay('range');
-        await expect(pageObject.getRangeValue('start')).not.toHaveText(initialStart ?? '');
-        await expect(pageObject.getRangeBoundaryButton('end')).toHaveAttribute('aria-pressed', 'true');
-        await expect(pageObject.getRangeHint()).toContainText('end');
-
-        const lastIndex = Math.max((await pageObject.getSelectableDayButtons('range').count()) - 1, 0);
-        await pageObject.selectDifferentDay('range', lastIndex);
-        await expect(pageObject.getRangeValue('end')).not.toHaveText(initialEnd ?? '');
-        await expect(pageObject.getRangeBoundaryButton('start')).toHaveAttribute('aria-pressed', 'true');
-
-        await pageObject.getResetButton().click();
+        await pageObject.updateRangeBoundaryWithDifferentDay('start');
+        const rangeAfterStartUpdate = await pageObject.getRangeState();
+        await pageObject.updateRangeBoundaryWithDifferentDay('end', 'last');
+        const rangeAfterEndUpdate = await pageObject.getRangeState();
+        await pageObject.resetRangeSelection();
+        const resetRange = await pageObject.getRangeState();
 
         // Assert
-        await expect(pageObject.getRangeValue('start')).toHaveText(initialStart ?? '');
-        await expect(pageObject.getRangeValue('end')).toHaveText(initialEnd ?? '');
-        await expect(pageObject.getRangeBoundaryButton('end')).toHaveAttribute('aria-pressed', 'true');
+        expect(rangeAfterStartUpdate.start).not.toBe(initialRange.start);
+        expect(rangeAfterStartUpdate.activeBoundary).toBe('end');
+        expect(rangeAfterStartUpdate.hint).toContain('end');
+        expect(rangeAfterEndUpdate.end).not.toBe(initialRange.end);
+        expect(rangeAfterEndUpdate.activeBoundary).toBe('start');
+        expect(resetRange).toEqual(initialRange);
     });
 });
