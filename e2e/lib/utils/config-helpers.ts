@@ -1,5 +1,11 @@
 import { devices, PlaywrightTestConfig } from '@playwright/test';
 
+const defaultBaseUrl = process.env.BASE_URL || 'http://localhost:4200';
+const shouldReuseExistingServer =
+  process.env.REUSE_EXISTING_SERVER === 'true';
+const appServeCommand =
+  'node ./node_modules/@angular/cli/bin/ng.js serve --host localhost --port 4200';
+
 const createBaseConfig = (isCI: boolean): Partial<PlaywrightTestConfig> => ({
   timeout: 180 * 1000,
   globalTimeout: 180 * 1000,
@@ -13,8 +19,8 @@ const createBaseConfig = (isCI: boolean): Partial<PlaywrightTestConfig> => ({
   workers: isCI ? 1 : undefined,
   reporter: [['html', { outputFolder: 'playwright-report' }]],
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:4200',
-    trace: 'on-first-retry',
+    baseURL: defaultBaseUrl,
+    trace: 'retain-on-failure',
     actionTimeout: 60 * 1000,
     video: {
       mode: 'off',
@@ -36,11 +42,11 @@ const createProjects = () => [
 ];
 
 const createWebServerConfig = (isCI: boolean) => ({
-  command: 'npm start',
+  command: appServeCommand,
   cwd: './app',
-  url: process.env.BASE_URL || 'http://localhost:4200',
+  url: defaultBaseUrl,
   timeout: 180 * 1000,
-  reuseExistingServer: !isCI,
+  reuseExistingServer: !isCI && shouldReuseExistingServer,
 });
 
 export { createBaseConfig, createProjects, createWebServerConfig };

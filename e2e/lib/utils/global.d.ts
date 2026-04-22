@@ -8,55 +8,36 @@ declare module '@playwright/test' {
      */
     authenticated?: boolean;
     /**
-     * An array of console error messages to ignore during test execution.
+     * Console error substrings filtered before report attachment and failure policy checks.
      */
     ignoreConsoleErrors?: string[];
     /**
-     * An array of network error URL fragments to ignore.
+     * Network URL substrings filtered before report attachment and failure policy checks.
      */
     ignoreNetworkErrors?: string[];
     /**
-     * Enable or disable network error tracking per test.
+     * Track page request failures and HTTP >= 400 responses for reporting and optional hard-fail checks.
      * @default true
      */
     trackNetworkErrors?: boolean;
     /**
-     * Fail the test when unexpected console errors are captured.
+     * Fail an otherwise passing test when unexpected console errors are captured.
      * @default true
      */
     failOnConsoleErrors?: boolean;
     /**
-     * Fail the test when unexpected network errors are captured.
+     * Fail an otherwise passing test when unexpected network errors are captured.
      * @default false
      */
     failOnNetworkErrors?: boolean;
     /**
-     * HTTP status codes to ignore (e.g. 404s in negative tests).
+     * HTTP status codes filtered before report attachment and failure policy checks.
      */
     statusCodesToIgnore?: number[];
     /**
-     * Enable strict network tracking (no default ignore patterns).
+     * When true, disable the default network ignore list and use only per-test ignore patterns.
      * @default false
      */
     strictNetwork?: boolean;
   }
-}
-declare module '@components/*' {
-  const content: any;
-  export = content;
-}
-
-declare module '@utils/*' {
-  const content: any;
-  export = content;
-}
-
-declare module '@fixtures/*' {
-  const content: any;
-  export = content;
-}
-
-declare module '@factories/*' {
-  const content: any;
-  export = content;
 }

@@ -1,21 +1,22 @@
 import pino from 'pino';
 
+const rootLogger = pino({
+  level: process.env.LOG_LEVEL || 'info',
+  transport: {
+    target: 'pino-pretty',
+    options: {
+      colorize: true,
+      translateTime: 'yyyy-mm-dd HH:MM:ss',
+      ignore: 'pid,hostname',
+    },
+  },
+});
+
 export class Logger {
   private logger: pino.Logger;
 
   constructor(context: string) {
-    this.logger = pino({
-      name: context,
-      level: process.env.LOG_LEVEL || 'info',
-      transport: {
-        target: 'pino-pretty',
-        options: {
-          colorize: true,
-          translateTime: 'yyyy-mm-dd HH:MM:ss',
-          ignore: 'pid,hostname',
-        },
-      },
-    });
+    this.logger = rootLogger.child({ name: context });
   }
 
   info(message: string, metadata?: Record<string, any>) {
