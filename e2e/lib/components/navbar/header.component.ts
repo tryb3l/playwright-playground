@@ -27,3 +27,5 @@ export class HeaderComponent extends BaseComponent {
     await this.getThemeOption(themeName).click();
   }
 }
+
+export type { ThemeName };
