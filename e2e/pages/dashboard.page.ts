@@ -1,5 +1,42 @@
 import { Locator, Page } from '@playwright/test';
 
+type ContactsPanel = 'contacts' | 'recent';
+type TemperaturePanel = 'temperature' | 'humidity';
+type TemperatureMode = 'cool' | 'warm' | 'heat' | 'fan';
+type TrafficPeriod = 'week' | 'month' | 'year';
+
+type SecurityCameraState = {
+    view: 'grid' | 'single';
+    cameraCount: number;
+    selectedCameraName: string | null;
+};
+
+type PlayerState = {
+    trackName: string;
+    shuffleEnabled: boolean;
+    loopEnabled: boolean;
+    playing: boolean;
+};
+
+type ContactsState = {
+    activePanel: ContactsPanel;
+    visibleNames: string[];
+};
+
+type ElectricityState = {
+    availableYears: string[];
+    activeYear: string;
+    period: string;
+};
+
+type TemperatureState = {
+    activePanel: TemperaturePanel;
+    temperatureMode: TemperatureMode;
+    humidityMode: TemperatureMode;
+};
+
+const temperatureModes: TemperatureMode[] = ['cool', 'warm', 'heat', 'fan'];
+
 export class DashboardPage {
     constructor(private readonly page: Page) { }
 
@@ -184,4 +221,176 @@ export class DashboardPage {
     getStatusCard(slug: string): Locator {
         return this.page.getByTestId(`dashboard-status-card-${slug}`);
     }
+
+    async selectRoom(roomId: string): Promise<void> {
+        await this.getRoomSelectorRoomHitbox(roomId).click();
+    }
+
+    async getSelectedRoomId(): Promise<string> {
+        const testId = await this.page
+            .locator('[data-testid^="dashboard-room-selector-room-"].selected-room')
+            .first()
+            .getAttribute('data-testid');
+
+        return testId?.replace('dashboard-room-selector-room-', '') ?? '';
+    }
+
+    async openSecurityCamera(index: number): Promise<void> {
+        await this.getSecurityCameraTiles().nth(index).click();
+    }
+
+    async showSecurityCameraGrid(): Promise<void> {
+        await this.getSecurityCamerasGridViewButton().click();
+    }
+
+    async getSecurityCameraState(): Promise<SecurityCameraState> {
+        const isGridView = await this.isPressed(this.getSecurityCamerasGridViewButton());
+
+        return {
+            view: isGridView ? 'grid' : 'single',
+            cameraCount: await this.getSecurityCameraTiles().count(),
+            selectedCameraName: isGridView ? null : await this.readText(this.getSecurityCameraSingleViewName()),
+        };
+    }
+
+    async togglePlayerShuffle(): Promise<void> {
+        await this.getPlayerShuffleButton().click();
+    }
+
+    async togglePlayerLoop(): Promise<void> {
+        await this.getPlayerLoopButton().click();
+    }
+
+    async getPlayerState(): Promise<PlayerState> {
+        return {
+            trackName: await this.readText(this.getPlayerTrackName()),
+            shuffleEnabled: await this.isPressed(this.getPlayerShuffleButton()),
+            loopEnabled: await this.isPressed(this.getPlayerLoopButton()),
+            playing: await this.isPressed(this.getPlayerPlayButton()),
+        };
+    }
+
+    async setTrafficPeriod(period: TrafficPeriod): Promise<void> {
+        await this.getTrafficPeriodSelect().selectOption(period);
+    }
+
+    async getTrafficPeriod(): Promise<string> {
+        return this.getTrafficPeriodSelect().inputValue();
+    }
+
+    async selectContactsPanel(panel: ContactsPanel): Promise<void> {
+        await this.getContactsTab(panel).click();
+    }
+
+    async getContactsState(): Promise<ContactsState> {
+        const activePanel = (await this.isTabSelected(this.getContactsTab('recent')))
+            ? 'recent'
+            : 'contacts';
+        const visibleNames = (await this.getContactRows(activePanel)
+            .locator('.contact-name')
+            .allTextContents())
+            .map((name) => name.trim())
+            .filter(Boolean);
+
+        return {
+            activePanel,
+            visibleNames,
+        };
+    }
+
+    async selectElectricityYearByIndex(index: number): Promise<void> {
+        await this.getElectricityYearTabs().nth(index).click();
+    }
+
+    async setElectricityPeriod(period: TrafficPeriod): Promise<void> {
+        await this.getElectricityPeriodSelect().selectOption(period);
+    }
+
+    async getElectricityState(): Promise<ElectricityState> {
+        const yearTabs = this.getElectricityYearTabs();
+        const yearCount = await yearTabs.count();
+        const availableYears: string[] = [];
+        let activeYear = '';
+
+        for (let index = 0; index < yearCount; index += 1) {
+            const tab = yearTabs.nth(index);
+            const year = await this.readText(tab);
+            availableYears.push(year);
+
+            if (await this.isPressed(tab)) {
+                activeYear = year;
+            }
+        }
+
+        return {
+            availableYears,
+            activeYear,
+            period: await this.getElectricityPeriodSelect().inputValue(),
+        };
+    }
+
+    async getStatusCardCount(): Promise<number> {
+        return this.getStatusCards().count();
+    }
+
+    async toggleStatusCard(slug: string): Promise<void> {
+        await this.getStatusCard(slug).click();
+    }
+
+    async getStatusCardStatus(slug: string): Promise<string> {
+        return this.readText(this.getStatusCard(slug).locator('.status'));
+    }
+
+    async selectTemperaturePanel(panel: TemperaturePanel): Promise<void> {
+        await this.getTemperatureTab(panel).click();
+    }
+
+    async selectTemperatureMode(
+        panel: TemperaturePanel,
+        mode: TemperatureMode
+    ): Promise<void> {
+        await this.getModeButton(panel, mode).click();
+    }
+
+    async getTemperatureState(): Promise<TemperatureState> {
+        return {
+            activePanel: (await this.isTabSelected(this.getTemperatureTab('humidity')))
+                ? 'humidity'
+                : 'temperature',
+            temperatureMode: await this.getActiveTemperatureMode('temperature'),
+            humidityMode: await this.getActiveTemperatureMode('humidity'),
+        };
+    }
+
+    private async getActiveTemperatureMode(
+        panel: TemperaturePanel
+    ): Promise<TemperatureMode> {
+        for (const mode of temperatureModes) {
+            const button = this.getModeButton(panel, mode);
+
+            if ((await button.count()) === 0) {
+                continue;
+            }
+
+            if (await this.isPressed(button)) {
+                return mode;
+            }
+        }
+
+        return 'cool';
+    }
+
+    private async isPressed(locator: Locator): Promise<boolean> {
+        return (await locator.getAttribute('aria-pressed')) === 'true';
+    }
+
+    private async isTabSelected(locator: Locator): Promise<boolean> {
+        return (await locator.getAttribute('aria-selected')) === 'true';
+    }
+
+    private async readText(locator: Locator): Promise<string> {
+        return ((await locator.textContent()) ?? '').replace(/\s+/g, ' ').trim();
+    }
 }
+
+export type { ContactsState, ElectricityState, PlayerState, SecurityCameraState, TemperatureState };

@@ -1,71 +1,97 @@
 import { Locator, Page } from '@playwright/test';
 
+type WindowDraft = {
+    subject: string;
+    text: string;
+};
+
+type WindowCopy = {
+    title: string;
+    content: string;
+};
+
 export class WindowPage {
     constructor(private readonly page: Page) { }
 
-    getOpenFormButton(): Locator {
+    private get openFormButton(): Locator {
         return this.page.getByTestId('window-open-form-button');
     }
 
-    getOpenNoBackdropButton(): Locator {
+    private get openNoBackdropButton(): Locator {
         return this.page.getByTestId('window-open-no-backdrop-button');
     }
 
-    getDialogs(): Locator {
+    private get dialogs(): Locator {
         return this.page.locator('mat-dialog-container');
     }
 
-    getActiveDialog(): Locator {
-        return this.getDialogs().last();
+    private get activeDialog(): Locator {
+        return this.dialogs.last();
     }
 
     async openWindowForm(): Promise<void> {
-        await this.getOpenFormButton().click();
+        await Promise.all([
+            this.subjectInput.waitFor(),
+            this.openFormButton.click(),
+        ]);
     }
 
     async openWindowWithoutBackdrop(): Promise<void> {
-        await this.getOpenNoBackdropButton().click();
+        await Promise.all([
+            this.activeDialog.waitFor(),
+            this.openNoBackdropButton.click(),
+        ]);
     }
 
-    getSubjectInput(): Locator {
+    private get subjectInput(): Locator {
         return this.page.getByTestId('window-subject-input');
     }
 
-    getTextInput(): Locator {
+    private get textInput(): Locator {
         return this.page.locator('textarea#text');
     }
 
-    getTemplateContent(): Locator {
-        return this.page.getByTestId('window-template-content');
+    private get dialogTitle(): Locator {
+        return this.activeDialog.locator('[mat-dialog-title], mat-dialog-title');
     }
 
-    getDialogTitle(): Locator {
-        return this.getActiveDialog().locator('[mat-dialog-title], mat-dialog-title');
+    private get dialogContent(): Locator {
+        return this.activeDialog.locator('mat-dialog-content');
     }
 
-    getDialogContent(): Locator {
-        return this.getActiveDialog().locator('mat-dialog-content');
-    }
-
-    getCloseButton(): Locator {
-        return this.getActiveDialog().getByRole('button', { name: 'Close Window' });
-    }
-
-    getNoBackdropCloseButton(): Locator {
-        return this.page.getByTestId('window-close-button');
+    private get closeButton(): Locator {
+        return this.activeDialog.getByRole('button', { name: 'Close Window' });
     }
 
     async fillWindowForm(subject: string, text: string): Promise<void> {
-        await this.getSubjectInput().fill(subject);
-        await this.getTextInput().fill(text);
+        await this.subjectInput.fill(subject);
+        await this.textInput.fill(text);
     }
 
-    async closeWindowForm(): Promise<void> {
-        await this.getCloseButton().click();
+    async getOpenWindowCount(): Promise<number> {
+        return this.dialogs.count();
     }
 
-    async closeNoBackdropWindow(): Promise<void> {
-        await this.getNoBackdropCloseButton().click();
+    async getWindowFormDraft(): Promise<WindowDraft> {
+        return {
+            subject: await this.subjectInput.inputValue(),
+            text: await this.textInput.inputValue(),
+        };
+    }
+
+    async getActiveWindowCopy(): Promise<WindowCopy> {
+        return {
+            title: (await this.dialogTitle.textContent()) ?? '',
+            content: (await this.dialogContent.textContent()) ?? '',
+        };
+    }
+
+    async canOpenWindowForm(): Promise<boolean> {
+        return this.openFormButton.isVisible();
+    }
+
+    async closeActiveWindow(): Promise<void> {
+        await this.closeButton.click();
     }
 
     async pressEscape(): Promise<void> {
