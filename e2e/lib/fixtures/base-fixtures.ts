@@ -8,8 +8,8 @@ import {
   test as coreTest,
 } from '@playwright/test';
 import { PageManager } from '@pages/page-manager';
+import { AuthPage } from '@pages/auth.page';
 import { Users } from '@factories/users';
-import { Authentication } from '@utils/auth';
 import { AssertionsFactory } from '@utils/assertions/assertion-factory';
 import { ConsoleErrorsTracker } from '@utils/console-errors-tracker';
 import { NetworkErrorsTracker } from '@utils/network-errors-tracker';
@@ -71,8 +71,8 @@ export const test = base.extend<{
             const { email, password } = await users.getUserCredentials();
 
             const page = await context.newPage();
-            const auth = new Authentication(page);
-            await auth.loginUser(email, password);
+            const authPage = new AuthPage(page);
+            await authPage.loginThroughUi(email, password);
             await page.close();
 
             // Save storage state

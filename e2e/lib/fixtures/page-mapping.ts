@@ -1,3 +1,4 @@
+import type { Page } from '@playwright/test';
 import { FormLayoutsPage } from '@pages/form-layouts.page';
 import { DatePickerPage } from '@pages/date-picker.page';
 import { CalendarPage } from '@pages/calendar.page';
@@ -10,6 +11,8 @@ import { ToastrPage } from '@pages/toastr.page';
 import { TreeGridPage } from '@pages/tree-grid.page';
 import { WindowPage } from '@pages/window.page';
 import { StartPage } from '@fixtures/start-page.enum';
+
+type StartPageConstructor = new (page: Page) => object;
 
 export const startPageClassMap = {
   [StartPage.IoTDashboard]: DashboardPage,
@@ -26,7 +29,7 @@ export const startPageClassMap = {
   [StartPage.Register]: AuthPage,
   [StartPage.RequestPassword]: AuthPage,
   [StartPage.ResetPassword]: AuthPage,
-};
+} satisfies Record<StartPage, StartPageConstructor>;
 
 export type StartPageClassMap = typeof startPageClassMap;
 export type StartPageKeys = keyof StartPageClassMap;
