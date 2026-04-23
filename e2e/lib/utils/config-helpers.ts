@@ -5,10 +5,12 @@ const shouldReuseExistingServer =
   process.env.REUSE_EXISTING_SERVER === 'true';
 const appServeCommand =
   'node ./node_modules/@angular/cli/bin/ng.js serve --host localhost --port 4200';
+const testTimeoutMs = 180 * 1000;
+const globalTimeoutMs = 30 * 60 * 1000;
 
 const createBaseConfig = (isCI: boolean): Partial<PlaywrightTestConfig> => ({
-  timeout: 180 * 1000,
-  globalTimeout: 180 * 1000,
+  timeout: testTimeoutMs,
+  globalTimeout: isCI ? globalTimeoutMs : undefined,
   expect: {
     timeout: 10000,
   },
@@ -45,7 +47,7 @@ const createWebServerConfig = (isCI: boolean) => ({
   command: appServeCommand,
   cwd: './app',
   url: defaultBaseUrl,
-  timeout: 180 * 1000,
+  timeout: testTimeoutMs,
   reuseExistingServer: !isCI && shouldReuseExistingServer,
 });
 

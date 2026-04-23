@@ -2,7 +2,7 @@
   "name": "playwright-playground",
   "version": "1.0.0",
   "engines": {
-    "node": "^22.12.0 || ^24.0.0"
+    "node": "^22.12.0 || ^24.0.0 || ^25.0.0"
   },
   "scripts": {
     "lint": "eslint .",
@@ -17,7 +17,7 @@
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.59.1",
     "@types/node": "^25.6.0",
-    "@typescript/native-preview": "^7.0.0-dev.20260422.1",
+    "@typescript/native-preview": "^7.0.0-dev.20260423.1",
     "eslint": "^10.2.1",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.5.0",
