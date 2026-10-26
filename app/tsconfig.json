@@ -22,5 +22,8 @@
     "strictNullChecks": false,
     "strictPropertyInitialization": false,
     "skipLibCheck": true
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": false
   }
 }

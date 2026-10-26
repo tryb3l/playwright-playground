@@ -1,9 +1,9 @@
 # Playwright Playground
 
 [![Playwright Tests](https://github.com/tryb3l/playwright-playground/actions/workflows/playwright.yml/badge.svg)](https://github.com/tryb3l/playwright-playground/actions/workflows/playwright.yml)
-![Node](https://img.shields.io/badge/node-22.12%2B%20%7C%2024%20%7C%2025-339933?logo=nodedotjs&logoColor=white)
-![Angular](https://img.shields.io/badge/angular-20.3-DD0031?logo=angular&logoColor=white)
-![Playwright](https://img.shields.io/badge/playwright-1.59.1-2EAD33?logo=playwright&logoColor=white)
+![Node](https://img.shields.io/badge/node-24%20%7C%2025%20%7C%2026-339933?logo=nodedotjs&logoColor=white)
+![Angular](https://img.shields.io/badge/angular-21.2-DD0031?logo=angular&logoColor=white)
+![Playwright](https://img.shields.io/badge/playwright-1.64.1-2EAD33?logo=playwright&logoColor=white)
 ![Browsers](https://img.shields.io/badge/browsers-Chromium%20%7C%20Firefox-4B5563)
 
 The app under test lives in [`app/`](app/). The Playwright project lives in [`e2e/`](e2e/). Keeping both in one repo makes the delivery choices inspectable end to end: page and component abstractions, typed fixtures, CI-aware configuration, and failure diagnostics that stay useful after a test breaks.

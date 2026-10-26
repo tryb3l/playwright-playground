@@ -125,6 +125,27 @@ export default async function globalSetup() {
     }
 
     const { child: appServer, startupFailure } = startAppServer();
+    let stopped = false;
+
+    const cleanup = () => {
+        if (stopped) {
+            return;
+        }
+        stopped = true;
+        process.off('exit', cleanup);
+        process.off('SIGINT', handleSignal);
+        process.off('SIGTERM', handleSignal);
+        stopAppServer(appServer);
+    };
+
+    const handleSignal = (signal: NodeJS.Signals) => {
+        cleanup();
+        process.kill(process.pid, signal);
+    };
+
+    process.once('exit', cleanup);
+    process.once('SIGINT', handleSignal);
+    process.once('SIGTERM', handleSignal);
 
     try {
         await Promise.race([
@@ -132,11 +153,11 @@ export default async function globalSetup() {
             startupFailure,
         ]);
     } catch (error) {
-        stopAppServer(appServer);
+        cleanup();
         throw error;
     }
 
     return async () => {
-        stopAppServer(appServer);
+        cleanup();
     };
 }

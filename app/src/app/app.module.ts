@@ -5,7 +5,7 @@
  */
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, provideZoneChangeDetection } from '@angular/core';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -31,7 +31,9 @@ import {
     }),
     AuthModule,
     CoreModule.forRoot(),
-    ThemeModule.forRoot()], providers: [provideHttpClient(withInterceptorsFromDi()),
+    ThemeModule.forRoot()], providers: [
+    provideZoneChangeDetection(),
+    provideHttpClient(withInterceptorsFromDi()),
     {
       provide: OverlayContainer,
       useClass: OverlayContainer,

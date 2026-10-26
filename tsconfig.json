@@ -17,7 +17,8 @@
     "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true,
     "types": ["node", "@playwright/test"],
-    "declaration": true
+    "declaration": true,
+    "skipLibCheck": true
   },
   "include": ["e2e/**/*.ts", "*.ts"],
   "exclude": ["node_modules", "dist", "app"]
