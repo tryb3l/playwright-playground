@@ -12,8 +12,8 @@ type NetworkErrorEntry = {
 
 type NetworkTrackerOptions = {
   maxErrors?: number;
-  ignorePatterns?: string[];
-  statusCodesToIgnore?: number[];
+  ignorePatterns?: readonly string[];
+  statusCodesToIgnore?: readonly number[];
   trackResponses?: boolean;
   trackRequestFailures?: boolean;
 };
@@ -22,7 +22,7 @@ class NetworkErrorsTracker {
   private errors: NetworkErrorEntry[] = [];
   private readonly maxErrors: number;
   private readonly ignorePatterns: readonly string[];
-  private readonly statusCodesToIgnore: readonly number[];
+  private readonly statusCodesToIgnore: ReadonlySet<number>;
   private readonly trackResponses: boolean;
   private readonly trackRequestFailures: boolean;
 
@@ -36,7 +36,7 @@ class NetworkErrorsTracker {
   ) {
     this.maxErrors = options?.maxErrors ?? 50;
     this.ignorePatterns = options?.ignorePatterns ?? [];
-    this.statusCodesToIgnore = options?.statusCodesToIgnore ?? [];
+    this.statusCodesToIgnore = new Set(options?.statusCodesToIgnore);
     this.trackResponses = options?.trackResponses ?? true;
     this.trackRequestFailures = options?.trackRequestFailures ?? true;
   }
@@ -70,7 +70,7 @@ class NetworkErrorsTracker {
 
         const url = response.url();
         if (this.shouldIgnore(url)) return;
-        if (this.statusCodesToIgnore.includes(status)) return;
+        if (this.statusCodesToIgnore.has(status)) return;
 
         this.push({
           type: 'response',

@@ -7,32 +7,17 @@ import {
   Page,
   test as coreTest,
 } from '@playwright/test';
-import { PageManager } from '@pages/page-manager';
 import { AuthPage } from '@pages/auth.page';
 import { Users } from '@factories/users';
-import { AssertionsFactory } from '@utils/assertions/assertion-factory';
 import { ConsoleErrorsTracker } from '@utils/console-errors-tracker';
 import { NetworkErrorsTracker } from '@utils/network-errors-tracker';
-import { attachObservabilityReport } from '@utils/observability-report';
-
-const defaultNetworkIgnorePatterns = [
-  '/assets/',
-  '.png',
-  '.jpg',
-  '.jpeg',
-  '.gif',
-  '.svg',
-  '.css',
-  '.js',
-  '.woff',
-  '.woff2',
-  '.map',
-  'favicon.ico',
-  'p.scdn.co',
-];
+import {
+  createConsoleErrorsTracker,
+  createNetworkErrorsTracker,
+  finalizeObservability,
+} from '@utils/observability-report';
 
 export const test = base.extend<{
-  pageManager: PageManager;
   user: {
     email: string;
     password: string;
@@ -40,7 +25,6 @@ export const test = base.extend<{
   authContext: BrowserContext | undefined;
   consoleErrorsTracker: ConsoleErrorsTracker;
   networkErrorsTracker: NetworkErrorsTracker;
-  assertions: AssertionsFactory;
   observabilityReport: void;
 }>({
   authenticated: [false, { scope: 'test' }],
@@ -108,17 +92,6 @@ export const test = base.extend<{
     }
   },
 
-  // Fixture for the PageManager
-  pageManager: async ({ page }, use) => {
-    const pageManager = new PageManager(page);
-    await use(pageManager);
-  },
-
-  assertions: async ({ page }, use) => {
-    const assertions = new AssertionsFactory(page);
-    await use(assertions);
-  },
-
   // Fixture for the user credentials
   user: async ({}, use) => {
     const users = new Users();
@@ -126,19 +99,11 @@ export const test = base.extend<{
     await use({ email, password });
   },
 
-  // Automatic fixture for console error tracking
   consoleErrorsTracker: [
     async ({ page, ignoreConsoleErrors }, use) => {
-      const consoleErrorsTracker = new ConsoleErrorsTracker(
-        page,
-        ignoreConsoleErrors,
-        { maxErrors: 50 }
-      );
-      consoleErrorsTracker.startTracking();
-
-      await use(consoleErrorsTracker);
-
-      consoleErrorsTracker.stopTracking();
+      const tracker = createConsoleErrorsTracker(page, ignoreConsoleErrors);
+      await use(tracker);
+      tracker.stopTracking();
     },
     { auto: true },
   ],
@@ -154,28 +119,14 @@ export const test = base.extend<{
       },
       use
     ) => {
-      const safeIgnoreNetworkErrors = ignoreNetworkErrors ?? [];
-      const effectiveIgnorePatterns = strictNetwork
-        ? safeIgnoreNetworkErrors
-        : [...defaultNetworkIgnorePatterns, ...safeIgnoreNetworkErrors];
-
-      const networkErrorsTracker = new NetworkErrorsTracker(page, {
-        maxErrors: 50,
-        ignorePatterns: effectiveIgnorePatterns,
+      const tracker = createNetworkErrorsTracker(page, {
+        trackNetworkErrors,
+        ignoreNetworkErrors,
+        strictNetwork,
         statusCodesToIgnore,
-        trackResponses: trackNetworkErrors,
-        trackRequestFailures: trackNetworkErrors,
       });
-
-      if (trackNetworkErrors) {
-        networkErrorsTracker.startTracking();
-      }
-
-      await use(networkErrorsTracker);
-
-      if (trackNetworkErrors) {
-        networkErrorsTracker.stopTracking();
-      }
+      await use(tracker);
+      tracker.stopTracking();
     },
     { auto: true },
   ],
@@ -192,38 +143,15 @@ export const test = base.extend<{
       testInfo: TestInfo
     ) => {
       await use();
-      consoleErrorsTracker.stopTracking();
-      networkErrorsTracker.stopTracking();
-
-      await attachObservabilityReport(
+      await finalizeObservability(
         testInfo,
         consoleErrorsTracker,
-        networkErrorsTracker
+        networkErrorsTracker,
+        {
+          failOnConsoleErrors,
+          failOnNetworkErrors,
+        }
       );
-
-      if (testInfo.status !== testInfo.expectedStatus) {
-        return;
-      }
-
-      const consoleErrors = consoleErrorsTracker.getErrors();
-      if (failOnConsoleErrors) {
-        expect(
-          consoleErrors,
-          consoleErrors.length
-            ? `Unexpected console errors:\n${consoleErrorsTracker.getErrorsAsText()}`
-            : undefined
-        ).toHaveLength(0);
-      }
-
-      const networkErrors = networkErrorsTracker.getErrors();
-      if (failOnNetworkErrors) {
-        expect(
-          networkErrors,
-          networkErrors.length
-            ? `Unexpected network errors:\n${networkErrorsTracker.getErrorsAsText()}`
-            : undefined
-        ).toHaveLength(0);
-      }
     },
     { auto: true },
   ],
