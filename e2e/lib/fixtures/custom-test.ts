@@ -1,6 +1,7 @@
 import type { Page } from '@playwright/test';
 import { expect, test as base } from '@fixtures/base-fixtures';
 import { NavigationComponent } from '@components/navbar/navigation.component';
+import { ensureAppServerReachable } from '@utils/app-server';
 import { AuthPage } from '@pages/auth.page';
 import { CalendarPage } from '@pages/calendar.page';
 import { DashboardPage } from '@pages/dashboard.page';
@@ -63,6 +64,7 @@ function createTestForStartPage<T extends StartPageKeys>(startPage: T) {
   return base.extend<CustomFixtures<T>>({
     startPageReady: [
       async ({ page }, use) => {
+        await ensureAppServerReachable();
         await page.goto('/');
         await new NavigationComponent(page).navigateToSection(startPage);
         await use();

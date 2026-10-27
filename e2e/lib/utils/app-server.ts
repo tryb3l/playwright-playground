@@ -29,7 +29,7 @@ const appStartupTimeoutMs = Number(
 const appPollIntervalMs = 250;
 const appShutdownGracePeriodMs = 5000;
 const shouldReuseExistingServer =
-  process.env.REUSE_EXISTING_SERVER === 'true';
+  process.env.REUSE_EXISTING_SERVER !== 'false';
 
 function delay(timeoutMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, timeoutMs));

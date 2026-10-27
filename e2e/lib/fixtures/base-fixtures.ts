@@ -9,6 +9,7 @@ import {
 } from '@playwright/test';
 import { AuthPage } from '@pages/auth.page';
 import { Users } from '@factories/users';
+import { ensureAppServerReachable } from '@utils/app-server';
 import { ConsoleErrorsTracker } from '@utils/console-errors-tracker';
 import { NetworkErrorsTracker } from '@utils/network-errors-tracker';
 import {
@@ -59,6 +60,7 @@ export const test = base.extend<{
 
             const page = await context.newPage();
             const authPage = new AuthPage(page);
+            await ensureAppServerReachable();
             await authPage.loginThroughUi(email, password);
             await page.close();
 

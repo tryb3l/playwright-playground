@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { devices, PlaywrightTestConfig } from '@playwright/test';
+import { devices, firefox, PlaywrightTestConfig } from '@playwright/test';
 import {
   appStartupTimeoutMs,
   createWebServerConfig,
@@ -20,7 +20,17 @@ function createFirefoxLaunchOptions() {
     recursive: true,
   });
 
+  const wrapperPath = path.join(firefoxHomeDir, 'launch-firefox.sh');
+  const script = [
+    '#!/bin/sh',
+    `export CFFIXED_USER_HOME=${JSON.stringify(firefoxHomeDir)}`,
+    `exec ${JSON.stringify(firefox.executablePath())} "$@"`,
+    '',
+  ].join('\n');
+  fs.writeFileSync(wrapperPath, script, { mode: 0o755 });
+
   return {
+    executablePath: wrapperPath,
     env: {
       ...(process.env as Record<string, string>),
       CFFIXED_USER_HOME: firefoxHomeDir,
