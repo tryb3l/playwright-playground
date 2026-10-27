@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { devices, PlaywrightTestConfig } from '@playwright/test';
 import {
   appStartupTimeoutMs,
@@ -6,6 +9,24 @@ import {
 } from '@utils/app-server';
 
 const globalTimeoutMs = 30 * 60 * 1000;
+
+function createFirefoxLaunchOptions() {
+  if (process.platform !== 'darwin') {
+    return undefined;
+  }
+
+  const firefoxHomeDir = path.join(os.tmpdir(), 'playwright-firefox-home');
+  fs.mkdirSync(path.join(firefoxHomeDir, 'Library', 'Application Support'), {
+    recursive: true,
+  });
+
+  return {
+    env: {
+      ...(process.env as Record<string, string>),
+      CFFIXED_USER_HOME: firefoxHomeDir,
+    },
+  };
+}
 
 const createBaseConfig = (isCI: boolean): Partial<PlaywrightTestConfig> => ({
   timeout: appStartupTimeoutMs,
@@ -38,7 +59,10 @@ const createProjects = () => [
   },
   {
     name: 'Firefox',
-    use: { ...devices['Desktop Firefox'] },
+    use: {
+      ...devices['Desktop Firefox'],
+      launchOptions: createFirefoxLaunchOptions(),
+    },
   },
 ];
 
