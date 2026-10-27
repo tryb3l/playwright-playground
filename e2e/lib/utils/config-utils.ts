@@ -1,15 +1,14 @@
 import { devices, PlaywrightTestConfig } from '@playwright/test';
+import {
+  appStartupTimeoutMs,
+  createWebServerConfig,
+  defaultBaseUrl,
+} from '@utils/app-server';
 
-const defaultBaseUrl = process.env.BASE_URL || 'http://localhost:4200';
-const shouldReuseExistingServer =
-  process.env.REUSE_EXISTING_SERVER === 'true';
-const appServeCommand =
-  'node ./node_modules/@angular/cli/bin/ng.js serve --host localhost --port 4200';
-const testTimeoutMs = 180 * 1000;
 const globalTimeoutMs = 30 * 60 * 1000;
 
 const createBaseConfig = (isCI: boolean): Partial<PlaywrightTestConfig> => ({
-  timeout: testTimeoutMs,
+  timeout: appStartupTimeoutMs,
   globalTimeout: isCI ? globalTimeoutMs : undefined,
   expect: {
     timeout: 10000,
@@ -42,13 +41,5 @@ const createProjects = () => [
     use: { ...devices['Desktop Firefox'] },
   },
 ];
-
-const createWebServerConfig = (isCI: boolean) => ({
-  command: appServeCommand,
-  cwd: './app',
-  url: defaultBaseUrl,
-  timeout: testTimeoutMs,
-  reuseExistingServer: !isCI && shouldReuseExistingServer,
-});
 
 export { createBaseConfig, createProjects, createWebServerConfig };

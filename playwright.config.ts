@@ -5,7 +5,7 @@ import {
   createBaseConfig,
   createProjects,
   createWebServerConfig,
-} from '@utils/config-helpers';
+} from '@utils/config-utils';
 
 const envFile = process.env.ENV_FILE || '.env.dev';
 
