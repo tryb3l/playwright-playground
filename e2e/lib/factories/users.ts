@@ -1,6 +1,5 @@
 import { BrowserContext } from '@playwright/test';
 import { AuthPage } from '@pages/auth.page';
-import { Logger } from '@utils/logger';
 import { promises as fs } from 'fs';
 import path from 'path';
 
@@ -10,15 +9,10 @@ type UserCredentials = {
 };
 
 export class Users {
-  private logger: Logger;
   private defaultUser: UserCredentials = {
     email: 'defaultuser@example.com',
     password: 'DefaultPassword123!',
   };
-
-  constructor() {
-    this.logger = new Logger('Users');
-  }
 
   async getUserCredentials(): Promise<UserCredentials> {
     if (process.env.USE_DEFAULT_USER === 'true') {
@@ -78,15 +72,5 @@ export class Users {
       email: parsedData.email,
       password: parsedData.password,
     };
-  }
-
-  async deleteUser(email: string): Promise<void> {
-    this.logger.info(`Deleting user: ${email}`);
-    //TODO: Implement user deletion logic if necessary
-  }
-
-  async getAccessToken(email: string, password: string): Promise<string> {
-    //TODO Implement API call to get the access token
-    return 'mockedAccessToken';
   }
 }

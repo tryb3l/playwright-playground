@@ -12,7 +12,7 @@ test.use({
 test.describe('Toastr Tests', () => {
   test('Show basic toast with default settings', async ({ pageObject }) => {
     // Act
-    await pageObject.clickShowToastButton();
+    await pageObject.showToast();
 
     // Assert
     await expect(pageObject.getToast()).toBeVisible();

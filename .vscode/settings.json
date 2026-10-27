@@ -1,5 +1,4 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "makefile.configureOnOpen": true,
-  "js/ts.experimental.useTsgo": true
+  "makefile.configureOnOpen": true
 }

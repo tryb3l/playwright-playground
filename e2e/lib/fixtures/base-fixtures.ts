@@ -44,7 +44,10 @@ export const test = base.extend<{
           const storageStatePath = 'playwright/.auth/user.json';
           let context: BrowserContext;
 
-          if (process.env.REUSE_AUTH && (await fileExists(storageStatePath))) {
+          if (
+            process.env.REUSE_AUTH === 'true' &&
+            (await fileExists(storageStatePath))
+          ) {
             context = await browser.newContext({
               storageState: storageStatePath,
             });
