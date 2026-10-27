@@ -1,17 +1,21 @@
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import { OptionListComponent } from '@components/list/option-list.component';
-import { CheckboxComponent } from '@components/checkbox/checkbox.component';
-import { ButtonComponent } from '@components/button/button.component';
 import { BaseComponent } from '@components/base.component';
+
+type ToastOptions = {
+  position?: string;
+  status?: string;
+  title?: string;
+  content?: string;
+  duration?: number;
+  destroyByClick?: boolean;
+  preventDuplicates?: boolean;
+  hasIcon?: boolean;
+};
 
 export class ToastrPage extends BaseComponent {
   private _positionSelect: OptionListComponent | undefined;
   private _statusSelect: OptionListComponent | undefined;
-  private _destroyByClickCheckbox: CheckboxComponent | undefined;
-  private _preventDuplicatesCheckbox: CheckboxComponent | undefined;
-  private _hasIconCheckbox: CheckboxComponent | undefined;
-  private _showToastButton: ButtonComponent | undefined;
-  private _randomToastButton: ButtonComponent | undefined;
 
   constructor(page: Page) {
     super(page, 'ToastrPage');
@@ -37,53 +41,45 @@ export class ToastrPage extends BaseComponent {
     return this._statusSelect;
   }
 
-  private get destroyByClickCheckbox(): CheckboxComponent {
-    if (!this._destroyByClickCheckbox) {
-      this._destroyByClickCheckbox = new CheckboxComponent(
-        this.page,
-        'nb-checkbox[[(ngModel)]="destroyByClick"]'
-      );
+  async showToast(options?: ToastOptions) {
+    if (options?.position !== undefined) {
+      await this.selectPosition(options.position);
     }
-    return this._destroyByClickCheckbox;
-  }
+    if (options?.status !== undefined) {
+      await this.selectStatus(options.status);
+    }
+    if (options?.title !== undefined) {
+      await this.setTitle(options.title);
+    }
+    if (options?.content !== undefined) {
+      await this.setContent(options.content);
+    }
+    if (options?.duration !== undefined) {
+      await this.setDuration(options.duration);
+    }
+    if (options?.destroyByClick !== undefined) {
+      if (options.destroyByClick) {
+        await this.checkDestroyByClick();
+      } else {
+        await this.uncheckDestroyByClick();
+      }
+    }
+    if (options?.preventDuplicates !== undefined) {
+      if (options.preventDuplicates) {
+        await this.checkPreventDuplicates();
+      } else {
+        await this.uncheckPreventDuplicates();
+      }
+    }
+    if (options?.hasIcon !== undefined) {
+      if (options.hasIcon) {
+        await this.checkHasIcon();
+      } else {
+        await this.uncheckHasIcon();
+      }
+    }
 
-  private get preventDuplicatesCheckbox(): CheckboxComponent {
-    if (!this._preventDuplicatesCheckbox) {
-      this._preventDuplicatesCheckbox = new CheckboxComponent(
-        this.page,
-        'nb-checkbox[[(ngModel)]="preventDuplicates"]'
-      );
-    }
-    return this._preventDuplicatesCheckbox;
-  }
-
-  private get hasIconCheckbox(): CheckboxComponent {
-    if (!this._hasIconCheckbox) {
-      this._hasIconCheckbox = new CheckboxComponent(
-        this.page,
-        'nb-checkbox[[(ngModel)]="hasIcon"]'
-      );
-    }
-    return this._hasIconCheckbox;
-  }
-  private get showToastButton(): ButtonComponent {
-    if (!this._showToastButton) {
-      this._showToastButton = new ButtonComponent(
-        this.page,
-        'button:has-text("Show toast")'
-      );
-    }
-    return this._showToastButton;
-  }
-
-  private get randomToastButton(): ButtonComponent {
-    if (!this._randomToastButton) {
-      this._randomToastButton = new ButtonComponent(
-        this.page,
-        'button:has-text("Random toast")'
-      );
-    }
-    return this._randomToastButton;
+    await this.clickShowToastButton();
   }
 
   async selectPosition(position: string) {
@@ -95,39 +91,51 @@ export class ToastrPage extends BaseComponent {
   }
 
   async checkDestroyByClick() {
-    await this.destroyByClickCheckbox.checkByLabel('Hide on click');
+    await this.check('Hide on click', { byLabel: 'Hide on click' });
   }
 
   async uncheckDestroyByClick() {
-    await this.destroyByClickCheckbox.uncheckByLabel('Hide on click');
+    await this.uncheck('Hide on click', { byLabel: 'Hide on click' });
   }
 
   async checkPreventDuplicates() {
-    await this.preventDuplicatesCheckbox.checkByLabel(
-      'Prevent arising of duplicate toast'
-    );
+    await this.check('Prevent arising of duplicate toast', {
+      byLabel: 'Prevent arising of duplicate toast',
+    });
   }
 
   async uncheckPreventDuplicates() {
-    await this.preventDuplicatesCheckbox.uncheckByLabel(
-      'Prevent arising of duplicate toast'
-    );
+    await this.uncheck('Prevent arising of duplicate toast', {
+      byLabel: 'Prevent arising of duplicate toast',
+    });
   }
 
   async checkHasIcon() {
-    await this.hasIconCheckbox.checkByLabel('Show toast with icon');
+    await this.check('Show toast with icon', {
+      byLabel: 'Show toast with icon',
+    });
   }
 
   async uncheckHasIcon() {
-    await this.hasIconCheckbox.uncheckByLabel('Show toast with icon');
+    await this.uncheck('Show toast with icon', {
+      byLabel: 'Show toast with icon',
+    });
   }
 
   async clickShowToastButton() {
-    await this.showToastButton.clickButtonByText('Show toast');
+    await this.click('Show toast', {
+      byRole: 'button',
+      name: 'Show toast',
+      exact: true,
+    });
   }
 
   async clickRandomToastButton() {
-    await this.randomToastButton.clickButtonByText('Random toast');
+    await this.click('Random toast', {
+      byRole: 'button',
+      name: 'Random toast',
+      exact: true,
+    });
   }
 
   async setTitle(title: string) {
@@ -140,5 +148,17 @@ export class ToastrPage extends BaseComponent {
 
   async setDuration(duration: number) {
     await this.fill('input[name="timeout"]', duration.toString());
+  }
+
+  getToast(): Locator {
+    return this.getByTestId('app-toast');
+  }
+
+  getToastTitle(): Locator {
+    return this.getByTestId('app-toast-title');
+  }
+
+  getToastContent(): Locator {
+    return this.getByTestId('app-toast-content');
   }
 }

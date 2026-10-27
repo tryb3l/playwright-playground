@@ -44,11 +44,7 @@ export class DashboardPage {
         return this.page.getByTestId('dashboard-room-selector-card');
     }
 
-    getRoomSelectorRoom(roomId: string): Locator {
-        return this.page.getByTestId(`dashboard-room-selector-room-${roomId}`);
-    }
-
-    getRoomSelectorRoomHitbox(roomId: string): Locator {
+    private getRoomSelectorRoomHitbox(roomId: string): Locator {
         return this.page.getByTestId(`dashboard-room-selector-room-hitbox-${roomId}`);
     }
 
@@ -76,27 +72,15 @@ export class DashboardPage {
         return this.page.getByTestId('dashboard-security-cameras-card');
     }
 
-    getSecurityCamerasGridViewButton(): Locator {
+    private getSecurityCamerasGridViewButton(): Locator {
         return this.page.getByTestId('dashboard-security-cameras-grid-view-button');
     }
 
-    getSecurityCamerasSingleViewButton(): Locator {
-        return this.page.getByTestId('dashboard-security-cameras-single-view-button');
-    }
-
-    getSecurityCamerasGridView(): Locator {
-        return this.page.getByTestId('dashboard-security-cameras-grid-view');
-    }
-
-    getSecurityCamerasSingleView(): Locator {
-        return this.page.getByTestId('dashboard-security-cameras-single-view');
-    }
-
-    getSecurityCameraTiles(): Locator {
+    private getSecurityCameraTiles(): Locator {
         return this.page.locator('[data-testid^="dashboard-security-camera-"]');
     }
 
-    getSecurityCameraSingleViewName(): Locator {
+    private getSecurityCameraSingleViewName(): Locator {
         return this.page.locator('[data-testid="dashboard-security-cameras-single-view"] .camera-name');
     }
 
@@ -104,31 +88,23 @@ export class DashboardPage {
         return this.page.getByTestId('dashboard-rooms-card');
     }
 
-    getRoomsSelectorPane(): Locator {
-        return this.page.getByTestId('dashboard-rooms-selector-pane');
-    }
-
-    getRoomsPlayerPane(): Locator {
-        return this.page.getByTestId('dashboard-rooms-player-pane');
-    }
-
     getPlayerCard(): Locator {
         return this.page.getByTestId('dashboard-player-card');
     }
 
-    getPlayerTrackName(): Locator {
+    private getPlayerTrackName(): Locator {
         return this.page.getByTestId('dashboard-player-track-name');
     }
 
-    getPlayerShuffleButton(): Locator {
+    private getPlayerShuffleButton(): Locator {
         return this.page.getByTestId('dashboard-player-shuffle-button');
     }
 
-    getPlayerLoopButton(): Locator {
+    private getPlayerLoopButton(): Locator {
         return this.page.getByTestId('dashboard-player-loop-button');
     }
 
-    getPlayerPlayButton(): Locator {
+    private getPlayerPlayButton(): Locator {
         return this.page.getByTestId('dashboard-player-play-button');
     }
 
@@ -136,19 +112,11 @@ export class DashboardPage {
         return this.page.getByTestId('dashboard-solar-card');
     }
 
-    getSolarChartShell(): Locator {
-        return this.page.getByTestId('dashboard-solar-chart-shell');
-    }
-
     getTrafficCard(): Locator {
         return this.page.getByTestId('dashboard-traffic-card');
     }
 
-    getTrafficChartSurface(): Locator {
-        return this.page.getByTestId('dashboard-traffic-chart-surface');
-    }
-
-    getTrafficPeriodSelect(): Locator {
+    private getTrafficPeriodSelect(): Locator {
         return this.page.getByTestId('dashboard-traffic-period-select');
     }
 
@@ -156,27 +124,15 @@ export class DashboardPage {
         return this.page.getByTestId('dashboard-weather-card');
     }
 
-    getWeatherLocation(): Locator {
-        return this.page.getByTestId('dashboard-weather-location');
-    }
-
-    getWeatherForecastDays(): Locator {
-        return this.page.locator('[data-testid^="dashboard-weather-day-"]');
-    }
-
     getContactsCard(): Locator {
         return this.page.getByTestId('dashboard-contacts-card');
     }
 
-    getContactsTab(panel: 'contacts' | 'recent'): Locator {
+    private getContactsTab(panel: 'contacts' | 'recent'): Locator {
         return this.page.getByTestId(`dashboard-contacts-tab-${panel}`);
     }
 
-    getContactsPanel(panel: 'contacts' | 'recent'): Locator {
-        return this.page.getByTestId(`dashboard-contacts-panel-${panel}`);
-    }
-
-    getContactRows(panel: 'contacts' | 'recent'): Locator {
+    private getContactRows(panel: 'contacts' | 'recent'): Locator {
         return panel === 'contacts'
             ? this.page.locator('[data-testid^="dashboard-contact-row-"]')
             : this.page.locator('[data-testid^="dashboard-recent-row-"]');
@@ -186,15 +142,11 @@ export class DashboardPage {
         return this.page.getByTestId('dashboard-electricity-widget');
     }
 
-    getElectricityChartCard(): Locator {
-        return this.page.getByTestId('dashboard-electricity-chart-card');
-    }
-
-    getElectricityYearTabs(): Locator {
+    private getElectricityYearTabs(): Locator {
         return this.page.locator('button[data-testid^="dashboard-electricity-year-"]');
     }
 
-    getElectricityPeriodSelect(): Locator {
+    private getElectricityPeriodSelect(): Locator {
         return this.page.getByTestId('dashboard-electricity-period-select');
     }
 
@@ -202,19 +154,15 @@ export class DashboardPage {
         return this.page.getByTestId('dashboard-temperature-card');
     }
 
-    getTemperaturePanel(panel: 'temperature' | 'humidity'): Locator {
-        return this.page.getByTestId(`dashboard-temperature-panel-${panel}`);
-    }
-
-    getTemperatureTab(panel: 'temperature' | 'humidity'): Locator {
+    private getTemperatureTab(panel: 'temperature' | 'humidity'): Locator {
         return this.page.getByTestId(`dashboard-temperature-tab-${panel}`);
     }
 
-    getModeButton(panel: 'temperature' | 'humidity', mode: 'cool' | 'warm' | 'heat' | 'fan'): Locator {
+    private getModeButton(panel: 'temperature' | 'humidity', mode: 'cool' | 'warm' | 'heat' | 'fan'): Locator {
         return this.page.getByTestId(`dashboard-${panel}-mode-${mode}`);
     }
 
-    getStatusCards(): Locator {
+    private getStatusCards(): Locator {
         return this.page.locator('[data-testid^="dashboard-status-card-"]');
     }
 

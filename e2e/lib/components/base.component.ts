@@ -154,6 +154,22 @@ export abstract class BaseComponent {
     await element.fill(value);
   }
 
+  async check(
+    selector: string | Locator,
+    options?: ElementLookupOptions & { force?: boolean }
+  ): Promise<void> {
+    const element = this.getElement(selector, options);
+    await element.check({ force: options?.force ?? true });
+  }
+
+  async uncheck(
+    selector: string | Locator,
+    options?: ElementLookupOptions & { force?: boolean }
+  ): Promise<void> {
+    const element = this.getElement(selector, options);
+    await element.uncheck({ force: options?.force ?? true });
+  }
+
   async getText(selector: string | Locator): Promise<string> {
     const element = this.getElement(selector);
     const text = await element.textContent();

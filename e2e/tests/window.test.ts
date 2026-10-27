@@ -1,5 +1,4 @@
-import { createTestForStartPage, expect } from '@fixtures/custom-test';
-import { StartPage } from '@fixtures/start-page.enum';
+import { createTestForStartPage, expect, StartPage } from '@fixtures/custom-test';
 
 const test = createTestForStartPage(StartPage.Window);
 

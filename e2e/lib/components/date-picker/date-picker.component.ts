@@ -76,9 +76,9 @@ class DatePickerComponent extends BaseComponent {
    */
   async selectCommonDatepickerDateFromToday(
     daysFromToday: number
-  ): Promise<void> {
+  ): Promise<string> {
     await this.openPickerInput('form-picker-input');
-    await this.selectDateInCalendar(daysFromToday);
+    return await this.selectDateInCalendar(daysFromToday);
   }
 
   /**

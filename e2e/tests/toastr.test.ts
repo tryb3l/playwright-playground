@@ -1,5 +1,4 @@
-import { createTestForStartPage, expect } from '@fixtures/custom-test';
-import { StartPage } from '@fixtures/start-page.enum';
+import { createTestForStartPage, expect, StartPage } from '@fixtures/custom-test';
 
 const test = createTestForStartPage(StartPage.Toastr);
 test.use({
@@ -11,17 +10,11 @@ test.use({
 });
 
 test.describe('Toastr Tests', () => {
-  test('Show basic toast with default settings', async ({
-    pageObject,
-    assertions,
-  }) => {
-    // Arrange
-    const toastrAssertions = assertions.createToastrAssertions();
-
+  test('Show basic toast with default settings', async ({ pageObject }) => {
     // Act
     await pageObject.clickShowToastButton();
 
     // Assert
-    await toastrAssertions.expectToastToBeVisible();
+    await expect(pageObject.getToast()).toBeVisible();
   });
 });

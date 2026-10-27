@@ -1,5 +1,4 @@
-import { createTestForStartPage, expect } from '@fixtures/custom-test';
-import { StartPage } from '@fixtures/start-page.enum';
+import { createTestForStartPage, expect, StartPage } from '@fixtures/custom-test';
 
 const test = createTestForStartPage(StartPage.FormLayouts);
 
@@ -12,10 +11,7 @@ test.use({
 });
 
 test.describe('Form Layouts Tests', () => {
-  test('Submit Inline Form', async ({ pageObject, assertions }) => {
-    // Arrange
-    const formAssertions = assertions.createFormAssertions();
-
+  test('Submit Inline Form', async ({ pageObject }) => {
     // Act
     await pageObject.submitInlineFormWithOptions(
       'Jane Doe',
@@ -24,13 +20,10 @@ test.describe('Form Layouts Tests', () => {
     );
 
     // Assert
-    await formAssertions.assertFormSubmitted('form.form-inline');
+    await expect(pageObject.getInlineForm()).toHaveClass(/ng-submitted/);
   });
 
-  test('Submit grid form', async ({ pageObject, assertions }) => {
-    // Arrange
-    const formAssertions = assertions.createFormAssertions();
-
+  test('Submit grid form', async ({ pageObject }) => {
     // Act
     await pageObject.submitGridFormWithCredentials(
       'jane.doe@me.com',
@@ -39,6 +32,6 @@ test.describe('Form Layouts Tests', () => {
     );
 
     // Assert
-    await formAssertions.assertFormSubmitted('form.form-grid');
+    await expect(pageObject.getGridForm()).toHaveClass(/ng-submitted/);
   });
 });

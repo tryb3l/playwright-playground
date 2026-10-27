@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import { DatePickerComponent } from '@components/date-picker/date-picker.component';
 
 class DatePickerPage {
@@ -16,8 +16,16 @@ class DatePickerPage {
     return this._datePickerComponent;
   }
 
-  async selectCommonDateFromToday(daysFromToday: number): Promise<void> {
-    await this.datePickerComponent.selectCommonDatepickerDateFromToday(
+  getCommonDateInput(): Locator {
+    return this.page.getByTestId('form-picker-input');
+  }
+
+  getDateRangeInput(): Locator {
+    return this.page.getByTestId('range-picker-input');
+  }
+
+  async selectCommonDateFromToday(daysFromToday: number): Promise<string> {
+    return await this.datePickerComponent.selectCommonDatepickerDateFromToday(
       daysFromToday
     );
   }

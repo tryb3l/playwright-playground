@@ -1,46 +1,13 @@
 import type { Page, Locator } from '@playwright/test';
 import { BaseComponent } from '@components/base.component';
-import { ButtonComponent } from '@components/button/button.component';
-import { CheckboxComponent } from '@components/checkbox/checkbox.component';
-import { RadioButtonComponent } from '@components/radio-button/radio-button.component';
 
 export abstract class FormComponent extends BaseComponent {
   protected formLocator: Locator;
-  private _buttonComponent: ButtonComponent | undefined;
-  private _checkboxComponent: CheckboxComponent | undefined;
-  private _radioButtonComponent: RadioButtonComponent | undefined;
 
   constructor(page: Page, formSelector: string) {
     super(page);
     this.formLocator = page.locator(formSelector);
     this.context = this.formLocator;
-  }
-
-  protected get buttonComponent(): ButtonComponent {
-    if (!this._buttonComponent) {
-      this._buttonComponent = new ButtonComponent(this.formLocator, 'button');
-    }
-    return this._buttonComponent;
-  }
-
-  protected get checkboxComponent(): CheckboxComponent {
-    if (!this._checkboxComponent) {
-      this._checkboxComponent = new CheckboxComponent(
-        this.formLocator,
-        'nb-checkbox'
-      );
-    }
-    return this._checkboxComponent;
-  }
-
-  protected get radioButtonComponent(): RadioButtonComponent {
-    if (!this._radioButtonComponent) {
-      this._radioButtonComponent = new RadioButtonComponent(
-        this.context,
-        'input[type="radio"]'
-      );
-    }
-    return this._radioButtonComponent;
   }
 
   async fillInputByRole(role: 'textbox', name: string, value: string) {
@@ -56,18 +23,18 @@ export abstract class FormComponent extends BaseComponent {
   }
 
   async clickButton(buttonName: string) {
-    await this.buttonComponent.clickButtonByRole('button', buttonName);
+    await this.click(buttonName, { byRole: 'button', name: buttonName });
   }
 
   async checkCheckboxByLabel(label: string) {
-    await this.checkboxComponent.checkByLabel(label);
+    await this.check(label, { byLabel: label });
   }
 
   async checkCheckboxByRole(role: 'checkbox', name: string) {
-    await this.checkboxComponent.checkByRole(role, name);
+    await this.check(name, { byRole: role, name });
   }
 
   async selectRadioButton(name: string) {
-    await this.radioButtonComponent.selectByRole('radio', name);
+    await this.check(name, { byRole: 'radio', name });
   }
 }

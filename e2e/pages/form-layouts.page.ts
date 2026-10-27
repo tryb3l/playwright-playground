@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import { InlineFormComponent } from '@components/forms/inline-form.component';
 import { GridFormComponent } from '@components/forms/grid-form.component';
 
@@ -23,6 +23,14 @@ class FormLayoutsPage {
       this._gridForm = new GridFormComponent(this.page);
     }
     return this._gridForm;
+  }
+
+  getInlineForm(): Locator {
+    return this.page.locator('form.form-inline');
+  }
+
+  getGridForm(): Locator {
+    return this.page.locator('form.form-grid');
   }
 
   async submitInlineFormWithOptions(

@@ -1,28 +1,20 @@
-import { test as baseTest } from '@fixtures/base-fixtures';
-import { createTestForStartPage, expect } from '@fixtures/custom-test';
-import { StartPage } from '@fixtures/start-page.enum';
-import { CalendarPage } from '@pages/calendar.page';
+import { createTestForStartPage, expect, StartPage } from '@fixtures/custom-test';
 
-baseTest.use({ authenticated: false });
 const calendarTest = createTestForStartPage(StartPage.Calendar);
 
 calendarTest.use({ authenticated: false, trackNetworkErrors: true });
 
-baseTest.describe('Theme Switcher Tests', () => {
-    baseTest('Persist selected theme after reload', async ({ pageManager }) => {
-        // Arrange
-        const calendarPage = pageManager.getPage(CalendarPage);
-        await pageManager.navigateTo(StartPage.Calendar);
-
+calendarTest.describe('Theme Switcher Tests', () => {
+    calendarTest('Persist selected theme after reload', async ({ pageObject }) => {
         // Act
-        await calendarPage.selectTheme('corporate');
-        const storedTheme = await calendarPage.getStoredTheme();
-        await calendarPage.reload();
+        await pageObject.selectTheme('corporate');
+        const storedTheme = await pageObject.getStoredTheme();
+        await pageObject.reload();
 
         // Assert
-        await expect(calendarPage.getThemeHost()).toHaveAttribute('data-app-theme', 'corporate');
+        await expect(pageObject.getThemeHost()).toHaveAttribute('data-app-theme', 'corporate');
         expect(storedTheme).toBe('corporate');
-        await expect(calendarPage.getSelectedThemeValue()).toHaveText('Corporate');
+        await expect(pageObject.getSelectedThemeValue()).toHaveText('Corporate');
     });
 });
 
